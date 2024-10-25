@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rika_ecomm_app/screens/filter/filterscreen.dart';
-// import 'package:rika_ecomm_app/screens/bottonnav/profileScreen.dart';
 import 'package:rika_ecomm_app/screens/splash_screen.dart';
 
 

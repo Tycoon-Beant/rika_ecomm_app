@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:rika_ecomm_app/screens/bottonnav/cart_screen.dart';
+import 'package:rika_ecomm_app/screens/bottonnav/mine_page_screen.dart';
 import 'package:rika_ecomm_app/screens/bottonnav/profileScreen.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/cartScreen.dart';
-
-import 'package:rika_ecomm_app/screens/categorys/cloth_category.dart';
-
 import 'package:rika_ecomm_app/screens/bottonnav/notificationScreen.dart';
-
-
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -28,10 +24,10 @@ class _BottomBarState extends State<BottomBar> {
 
   List<Widget> _buildScreens() {
     return [
-      const ClothCategory(),
-      const Cartscreen(),
-      const Notificationscreen(),
-      const Profilescreen()
+      MinePage(),
+      CartScreen(),
+      Notificationscreen(),
+      Profilescreen()
     ];
   }
 
@@ -42,7 +38,7 @@ class _BottomBarState extends State<BottomBar> {
         title: ("Home"),
         activeColorPrimary: Colors.black,
         inactiveColorPrimary: Colors.grey,
-        textStyle:const TextStyle(color: Colors.white),
+        textStyle: const TextStyle(color: Colors.white),
       ),
       PersistentBottomNavBarItem(
         icon: const Image(image: AssetImage("assets/images/cart.png")),
@@ -51,12 +47,12 @@ class _BottomBarState extends State<BottomBar> {
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Image(image: AssetImage("assets/images/notification.png")),
-        title: ("Notifications"),
-        activeColorPrimary: Colors.black,
-        inactiveColorPrimary: Colors.grey,
-        textStyle: const TextStyle(fontSize: 12)
-      ),
+          icon:
+              const Image(image: AssetImage("assets/images/notification.png")),
+          title: ("Notifications"),
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.grey,
+          textStyle: const TextStyle(fontSize: 12)),
       PersistentBottomNavBarItem(
         icon: const Image(image: AssetImage("assets/images/profile.png")),
         title: ("Profile"),
@@ -69,7 +65,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:PersistentTabView(
+      body: PersistentTabView(
         context,
         controller: _controller,
         screens: _buildScreens(),
@@ -93,4 +89,3 @@ class _BottomBarState extends State<BottomBar> {
     );
   }
 }
-

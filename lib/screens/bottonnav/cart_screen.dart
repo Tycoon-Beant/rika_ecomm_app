@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rika_ecomm_app/config/common.dart';
 
 class CartScreen extends StatefulWidget {
   CartScreen({super.key});
@@ -45,22 +46,25 @@ class _CartScreenState extends State<CartScreen> {
       child: Scaffold(
         appBar: AppBar(
           surfaceTintColor: Colors.white,
-          leading: Image.asset('assets/images/arrow.png'),
+          leading: Image.asset(
+            'assets/images/arrow.png',
+          ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(top: 2),
-              child: Image.asset('assets/images/cart2.png'),
+            Image.asset(
+              'assets/images/cart2.png',
+              scale: 0.1,
             ),
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'My Cart',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                  style: TextStyle(fontSize: 28, fontFamily: FontFamily.w700),
                 ),
                 Card(
                   color: Colors.white,
@@ -82,12 +86,12 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 'Roller Rabbit',
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontFamily: FontFamily.w700),
                               ),
                               Text(
                                 'Vado Odelle Dress',
                                 style: TextStyle(
-                                  fontSize: 11,
+                                  fontSize: 16,
                                   color: Color(0xff666666),
                                 ),
                               ),
@@ -97,7 +101,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 '\$198.00',
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    fontSize: 18, fontFamily: FontFamily.w700),
                               ),
                             ],
                           ),
@@ -108,22 +112,40 @@ class _CartScreenState extends State<CartScreen> {
                               color: Colors.grey.shade200,
                               borderRadius: BorderRadius.circular(50)),
                           height: 40,
-                          width: 90,
+                          width: 86,
                           child: Row(
                             children: [
                               Container(
                                 width: 40,
                                 child: TextButton(
                                   onPressed: decrementCount,
-                                  child: Text("-"),
+                                  child: Text(
+                                    "-",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontFamily: FontFamily.w400),
+                                  ),
                                 ),
                               ),
-                              Text('$quantity'),
+                              Text(
+                                '$quantity',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontFamily: FontFamily.w400),
+                              ),
                               Container(
                                 width: 40,
                                 child: TextButton(
                                     onPressed: incrementCount,
-                                    child: Text("+")),
+                                    child: Text(
+                                      "+",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                          fontFamily: FontFamily.w400),
+                                    )),
                               )
                             ],
                           ),
@@ -155,12 +177,12 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 'Axel Arigato',
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontFamily: FontFamily.w700),
                               ),
                               Text(
                                 'Clean 90 Trible Snakers',
                                 style: TextStyle(
-                                  fontSize: 11,
+                                  fontSize: 16,
                                   color: Color(0xff666666),
                                 ),
                               ),
@@ -170,7 +192,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 '\$245.00',
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    fontSize: 18, fontFamily: FontFamily.w700),
                               ),
                             ],
                           ),
@@ -183,22 +205,40 @@ class _CartScreenState extends State<CartScreen> {
                                   color: Colors.grey.shade200,
                                   borderRadius: BorderRadius.circular(50)),
                               height: 40,
-                              width: 90,
+                              width: 86,
                               child: Row(
                                 children: [
                                   Container(
                                     width: 40,
                                     child: TextButton(
                                       onPressed: decrementCount,
-                                      child: Text("-"),
+                                      child: Text(
+                                        "-",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontFamily: FontFamily.w400),
+                                      ),
                                     ),
                                   ),
-                                  Text('$quantity'),
+                                  Text(
+                                    '$quantity',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                        fontFamily: FontFamily.w400),
+                                  ),
                                   Container(
                                     width: 40,
                                     child: TextButton(
                                         onPressed: incrementCount,
-                                        child: Text("+")),
+                                        child: Text(
+                                          "+",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                              fontFamily: FontFamily.w400),
+                                        )),
                                   )
                                 ],
                               ),
@@ -232,12 +272,12 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 'Herschel Supply Co.',
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontFamily: FontFamily.w700),
                               ),
                               Text(
                                 'Daypack Backpack',
                                 style: TextStyle(
-                                  fontSize: 11,
+                                  fontSize: 16,
                                   color: Color(0xff666666),
                                 ),
                               ),
@@ -247,7 +287,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 '\$40.00',
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    fontSize: 18, fontFamily: FontFamily.w700),
                               ),
                             ],
                           ),
@@ -260,22 +300,40 @@ class _CartScreenState extends State<CartScreen> {
                                   color: Colors.grey.shade200,
                                   borderRadius: BorderRadius.circular(50)),
                               height: 40,
-                              width: 90,
+                              width: 86,
                               child: Row(
                                 children: [
                                   Container(
                                     width: 40,
                                     child: TextButton(
                                       onPressed: decrementCount,
-                                      child: Text("-"),
+                                      child: Text(
+                                        "-",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontFamily: FontFamily.w400),
+                                      ),
                                     ),
                                   ),
-                                  Text('$quantity'),
+                                  Text(
+                                    '$quantity',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                        fontFamily: FontFamily.w400),
+                                  ),
                                   Container(
                                     width: 40,
                                     child: TextButton(
                                         onPressed: incrementCount,
-                                        child: Text("+")),
+                                        child: Text(
+                                          "+",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                              fontFamily: FontFamily.w400),
+                                        )),
                                   )
                                 ],
                               ),
@@ -302,7 +360,7 @@ class _CartScreenState extends State<CartScreen> {
                             hintText: 'Promo Code',
                             border: InputBorder.none,
                             hintStyle: TextStyle(
-                                fontSize: 13, color: Color(0xffAAAAAA)),
+                                fontSize: 16, color: Color(0xffAAAAAA)),
                             suffixIcon: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.black,
@@ -312,19 +370,22 @@ class _CartScreenState extends State<CartScreen> {
                                       borderRadius: BorderRadius.circular(7)),
                                 ),
                                 onPressed: () {
-                                  print('hi');
+                                  // print('hi');
                                 },
-                                child: Text('Apply'))),
+                                child: Text('Apply',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontFamily: FontFamily.w400)))),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
                 Container(
-                  width: 360,
-                  height: 143,
+                  // width: 360,
+                  // height: 143,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xffEEEEEE)),
+                    border: Border.all(color:const Color.fromARGB(255, 207, 206, 206),),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: Padding(
@@ -337,12 +398,12 @@ class _CartScreenState extends State<CartScreen> {
                             Text(
                               'Subtotal:',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 14),
+                                  fontSize: 18, fontFamily: FontFamily.w700),
                             ),
                             Text(
                               '\$483',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                                  fontSize: 18, fontFamily: FontFamily.w700),
                             ),
                           ],
                         ),
@@ -351,7 +412,7 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         Container(
                           height: 2,
-                          color: Colors.grey.shade100,
+                          color: const Color.fromARGB(255, 207, 206, 206),
                         ),
                         SizedBox(
                           height: 5,
@@ -362,12 +423,12 @@ class _CartScreenState extends State<CartScreen> {
                             Text(
                               'Shipping:',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 14),
+                                  fontSize: 20, fontFamily: FontFamily.w700),
                             ),
                             Text(
                               '\$17',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                                  fontSize: 20, fontFamily: FontFamily.w700),
                             ),
                           ],
                         ),
@@ -376,7 +437,7 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         Container(
                           height: 2,
-                          color: Colors.grey.shade100,
+                          color: const Color.fromARGB(255, 207, 206, 206),
                         ),
                         SizedBox(
                           height: 5,
@@ -387,22 +448,22 @@ class _CartScreenState extends State<CartScreen> {
                             Text(
                               'BagTotal:',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 14),
+                                  fontSize: 20, fontFamily: FontFamily.w700),
                             ),
                             Row(
                               children: [
                                 Text(
                                   '(3 item)',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xff666666),
+                                      fontSize: 16,
+                                      color: Color.fromARGB(255, 95, 95, 95),
                                       fontFamily: 'Mont Blanc Light'),
                                 ),
+                                const SizedBox(width: 5),
                                 Text(
                                   '\$500',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize:20, fontFamily: FontFamily.w700),
                                 ),
                               ],
                             ),
@@ -413,28 +474,30 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 Container(
-                  height: 50,
-                  width: 360,
+                  
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Total (3 item) :',
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize:20, fontFamily: FontFamily.w400,
                             color: Color(0xff666666),
-                            fontFamily: 'Mont Blanc Light'),
+                            ),
                       ),
-                      Text('\$500'),
+                      Text('\$500',style: TextStyle(
+                            fontSize:20, fontFamily: FontFamily.w400,
+                            color: Color(0xff666666),
+                            ), ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 10),
                 Container(
-                  width: 360,
-                  height: 50,
+                  
                   decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(10),

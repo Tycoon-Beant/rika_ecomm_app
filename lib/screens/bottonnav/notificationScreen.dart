@@ -80,57 +80,59 @@ class _NotificationscreenState extends State<Notificationscreen> {
             style: TextStyle(fontSize: 28, fontFamily: FontFamily.w700),
           ),
           const SizedBox(height: 20),
-          SizedBox(
-            height: 628,
-            child: ListView.builder(
-              itemCount: names.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(          
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 50,
-                          child: CircleAvatar(
-                              radius: 32, child: Image.asset(img[index])),
-                        ),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          width: 300,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                  text: TextSpan(
-                                      text: names[index],
-                                      style: TextStyle(color: Colors.black,
-                                          fontSize: 16, fontFamily: FontFamily.w700,),
-                                      children: [
-                                    TextSpan(
-                                        text: desc[index],
-                                        style: TextStyle(
-                                            color: Colors.grey, 
-                                            fontSize: 14,fontFamily: FontFamily.w400))
-                                  ])),
-                                  const SizedBox(height: 8),
-                                  Text(time[index],style:TextStyle(color: Colors.grey,),),
-                            ],
+          SingleChildScrollView(
+            child: Container(
+               height: 637,
+              child: ListView.builder(
+                itemCount: names.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(          
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 50,
+                            child: CircleAvatar(
+                                radius: 32, child: Image.asset(img[index])),
                           ),
-                        )
-                      ],
-                    ),
-                    
-                     SizedBox(height: 10),
-                    Container(
-                      height: 2,
-                      color:  Colors.grey.shade300,
-                      width: 400,
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                );
-              },
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: 300,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                    text: TextSpan(
+                                        text: names[index],
+                                        style: TextStyle(color: Colors.black,
+                                            fontSize: 16, fontFamily: FontFamily.w700,),
+                                        children: [
+                                      TextSpan(
+                                          text: desc[index],
+                                          style: TextStyle(
+                                              color: Colors.grey, 
+                                              fontSize: 14,fontFamily: FontFamily.w400))
+                                    ])),
+                                    const SizedBox(height: 8),
+                                    Text(time[index],style:TextStyle(color: Colors.grey,),),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      
+                       SizedBox(height: 10),
+                      Container(
+                        height: 2,
+                        color:  Colors.grey.shade300,
+                        width: 400,
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  );
+                },
+              ),
             ),
           )
         ]),

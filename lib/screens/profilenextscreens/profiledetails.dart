@@ -401,9 +401,11 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
                     Icon(Icons.logout,color: Colors.white,),
                     const SizedBox(width: 8),
                      Text('Logout',style: TextStyle(color: Colors.white,fontSize: 18),),
+                    
                    ],
                  ),
-               ),)
+               ),),
+                SizedBox(height: 10),
           ]),
         ),
       ),

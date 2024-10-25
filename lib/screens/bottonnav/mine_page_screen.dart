@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/models/mine_page_model.dart';
-import 'package:rika_ecomm_app/screens/categorie_screen.dart';
+import 'package:rika_ecomm_app/screens/filter/filterscreen.dart';
+import 'package:rika_ecomm_app/screens/productdetails/rollerrabbitdetails.dart';
 
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
@@ -25,11 +27,11 @@ class _MinePageState extends State<MinePage> {
       child: Scaffold(
         appBar: AppBar(
           surfaceTintColor: Colors.white,
-          leading: Image.asset("assets/images/menu.png"),
+          leading: Image.asset("assets/images/menu.png",scale: 0.9,),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 20, top: 20),
-              child: Image.asset("assets/images/user.png"),
+              padding: const EdgeInsets.only(right: 10, top: 6),
+              child: Image.asset("assets/images/user.png",scale: 1,),
             ),
           ],
         ),
@@ -42,17 +44,17 @@ class _MinePageState extends State<MinePage> {
               const SizedBox(
                 height: 20,
               ),
-              const Text('Welcome,',
+              Text('Welcome,',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontFamily: FontFamily.w700,
+                    fontSize: 32,
                   )),
-              const Text(
+              Text(
                 "Our Rika Fashion App",
                 style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontFamily: FontFamily.w700,
                     color: Colors.blueGrey,
-                    fontSize: 18),
+                    fontSize: 20),
               ),
               const SizedBox(
                 height: 20,
@@ -68,12 +70,10 @@ class _MinePageState extends State<MinePage> {
                           ),
                           borderSide: BorderSide.none,
                         ),
-                        // labelText: 'Search...',
                         hintText: 'what would you like to buy...',
                         fillColor: const Color(0xffF3F4F5),
-
                         filled: true,
-                        prefixIcon: Image.asset("assets/images/search.png"),
+                        prefixIcon: Icon(Icons.search),
                       ),
                     ),
                   ),
@@ -86,7 +86,7 @@ class _MinePageState extends State<MinePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Categories()));
+                              builder: (context) => FilterScreen()));
                     },
                   ),
                 ],
@@ -108,45 +108,48 @@ class _MinePageState extends State<MinePage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   '50% Off',
                                   style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 28,
+                                    fontFamily: FontFamily.w700,
                                   ),
                                 ),
-                                const Text(
+                                Text(
                                   'On everything today',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
+                                      fontFamily:FontFamily.w400,
+                                      fontSize:20),
                                 ),
                                 const SizedBox(
-                                  height: 15,
+                                  height: 10,
                                 ),
-                                const Text(
+                                Text(
                                   'With code: rikafashion2021',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 11,
-                                      color: Color(0xff666666)),
+                                      fontFamily: FontFamily.w700,
+                                      fontSize: 16,
+                                      color: const Color.fromARGB(255, 97, 96, 96)),
                                 ),
                                 const SizedBox(
                                   height: 15,
                                 ),
                                 Container(
-                                  height: 25,
-                                  width: 72,
+                                  // height: 25,
+                                  // width: 72,
                                   decoration: BoxDecoration(
                                       color: Colors.black,
                                       borderRadius: BorderRadius.circular(30)),
-                                  child: const Center(
-                                    child: Text(
-                                      'Get Now',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 10),
+                                  child:  Padding(
+                                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                    child: Center(
+                                      child: Text(
+                                        'Get Now',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: FontFamily.w400,
+                                            fontSize: 16),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -175,46 +178,49 @@ class _MinePageState extends State<MinePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                  Text(
                                     '50% Off',
                                     style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 28,
+                                      fontFamily: FontFamily.w700,
                                     ),
                                   ),
-                                  const Text(
+                                  Text(
                                     'On everything today',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16),
+                                        fontFamily: FontFamily.w400,
+                                        fontSize: 24),
                                   ),
                                   const SizedBox(
-                                    height: 15,
+                                    height: 10,
                                   ),
-                                  const Text(
+                                  Text(
                                     'With code: rikafashion2021',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 11,
-                                        color: Color(0xff666666)),
+                                        fontFamily: FontFamily.w700,
+                                        fontSize: 16,
+                                        color: const Color(0xff666666)),
                                   ),
                                   const SizedBox(
                                     height: 15,
                                   ),
                                   Container(
-                                    height: 25,
-                                    width: 72,
+                                    // height: 25,
+                                    // width: 72,
                                     decoration: BoxDecoration(
                                         color: Colors.black,
                                         borderRadius:
                                             BorderRadius.circular(30)),
-                                    child: const Center(
-                                      child: Text(
-                                        'Get Now',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10),
+                                    child:  Padding(
+                                      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                      child: Center(
+                                        child: Text(
+                                          'Get Now',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: FontFamily.w400,
+                                            fontSize: 16),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -256,24 +262,24 @@ class _MinePageState extends State<MinePage> {
                     const SizedBox(
                       width: 10,
                     ),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Axel Arigato',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 20, fontFamily: FontFamily.w700),
                         ),
-                        Text(
+                        const Text(
                           'Clean 90 Triple Sneakers',
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 16,
                             color: Color(0xff666666),
                           ),
                         ),
                         Text(
                           '\$245.00',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 20 ,fontFamily: FontFamily.w700),
                         ),
                       ],
                     ),
@@ -285,9 +291,9 @@ class _MinePageState extends State<MinePage> {
                 ),
               ),
               const SizedBox(height: 25),
-              const Text(
+              Text(
                 'Categories',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                style: TextStyle(fontFamily: FontFamily.w700, fontSize: 24),
               ),
               const SizedBox(height: 20),
               Row(
@@ -302,7 +308,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Dresses',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                            fontFamily: FontFamily.w700,
                             color:
                                 _isSelected == 'Dresses' ? Colors.white : null),
                       ),
@@ -326,7 +333,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Jackets',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontFamily: FontFamily.w700,
                             color:
                                 _isSelected == 'Jackets' ? Colors.white : null),
                       ),
@@ -350,7 +358,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Jeans',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontFamily: FontFamily.w700,
                             color:
                                 _isSelected == 'Jeans' ? Colors.white : null),
                       ),
@@ -373,7 +382,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Shoese',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                           fontSize: 16,
+                            fontFamily: FontFamily.w700,
                             color:
                                 _isSelected == 'Shoese' ? Colors.white : null),
                       ),
@@ -388,20 +398,18 @@ class _MinePageState extends State<MinePage> {
               const SizedBox(
                 height: 20,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Top Dresses',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontFamily: FontFamily.w700, fontSize: 24),
                   ),
-                  Text(
+                  const Text(
                     'View All',
                     style: TextStyle(
-
-                        // fontWeight: FontWeight.bold,
                         color: Color(0xff666666),
-                        fontSize: 12),
+                        fontSize: 18),
                   )
                 ],
               ),
@@ -412,7 +420,7 @@ class _MinePageState extends State<MinePage> {
                 physics: NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Number of columns
-                  childAspectRatio: 0.7,
+                  childAspectRatio: 0.75,
                 ),
                 itemCount: images.length, // Number of items in your list
                 itemBuilder: (BuildContext context, int index) {
@@ -453,39 +461,44 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      Card(
-        color: Colors.white,
-        elevation: 0,
-        child: Center(
-          child: Column(
-            children: [
-              Image.asset(
-                images[widget.index],
-                fit: BoxFit.fill,
-              ),
-              Text(
-                widget.mines.name!,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600),
-              ),
-              Text(
-                widget.mines.type!,
-                style: const TextStyle(
-                  color: Color(0xff666666),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
+      GestureDetector(
+        onTap: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Rollerrabbitdetails()));
+        },
+        child: Card(
+          color: Colors.white,
+          elevation: 0,
+          child: Center(
+            child: Column(
+              children: [
+                Image.asset(
+                  images[widget.index],
+                  fit: BoxFit.fill,
                 ),
-              ),
-              Text(
-                widget.mines.price!,
-                style: const TextStyle(
-                    color: Colors.black,
+                Text(
+                  widget.mines.name!,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontFamily: FontFamily.w700),
+                ),
+                Text(
+                  widget.mines.type!,
+                  style: TextStyle(
+                    color: const Color(0xff666666),
                     fontSize: 14,
-                    fontWeight: FontWeight.w600),
-              )
-            ],
+                    fontFamily: FontFamily.w400,
+                  ),
+                ),
+                Text(
+                  widget.mines.price!,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontFamily: FontFamily.w700),
+                )
+              ],
+            ),
           ),
         ),
       ),

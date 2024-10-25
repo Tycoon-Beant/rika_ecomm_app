@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 
-import 'package:rika_ecomm_app/screens/succesfulscreen.dart';
+import 'package:rika_ecomm_app/screens/succesful_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -31,10 +31,10 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 50,
               ),
-              Text("SignUP",
+              Text("SignUp",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 24,
+                      fontSize: 28,
                       fontFamily: FontFamily.w800)),
               // const SizedBox(
               //   height: 2,

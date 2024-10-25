@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rika_ecomm_app/screens/payment_confirm_screen.dart';
+import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/payment_confirm_screen.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
   const PaymentMethodScreen({super.key});
@@ -18,12 +19,16 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         surfaceTintColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 12, top: 12),
-          child: Image.asset('assets/images/arrow.png'),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.of(context).pop(PaymentMethodScreen());
+            },
+            child: Image.asset('assets/images/arrow.png')),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -32,7 +37,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               ),
               Text(
                 'Payment',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: TextStyle(fontFamily: FontFamily.w700,fontSize: 32),
               ),
               SizedBox(
                 height: 10,
@@ -48,9 +53,9 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     children: [
                       Row(
                         children: [
-                          Image.asset('assets/images/creditcard.png'),
+                          Image.asset('assets/images/creditcard.png',scale: 0.8,),
                           SizedBox(width: 10),
-                          Text('Credit Card'),
+                          Text('Credit Card',style: TextStyle(fontSize: 18),),
                         ],
                       ),
                       Radio(
@@ -83,9 +88,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     children: [
                       Row(
                         children: [
-                          Image.asset('assets/images/paypal.png'),
+                          Image.asset('assets/images/paypal.png',scale: 0.8,),
                           SizedBox(width: 10),
-                          Text('Paypal'),
+                          Text('Paypal',style: TextStyle(fontSize: 18),),
+                        // ],),
                         ],
                       ),
                       // Icon(
@@ -118,9 +124,9 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     children: [
                       Row(
                         children: [
-                          Image.asset('assets/images/visa.png'),
+                          Image.asset('assets/images/visa.png',scale: 0.8,),
                           SizedBox(width: 10),
-                          Text('Visa'),
+                          Text('Visa',style: TextStyle(fontSize: 18)),
                         ],
                       ),
                       // Icon(
@@ -153,9 +159,9 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     children: [
                       Row(
                         children: [
-                          Image.asset('assets/images/google_pay.png'),
+                          Image.asset('assets/images/google_pay.png',scale: 0.8,),
                           SizedBox(width: 10),
-                          Text('Google Pay'),
+                          Text('Google Pay',style: TextStyle(fontSize: 18)),
                         ],
                       ),
                       // Icon(
@@ -193,7 +199,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      PaymentConfirmScreen()));
+                                      AddCard()));
                         },
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.all(8),
@@ -222,7 +228,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   SizedBox(height: 20),
                   Text(
                     'History',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontFamily: FontFamily.w700, fontSize: 24),
                   ),
                 ],
               ),
@@ -248,7 +254,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             Text(
                               'Roller Rabbit',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                  fontFamily: FontFamily.w700 , fontSize : 18),
                             ),
                             SizedBox(
                               height: 5,
@@ -256,7 +262,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             Text(
                               'Vado Odelle Dress',
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 16,
                                 color: Color(0xff666666),
                               ),
                             ),
@@ -273,8 +279,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                           Text(
                             '\$198.00',
                             style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 16,
+                              fontFamily:FontFamily.w700,
+                              fontSize: 18,
                             ),
                           ),
                         ],
@@ -305,7 +311,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             Text(
                               'Axel Arigato',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                  fontFamily: FontFamily.w700 , fontSize : 18),
                             ),
                             SizedBox(
                               height: 5,
@@ -313,7 +319,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             Text(
                               'Clean 90 Trible Snakers',
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 16,
                                 color: Color(0xff666666),
                               ),
                             ),
@@ -332,8 +338,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                               Text(
                                 '\$245.00',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 16,
+                                  fontFamily:FontFamily.w700,
+                              fontSize: 18,
                                 ),
                               ),
                             ],
@@ -366,7 +372,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             Text(
                               'Herschel Supply Co.',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                  fontFamily: FontFamily.w700 , fontSize : 18),
                             ),
                             SizedBox(
                               height: 5,
@@ -374,7 +380,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             Text(
                               'Daypack Backpack',
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 16,
                                 color: Color(0xff666666),
                               ),
                             ),
@@ -393,8 +399,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                               Text(
                                 '\$40.00',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 16,
+                                  fontFamily:FontFamily.w700,
+                              fontSize: 18,
                                 ),
                               ),
                             ],
@@ -405,6 +411,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
             ],
           ),
         ),

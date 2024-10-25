@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/screens/bottonnav/profileScreen.dart';
 
-class PaymentConfirmScreen extends StatefulWidget {
-  const PaymentConfirmScreen({super.key});
+class AddCard extends StatefulWidget {
+  const AddCard({super.key});
 
   @override
-  State<PaymentConfirmScreen> createState() => _PaymentConfirmScreenState();
+  State<AddCard> createState() => _AddCardState();
 }
 
-class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
+class _AddCardState extends State<AddCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,11 +17,15 @@ class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
         surfaceTintColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 10, top: 10),
-          child: Image.asset('assets/images/arrow.png'),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.of(context).pop(Profilescreen());
+            },
+            child: Image.asset('assets/images/arrow.png')),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -31,7 +37,7 @@ class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
                 children: [
                   Text(
                     'Payment',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontFamily: FontFamily.w700, fontSize: 32),
                   ),
                 ],
               ),
@@ -50,7 +56,7 @@ class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
                 children: [
                   Text(
                     'Card Details',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(fontFamily : FontFamily.w700, fontSize: 24),
                   ),
                 ],
               ),
@@ -97,7 +103,7 @@ class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
                 ),
               ),
               SizedBox(
-                height: 100,
+                height: 80,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +112,7 @@ class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
                     'Cancel',
                     style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w800,
+                        fontFamily :FontFamily.w700,
                         color: Color(0xffAAAAAA)),
                   ),
                   ElevatedButton(
@@ -161,8 +167,8 @@ class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
                       child: Text(
                         "Confirm",
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          fontFamily: FontFamily.w700,
                           color: Color.fromARGB(255, 255, 255, 255),
                         ),
                       )),

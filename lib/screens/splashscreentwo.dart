@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/screens/login.dart';
 import 'package:rika_ecomm_app/screens/signup.dart';
 
@@ -31,14 +32,14 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  onPressed: () => Navigator.pushReplacement(context,
+                  onPressed: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const Login())),
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(99, 10, 95, 10),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(99, 10, 95, 10),
                     child: Text(
                       "Login",
                       style: TextStyle(
-                        fontSize: 24,fontWeight: FontWeight.bold,
+                        fontSize: 24,fontFamily: FontFamily.w700,
                         color: Colors.black,
                       ),
                     ),
@@ -54,12 +55,12 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                   ),
                   onPressed: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const SignUp())),
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(90, 10, 90, 10),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(90, 10, 90, 10),
                     child: Text(
                       "SignUp",
                       style: TextStyle(
-                        fontSize: 24,fontWeight: FontWeight.bold,
+                        fontSize: 24,fontFamily: FontFamily.w700,
                         color: Colors.white,
                       ),
                     ),

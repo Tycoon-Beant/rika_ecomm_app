@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/screens/bottonnav/bottom_nav_bar.dart';
 
 
@@ -23,10 +24,10 @@ class _SuccesfulscreenState extends State<Succesfulscreen> {
              const SizedBox(height: 120,),
            Center(child: Image.asset("assets/images/tikicon.png")),
            const SizedBox(height: 20,),
-           const Text("Successful!", style: TextStyle(
+           Text("Successful!", style: TextStyle(
             color: Colors.black,
             fontSize: 28,
-            fontWeight: FontWeight.w800
+            fontFamily: FontFamily.w700
            ),),
 
            const Text("You have successfully registered in our app and start working in it.",textAlign: TextAlign.center, 

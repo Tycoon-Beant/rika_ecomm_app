@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/screens/orderscreens/orderdetails.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/payment_method_screen.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/myorder.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/profiledetails.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/wishlist_screen.dart';
 
 class Profilescreen extends StatefulWidget {
   const Profilescreen({super.key});
@@ -26,7 +28,7 @@ class _ProfilescreenState extends State<Profilescreen> {
     {
       "icon" : "assets/images/3x/myfav.png",
       "title":"My Favorite",
-      "page" : Myorder(),
+      "page" : WishlistScreen(),
     },
     {
       "icon" : "assets/images/3x/shippingadd.png",
@@ -36,7 +38,7 @@ class _ProfilescreenState extends State<Profilescreen> {
     {
       "icon" : "assets/images/3x/mycard.png",
       "title":"My Card",
-      "page" : Myorder(),
+      "page" : PaymentMethodScreen(),
     },
     {
       "icon" : "assets/images/3x/mysettiing.png",
@@ -74,7 +76,8 @@ class _ProfilescreenState extends State<Profilescreen> {
         elevation: 10,
         scrolledUnderElevation: 0.1,
         surfaceTintColor: Colors.white,
-        leading: Image.asset("assets/images/arrowback.png"),
+        leading: GestureDetector(
+          child: Image.asset("assets/images/arrowback.png")),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20),

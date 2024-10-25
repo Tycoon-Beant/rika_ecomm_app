@@ -64,7 +64,7 @@ class _OnBoardingState extends State<OnBoarding> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
-                            fontFamily: FontFamily.w700),
+                            fontFamily: FontFamily.w400),
                       ),
                     ],
                   );

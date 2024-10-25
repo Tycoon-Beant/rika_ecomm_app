@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/screens/succesfulscreen.dart';
+import 'package:rika_ecomm_app/screens/succesful_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
