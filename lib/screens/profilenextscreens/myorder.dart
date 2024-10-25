@@ -28,7 +28,7 @@ class _MyorderState extends State<Myorder> {
                   children: <Widget>[
                     Row(
                       children: [
-                        Expanded(child: Text('MyOrder',style: TextStyle(fontSize: 24,fontFamily: FontFamily.w800),)),
+                        Expanded(child: Text('MyOrder',style: context.theme.headlineSmall)),
                       
                         ButtonsTabBar(
                           contentPadding: EdgeInsets.all(8),
@@ -37,16 +37,8 @@ class _MyorderState extends State<Myorder> {
                           unselectedBorderColor: Colors.grey,
                           borderWidth: 2,
                           borderColor: Colors.black,
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: FontFamily.w700,
-                          ),
-                          unselectedLabelStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 18,
-                            fontFamily: FontFamily.w700,
-                          ),
+                          labelStyle: context.theme.bodyLarge!.copyWith(color: Colors.white),
+                          unselectedLabelStyle:  context.theme.bodyLarge!.copyWith(color: Colors.grey),
                           // Add your tabs here
                           tabs: [
                             Tab(

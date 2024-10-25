@@ -24,16 +24,10 @@ class _SuccesfulscreenState extends State<Succesfulscreen> {
              const SizedBox(height: 120,),
            Center(child: Image.asset("assets/images/tikicon.png")),
            const SizedBox(height: 20,),
-           Text("Successful!", style: TextStyle(
-            color: Colors.black,
-            fontSize: 28,
-            fontFamily: FontFamily.w700
-           ),),
+           Text("Successful!", style: context.theme.headlineSmall,),
 
-           const Text("You have successfully registered in our app and start working in it.",textAlign: TextAlign.center, 
-           style: TextStyle(color: Colors.grey,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18),
+           Text("You have successfully registered in our app and start working in it.",textAlign: TextAlign.center, 
+           style: context.theme.titleSmall!.copyWith(color: Colors.grey),
            ),
            const SizedBox(height: 200,),
            ElevatedButton(
@@ -44,14 +38,11 @@ class _SuccesfulscreenState extends State<Succesfulscreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => BottomBar())),
-                        child: const Padding(
-                          padding: EdgeInsets.fromLTRB(90, 10, 90, 10),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(90, 10, 90, 10),
                           child: Text(
                             "Start Shopping",
-                            style: TextStyle(
-                              fontSize: 20,fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                            ),
+                            style: context.theme.titleMedium!.copyWith(color: Colors.white),
                           ),
                         )),
           ],

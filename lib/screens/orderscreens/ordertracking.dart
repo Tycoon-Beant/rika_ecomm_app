@@ -69,24 +69,18 @@ class _OrdertrackingState extends State<Ordertracking> {
                               children: [
                                 Text(
                                   "6556 23341 8090",
-                                  style: TextStyle(
-                                     fontFamily: FontFamily.w700,
-                                      fontSize: 18),
+                                  style: context.theme.titleMedium
                                 ),
                                 const SizedBox(width: 120),
                                 Text(
                                   'Transit',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                     fontFamily: FontFamily.w700),
+                                  style: context.theme.titleMedium
                                 ),
                               ],
                             ),
                             Text(
                               "Ena Express",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 84, 83, 83),
-                                  fontSize: 14),
+                              style: context.theme.titleSmall!.copyWith(color: Colors.grey)
                             )
                           ],
                         ),
@@ -118,30 +112,28 @@ class _OrdertrackingState extends State<Ordertracking> {
                         children: [
                           Column(
                             children: [
-                              const Text(
+                             Text(
                                 '25 June 2021',
                                 style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
+                                    context.theme.titleSmall!.copyWith(color: Colors.grey)
                               ),
                               Text(
                                 'Sacramnto',
-                                style: TextStyle(
-                                    fontSize: 18,fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
                               ),
                             ],
                           ),
                           const SizedBox(width: 120),
                           Column(
                             children: [
-                              const Text(
+                              Text(
                                 '30 June 2021',
                                 style:
-                                    TextStyle(color: Colors.grey, fontSize: 14),
+                                    context.theme.titleSmall!.copyWith(color: Colors.grey)
                               ),
                               Text(
                                 'New York',
-                                style: TextStyle(
-                                    fontSize: 18,fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
                               ),
                             ],
                           ),
@@ -171,19 +163,18 @@ class _OrdertrackingState extends State<Ordertracking> {
                       children: [
                         Text(
                           "US 2343445668",
-                          style: TextStyle(
-                              fontSize: 18,fontFamily: FontFamily.w700),
+                          style: context.theme.titleMedium
                         ),
-                        const Text(
+                         Text(
                           "Washington - Georgia",
-                          style: TextStyle(color: Colors.grey),
+                          style: context.theme.titleSmall!.copyWith(color: Colors.grey)
                         )
                       ],
                     ),
                     const SizedBox(width: 52),
-                    const Text(
+                    Text(
                       "Deliverd",
-                      style: TextStyle(color: Colors.grey, fontSize: 20),
+                      style: context.theme.titleMedium!.copyWith(color: Colors.grey)
                     )
                   ],
                 ),
@@ -204,22 +195,18 @@ class _OrdertrackingState extends State<Ordertracking> {
                       children: [
                         Text(
                           "US 2343445652",
-                          style: TextStyle(
-                              fontSize: 18,fontFamily: FontFamily.w700),
+                          style: context.theme.titleMedium
                         ),
-                        const Text(
+                         Text(
                           "Washington - Llinois",
-                          style: TextStyle(color: Colors.grey),
+                          style: context.theme.titleSmall!.copyWith(color: Colors.grey)
                         )
                       ],
                     ),
                     const SizedBox(width: 60),
                     Text(
                       "Transit",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                         fontFamily: FontFamily.w700),
+                      style: context.theme.titleMedium
                     )
                   ],
                 ),
@@ -240,22 +227,18 @@ class _OrdertrackingState extends State<Ordertracking> {
                       children: [
                         Text(
                           "US 2343445638",
-                          style: TextStyle(
-                              fontSize: 18,fontFamily: FontFamily.w700),
+                          style: context.theme.titleMedium
                         ),
-                        const Text(
+                         Text(
                           "Franklin - Alabama",
-                          style: TextStyle(color: Colors.grey),
+                          style:  context.theme.titleSmall!.copyWith(color: Colors.grey)
                         )
                       ],
                     ),
                     const SizedBox(width: 56),
                     Text(
                       "Accepted",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                         fontFamily: FontFamily.w700),
+                      style: context.theme.titleMedium
                     )
                   ],
                 ),

@@ -38,10 +38,7 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                     padding: const EdgeInsets.fromLTRB(99, 10, 95, 10),
                     child: Text(
                       "Login",
-                      style: TextStyle(
-                        fontSize: 24,fontFamily: FontFamily.w700,
-                        color: Colors.black,
-                      ),
+                      style: context.theme.bodyLarge
                     ),
                   )),
                   const SizedBox(height: 5,),
@@ -59,10 +56,9 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                     padding: const EdgeInsets.fromLTRB(90, 10, 90, 10),
                     child: Text(
                       "SignUp",
-                      style: TextStyle(
-                        fontSize: 24,fontFamily: FontFamily.w700,
-                        color: Colors.white,
-                      ),
+                      style:  context.theme.bodyLarge!.copyWith(
+                        color: Colors.white
+                      )
                     ),
                   )),
             ],

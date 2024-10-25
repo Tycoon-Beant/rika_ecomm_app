@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rika_ecomm_app/config/common.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -52,7 +53,7 @@ List langimg =[
             const SizedBox(height: 20),
             Text('Selected Language',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),),
             const SizedBox(height: 20),
-            SizedBox(height: 600,
+            SizedBox(height: 400,
               child:
                   ListView.builder(
                     
@@ -76,8 +77,7 @@ List langimg =[
                               }
                           },
                           child: Container(
-                            height: 100,
-                            
+                                                        
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -91,13 +91,13 @@ List langimg =[
                               color: isSelected ? Colors.black : Colors.white,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(10),
                               child: Row(
                                 children: [
                                   Image.asset(langimg[index],scale: 2.5,),
                                   const SizedBox(width: 12),
                                   SizedBox(width: 150,
-                                    child: Text(lang[index],style: TextStyle(fontSize: 24, color: isSelected ? Colors.white : null ),)),
+                                    child: Text(lang[index],style: context.theme.titleMedium!.copyWith(color: isSelected? Colors.white:null))),
                                     const SizedBox(width: 80),
                                     Icon(isSelected ? Icons.radio_button_checked : Icons.circle_outlined,
                                     color: isSelected ? Colors.white : Colors.black,)

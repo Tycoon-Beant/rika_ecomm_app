@@ -77,12 +77,12 @@ class _NotificationscreenState extends State<Notificationscreen> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             'Notification',
-            style: TextStyle(fontSize: 28, fontFamily: FontFamily.w700),
+            style: context.theme.headlineSmall
           ),
           const SizedBox(height: 20),
           SingleChildScrollView(
-            child: Container(
-               height: 637,
+            child: SizedBox(
+               height: 632,
               child: ListView.builder(
                 itemCount: names.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -105,8 +105,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                                 RichText(
                                     text: TextSpan(
                                         text: names[index],
-                                        style: TextStyle(color: Colors.black,
-                                            fontSize: 16, fontFamily: FontFamily.w700,),
+                                        style: context.theme.titleSmall,
                                         children: [
                                       TextSpan(
                                           text: desc[index],
@@ -124,7 +123,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                       
                        SizedBox(height: 10),
                       Container(
-                        height: 2,
+                        height: 1,
                         color:  Colors.grey.shade300,
                         width: 400,
                       ),

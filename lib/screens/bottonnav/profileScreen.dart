@@ -106,12 +106,11 @@ class _ProfilescreenState extends State<Profilescreen> {
                         children: [
                           Text(
                             'Hasan Mahmud',
-                            style: TextStyle(
-                                fontSize: 20, fontFamily: FontFamily.w700),
+                            style: context.theme.titleMedium
                           ),
                           Text(
                             'rikafashionshop@gmail.com',
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                            style:context.theme.titleSmall!.copyWith(color: Colors.grey),
                           ),
                         ],
                       )
@@ -154,7 +153,8 @@ class _ProfilescreenState extends State<Profilescreen> {
                     ],
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -173,28 +173,34 @@ class ProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Image.asset(icon),
-        const SizedBox(width: 8),
-        SizedBox(
-            width: 200,
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )),
-        const SizedBox(width: 20),
-        SizedBox(
-          width: 20,
-          child: IconButton(
-            onPressed: () {
-              Navigator.of(context)
+    return GestureDetector(
+      onTap: (){
+         Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => page));
-            },
-            icon: Icon(Icons.arrow_forward_ios),
+        },
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(icon),
+              const SizedBox(width: 8),
+              SizedBox(
+                  width: 200,
+                  child: Text(
+                    title,
+                    style: context.theme.bodyLarge!.copyWith(fontFamily: FontFamily.w700),
+                  )),
+              const SizedBox(width: 20),
+              SizedBox(
+                width: 20,
+                child:
+                  Icon(Icons.arrow_forward_ios),
+                ),
+              ],
           ),
-        )
-      ],
+          const SizedBox(height: 8),
+        ],
+      ),
     );
   }
 }

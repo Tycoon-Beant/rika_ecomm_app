@@ -141,17 +141,17 @@ class _MinePageState extends State<MinePage> {
                                       color: Colors.black,
                                       borderRadius: BorderRadius.circular(30)),
                                   child:  Padding(
-                                    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                                    child: Center(
-                                      child: Text(
-                                        'Get Now',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: FontFamily.w400,
-                                            fontSize: 16),
+                                      padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+                                      child: Center(
+                                        child: Text(
+                                          'Get Now',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: FontFamily.w400,
+                                            fontSize: 12),
+                                        ),
                                       ),
                                     ),
-                                  ),
                                 ),
                               ],
                             ),
@@ -212,14 +212,14 @@ class _MinePageState extends State<MinePage> {
                                         borderRadius:
                                             BorderRadius.circular(30)),
                                     child:  Padding(
-                                      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                      padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
                                       child: Center(
                                         child: Text(
                                           'Get Now',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: FontFamily.w400,
-                                            fontSize: 16),
+                                            fontSize: 12),
                                         ),
                                       ),
                                     ),
@@ -268,13 +268,13 @@ class _MinePageState extends State<MinePage> {
                       children: [
                         Text(
                           'Axel Arigato',
-                          style: TextStyle(fontSize: 20, fontFamily: FontFamily.w700),
+                          style: TextStyle(fontSize: 18, fontFamily: FontFamily.w700),
                         ),
                         const Text(
                           'Clean 90 Triple Sneakers',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Color(0xff666666),
+                            color: Color.fromARGB(255, 132, 131, 131),
                           ),
                         ),
                         Text(

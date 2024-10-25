@@ -54,17 +54,11 @@ class _OnBoardingState extends State<OnBoarding> {
                       const SizedBox(height: 20),
                       Text(
                         contents[i].discription,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 36,
-                            fontFamily: FontFamily.w700),
+                        style: context.theme.headlineSmall
                       ),
                       Text(
                         contents[i].subDescription,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontFamily: FontFamily.w400),
+                        style: context.theme.bodyLarge
                       ),
                     ],
                   );

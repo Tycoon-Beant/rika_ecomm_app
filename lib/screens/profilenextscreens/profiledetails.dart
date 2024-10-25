@@ -6,8 +6,6 @@ import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/language.dart';
 // import 'package:image_picker/image_picker.dart';
 
-
-
 class ProfileDetails extends StatefulWidget {
   const ProfileDetails({super.key});
 
@@ -15,53 +13,29 @@ class ProfileDetails extends StatefulWidget {
   State<ProfileDetails> createState() => _ProfileDetailsState();
 }
 
-class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderStateMixin {
-  bool _male =false;
-  bool _female  = false;
-    bool notificationOn= true;
-    bool isDarkmode = true;
-  //  File? selectedImage;
-  //  String base64Image ="";
-   
-  //  Future<void> chooseImage(type) async{
-  //   XFile? image;
-  //   if(type == "camera"){
-  //     image =await ImagePicker().pickImage(
-  //       source: ImageSource.camera,
-  //               imageQuality: 10
-  //      );
-  //   } else {
-  //     if(type == "gallery"){
-  //       image = await ImagePicker().pickImage(
-  //         source: ImageSource.gallery,imageQuality: 10);
-  //     }
-  //   }
-  //   if(image != null){
-  //     setState(() {
-  //       selectedImage = File(image!.path);
-  //       base64Image =base64Encode(selectedImage!.readAsBytesSync());
-
-  //     });
-  //   }
-  //  }
-
+class _ProfileDetailsState extends State<ProfileDetails>
+    with TickerProviderStateMixin {
+  bool _male = false;
+  bool _female = false;
+  bool notificationOn = true;
+  bool isDarkmode = true;
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const SizedBox(height: 20),
             Center(
-               child: Stack(children: [
-              SizedBox(height: 120,width: 120,
+                child: Stack(children: [
+              SizedBox(
+                height: 120,
+                width: 120,
                 child: Padding(
-                  padding:  EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: SizedBox(
                       height: 100,
                       width: 100,
@@ -72,66 +46,74 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
                 ),
               ),
               Positioned(
-                  top: 64, left: 64, 
+                  top: 64,
+                  left: 64,
                   child: GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20))
-                            ),
-                            
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  
-                                  ElevatedButton(
-                                    style:ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        elevation: 0
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20))),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white,
+                                          elevation: 0),
+                                      child: Icon(
+                                        Icons.camera,
+                                        size: 40,
+                                      ),
+                                      onPressed: () {
+                                        // chooseImage("camera");
+                                      },
                                     ),
-                                    child: Icon(Icons.camera,size:40,),
-                                    onPressed: () {
-                                      // chooseImage("camera");
-                                    },
-                                  ),
-                                  ElevatedButton(
-                                    style:ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        elevation: 0
-                                    ),
-                                    onPressed: (){
-                                      // chooseImage("gallery");
-                                    },
-                                      child: Icon(Icons.image,size: 40,))
-                                ],
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.white,
+                                            elevation: 0),
+                                        onPressed: () {
+                                          // chooseImage("gallery");
+                                        },
+                                        child: Icon(
+                                          Icons.image,
+                                          size: 40,
+                                        ))
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: Container(height: 70,width: 70,
-                    decoration: BoxDecoration(
-                      boxShadow: [BoxShadow(
-                        color: const Color.fromARGB(255, 209, 208, 208),
-                        blurRadius:5 ,
-                        offset: Offset(12,10)
-                      )]
-                    ),
-                      child: Image.asset("assets/images/edit.png",fit: BoxFit.fill,))))
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(boxShadow: [
+                            BoxShadow(
+                                color: const Color.fromARGB(255, 209, 208, 208),
+                                blurRadius: 5,
+                                offset: Offset(12, 10))
+                          ]),
+                          child: Image.asset(
+                            "assets/images/edit.png",
+                            fit: BoxFit.fill,
+                          ))))
             ])),
             const SizedBox(height: 10),
             Center(
               child: Text(
                 'Upload Image',
-                style: TextStyle(fontSize: 20, fontFamily: FontFamily.w700),
+                style: context.theme.titleMedium,
               ),
             ),
             const SizedBox(height: 8),
@@ -139,63 +121,67 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
               children: [
                 Text(
                   "Name ",
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 117, 117, 117),
-                    fontSize: 20,fontFamily: FontFamily.w700
-                  ),
+                  style:
+                      context.theme.titleMedium!.copyWith(color: Colors.grey),
                 ),
                 const SizedBox(width: 40),
                 SizedBox(
-                    width: 240,
-                    child: TextField(
+                  width: 240,
+                  child: TextField(
                       decoration: InputDecoration(
-                          hintText: "Enter your name",
-                          hintStyle: TextStyle(
-                            color: const Color.fromARGB(255, 191, 189, 189),
-                          ),
-                          enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.grey),   
-                            ),  
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                      )
-                   ),
+                    hintText: "Enter your name",
+                    hintStyle: TextStyle(
+                      color: const Color.fromARGB(255, 191, 189, 189),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  )),
                 )
               ],
             ),
             const SizedBox(height: 20),
             Row(
               children: [
-                Text("Gender ",
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 117, 117, 117),
-                    fontSize: 20,fontFamily: FontFamily.w700
-                ),),
+                Text(
+                  "Gender ",
+                  style:
+                      context.theme.titleMedium!.copyWith(color: Colors.grey),
+                ),
                 const SizedBox(width: 40),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      _male =!_male;
+                      _male = !_male;
                     });
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: _male?Colors.black:Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black)
-                    ),
+                        color: _male ? Colors.black : Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black)),
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: Row(
                         children: [
-                          Icon(_male?Icons.radio_button_checked:Icons.circle_outlined,
-                          color: _male?Colors.white:Colors.black,),
+                          Icon(
+                            _male
+                                ? Icons.radio_button_checked
+                                : Icons.circle_outlined,
+                            color: _male ? Colors.white : Colors.black,
+                          ),
                           const SizedBox(width: 8),
-                          Text("Male",style: TextStyle(fontSize: 16,fontFamily: FontFamily.w400, color: _male ? Colors.white :Colors.black ),),
+                          Text(
+                            "Male",
+                            style: context.theme.titleMedium!
+                                .copyWith(color: _male ? Colors.white : Colors.black,),
+                          ),
                         ],
                       ),
                     ),
@@ -203,25 +189,32 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
                 ),
                 const SizedBox(width: 10),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      _female =!_female;
+                      _female = !_female;
                     });
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: _female?Colors.black:Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black)
-                    ),
+                        color: _female ? Colors.black : Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black)),
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: Row(
                         children: [
-                          Icon(_female?Icons.radio_button_checked:Icons.circle_outlined,
-                          color: _female?Colors.white:Colors.black,),
+                          Icon(
+                            _female
+                                ? Icons.radio_button_checked
+                                : Icons.circle_outlined,
+                            color: _female ? Colors.white : Colors.black,
+                          ),
                           const SizedBox(width: 8),
-                          Text("Female",style: TextStyle(fontSize: 16,fontFamily: FontFamily.w700, color: _female ? Colors.white :Colors.black ),),
+                          Text(
+                            "Female",
+                            style: context.theme.titleMedium!
+                                .copyWith(color: _male ? Colors.white : Colors.black,),
+                          ),
                         ],
                       ),
                     ),
@@ -232,93 +225,100 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
             const SizedBox(height: 10),
             Row(
               children: [
-                    Text("Age ",
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 117, 117, 117),
-                    fontSize: 20,fontFamily: FontFamily.w700
-                ),),
+                Text(
+                  "Age ",
+                  style: context.theme.titleMedium!.copyWith(color: Colors.grey),
+                ),
                 const SizedBox(width: 56),
                 SizedBox(
-                    width: 240,
-                    child: TextField(
+                  width: 240,
+                  child: TextField(
                       decoration: InputDecoration(
-                          hintText: "Enter your age",
-                          hintStyle: TextStyle(
-                            color: const Color.fromARGB(255, 191, 189, 189),
-                          ),
-                          enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.grey),   
-                            ),  
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                      )
-                   ),
+                    hintText: "Enter your age",
+                    hintStyle: TextStyle(
+                      color: const Color.fromARGB(255, 191, 189, 189),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  )),
                 )
               ],
             ),
             const SizedBox(height: 10),
             Row(
               children: [
-                    Text("Email ",
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 117, 117, 117),
-                    fontSize: 20,fontFamily: FontFamily.w700
-                ),),
+                Text(
+                  "Email ",
+                  style: context.theme.titleMedium!.copyWith(color: Colors.grey),
+                ),
                 const SizedBox(width: 46),
                 SizedBox(
-                    width: 240,
-                    child: TextField(
+                  width: 240,
+                  child: TextField(
                       decoration: InputDecoration(
-                          hintText: "Enter your age",
-                          hintStyle: TextStyle(
-                            color: const Color.fromARGB(255, 191, 189, 189),
-                          ),
-                          enabledBorder: UnderlineInputBorder(      
-                              borderSide: BorderSide(color: Colors.grey),   
-                            ),  
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                      )
-                   ),
+                    hintText: "Enter your age",
+                    hintStyle: TextStyle(
+                      color: const Color.fromARGB(255, 191, 189, 189),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  )),
                 )
               ],
             ),
             const SizedBox(height: 20),
-            Text('Settings',style: TextStyle(fontSize: 24,fontFamily: FontFamily.w700),),
+            Text(
+              'Settings',
+              style: context.theme.titleLarge!.copyWith(fontFamily: FontFamily.w700),
+            ),
             const SizedBox(height: 10),
             Container(
-                height: 264,
-                decoration: BoxDecoration(
-                  border: Border.all(color:  Color.fromARGB(255, 173, 170, 170),
-                  style: BorderStyle.solid),
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(children: [
+              height: 264,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Color.fromARGB(255, 173, 170, 170),
+                      style: BorderStyle.solid),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
                     Row(
                       children: [
                         Image.asset("assets/images/3x/language.png"),
                         const SizedBox(width: 8),
-                        SizedBox(width: 100,
-                          child: Text("Language",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),)),
-                         const SizedBox(width: 48),
-                         Text("English",style: TextStyle(color: Colors.grey,fontSize: 18)),
+                        SizedBox(
+                            width: 100,
+                            child: Text(
+                              "Language",
+                              style: context.theme.titleMedium,
+                            )),
+                        const SizedBox(width: 48),
+                        Text("English",
+                            style: context.theme.titleMedium!.copyWith(color: const Color.fromARGB(255, 182, 181, 181)),),
                         const SizedBox(width: 20),
-                        SizedBox(width: 20,
-                          child: IconButton(onPressed: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LanguageScreen()));
-                          },
-                           icon: Icon(Icons.arrow_forward_ios)
-                           ),
+                        SizedBox(
+                          width: 20,
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => LanguageScreen()));
+                              },
+                              icon: Icon(Icons.arrow_forward_ios)),
                         )
                       ],
                     ),
@@ -327,18 +327,24 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
                       children: [
                         Image.asset("assets/images/3x/notificationset.png"),
                         const SizedBox(width: 8),
-                        SizedBox(width: 200,
-                          child: Text("Notification",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),)),
+                        SizedBox(
+                            width: 200,
+                            child: Text(
+                              "Notification",
+                              style: context.theme.titleMedium,
+                            )),
                         const SizedBox(width: 20),
-                        SizedBox(width: 20,
+                        SizedBox(
+                          
+                          width: 20,
                           child: Switch(
-                                value: notificationOn,
-                                activeColor: Colors.black,
-                                onChanged: (bool value) {
-                                 setState(() {
-                                     notificationOn = value;
-                                   });
-                                },
+                            value: notificationOn,
+                            activeColor: Colors.black,
+                            onChanged: (bool value) {
+                              setState(() {
+                                notificationOn = value;
+                              });
+                            },
                           ),
                         )
                       ],
@@ -348,19 +354,31 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
                       children: [
                         Image.asset("assets/images/3x/darkmode.png"),
                         const SizedBox(width: 8),
-                        SizedBox(width: 150,
-                          child: Text("Dark mode",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),)),
-                         SizedBox(width: 30,child: Text(isDarkmode?"on":"off",textAlign: TextAlign.right, style: TextStyle(fontSize: 18, color: Colors.grey),),),
-                         const SizedBox(width: 40),
-                        SizedBox(width: 20,
+                        SizedBox(
+                            width: 150,
+                            child: Text(
+                              "Dark mode",
+                              style: context.theme.titleMedium,
+                            )),
+                        SizedBox(
+                          width: 30,
+                          child: Text(
+                            isDarkmode ? "on" : "off",
+                            textAlign: TextAlign.right,
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                        ),
+                        const SizedBox(width: 40),
+                        SizedBox(
+                          width: 20,
                           child: Switch(
-                                value: isDarkmode,
-                                activeColor: Colors.black,
-                                onChanged: (bool value) {
-                                 setState(() {
-                                     isDarkmode = value;
-                                   });
-                                },
+                            value: isDarkmode,
+                            activeColor: Colors.black,
+                            onChanged: (bool value) {
+                              setState(() {
+                                isDarkmode = value;
+                              });
+                            },
                           ),
                         )
                       ],
@@ -370,42 +388,51 @@ class _ProfileDetailsState extends State<ProfileDetails>with TickerProviderState
                       children: [
                         Image.asset("assets/images/3x/helpcenter.png"),
                         const SizedBox(width: 8),
-                        SizedBox(width: 200,
-                          child: Text("Help Center",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),)),
+                        SizedBox(
+                            width: 200,
+                            child: Text(
+                              "Help Center",
+                              style: context.theme.titleMedium,
+                            )),
                         const SizedBox(width: 20),
-                        SizedBox(width: 20,
-                          child: IconButton(onPressed: (){},
-                           icon: Icon(Icons.arrow_forward_ios)
-                           ),
+                        SizedBox(
+                          width: 20,
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.arrow_forward_ios)),
                         )
                       ],
                     ),
-                    
-                  ],),
+                  ],
                 ),
               ),
-              const SizedBox(height: 8),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                      )
-                ),
-                onPressed: (){},
-               child: Padding(
-                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                 child: Row(
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                   children: [
-                    Icon(Icons.logout,color: Colors.white,),
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
                     const SizedBox(width: 8),
-                     Text('Logout',style: TextStyle(color: Colors.white,fontSize: 18),),
-                    
-                   ],
-                 ),
-               ),),
-                SizedBox(height: 10),
+                    Text(
+                      'Logout',
+                      style: context.theme.titleMedium!.copyWith(color: Colors.white)
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
           ]),
         ),
       ),

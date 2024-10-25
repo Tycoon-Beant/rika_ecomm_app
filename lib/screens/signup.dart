@@ -32,29 +32,21 @@ class _SignUpState extends State<SignUp> {
                 height: 50,
               ),
               Text("SignUp",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 28,
-                      fontFamily: FontFamily.w800)),
-              // const SizedBox(
-              //   height: 2,
-              // ),
-              const Text("Create a new account",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
-                  )),
+                  style: context.theme.headlineSmall,),
               const SizedBox(
-                height: 55,
+                height: 8,
+              ),
+              Text("Create a new account",
+                  style: context.theme.titleSmall!.copyWith(
+                    color: Colors.grey
+                  ),),
+              const SizedBox(
+                height: 20,
               ),
               Text("User name ",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontFamily: FontFamily.w700)),
+                  style: context.theme.titleMedium,),
               TextField(
-                  style: TextStyle(
-                      color: Colors.black, fontFamily: FontFamily.w400),
+                  style: context.theme.titleSmall,
                       textInputAction: TextInputAction.next,
                       
                   decoration: const InputDecoration(
@@ -74,13 +66,9 @@ class _SignUpState extends State<SignUp> {
                 height: 20,
               ),
               Text("Email",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontFamily: FontFamily.w700)),
+                  style: context.theme.titleMedium,),
               TextField(
-                  style: TextStyle(
-                      color: Colors.black, fontFamily: FontFamily.w400),
+                  style: context.theme.titleSmall,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
@@ -96,13 +84,9 @@ class _SignUpState extends State<SignUp> {
                 height: 20,
               ),
               Text("Password",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontFamily: FontFamily.w700)),
+                  style: context.theme.titleMedium,),
               TextField( textInputAction: TextInputAction.next,
-                  style: TextStyle(
-                      color: Colors.black, fontFamily: FontFamily.w400),
+                  style: context.theme.titleSmall,
                   obscureText: !passwordVisible, //
                   decoration: InputDecoration(
                     focusedBorder: const UnderlineInputBorder(
@@ -132,13 +116,9 @@ class _SignUpState extends State<SignUp> {
                 height: 20,
               ),
               Text("Confirm Password",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontFamily: FontFamily.w700)),
+                  style: context.theme.titleMedium,),
               TextField(
-                  style: TextStyle(
-                      color: Colors.black, fontFamily: FontFamily.w400),
+                  style: context.theme.titleSmall,
                   obscureText: !passwordVisible, //
                   decoration: InputDecoration(
                     focusedBorder: const UnderlineInputBorder(
@@ -178,13 +158,13 @@ class _SignUpState extends State<SignUp> {
                     
                     icon: Icon(ischecked
                         ? Icons.check_box
-                        : Icons.check_box_outline_blank,color: Colors.grey,),
+                        : Icons.check_box_outline_blank,color: const Color.fromARGB(255, 197, 196, 196)),
                   ),
-                  const SizedBox(
+                  SizedBox(
                       width: 300,
                       child: Text(
                         "By creating an account you have to agree with our terms & conditions.",
-                        style: TextStyle(color: Colors.grey),
+                        style: context.theme.titleSmall!.copyWith(color: const Color.fromARGB(255, 197, 196, 196)),
                       ))
                 ],
               ),
@@ -194,6 +174,7 @@ class _SignUpState extends State<SignUp> {
               Center(
                 child: Column(
                   children: [
+                    const SizedBox(height: 10),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
@@ -206,10 +187,7 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.fromLTRB(120, 10, 120, 10),
                           child: Text(
                             "Signup",
-                            style: TextStyle(
-                              fontSize: 24,fontFamily: FontFamily.w700,
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                            ),
+                            style: context.theme.titleMedium!.copyWith(color: Colors.white)
                           ),
                         )),
                     const SizedBox(

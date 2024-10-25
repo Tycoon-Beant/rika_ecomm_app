@@ -23,7 +23,7 @@ class _FilterScreenState extends State<FilterScreen> {
     "Shoes",
     "Bags",
     "Cloths",
-    "Jeans",
+    "Leggings",
     "Shorts",
     "Tops",
     "Sneakers",
@@ -71,11 +71,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 child: Text(
                   "Categories",
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 32,
-                    fontFamily: FontFamily.w700,
-                  ),
+                  style: context.theme.headlineSmall
                 ),
               ),
               SizedBox(
@@ -83,15 +79,17 @@ class _FilterScreenState extends State<FilterScreen> {
                   child: Wrap(
                     spacing: 4.0,
                     children: categoriesChip.map((category) {
-                      return Chip(
+                      return RawChip(
+                        onPressed: (){
+                          setState(() {
+                            selectedCategory = category;
+                          });
+                        },
                           label: Text(
                             category,
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: FontFamily.w700,
-                                color: Colors.black),
+                            style:context.theme.bodyLarge!.copyWith(color: selectedCategory == category ?Colors.white:Colors.black)
                           ),
-                          backgroundColor: Colors.white,
+                          backgroundColor: selectedCategory == category?Colors.black: Colors.white,
                           shape: const StadiumBorder(
                               side: BorderSide(color: Color(0xffCCCCCC))));
                     }).toList(),
@@ -101,11 +99,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 child: Text(
                   "Price Range",
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 28,
-                    fontFamily: FontFamily.w700,
-                  ),
+                  style: context.theme.titleLarge?.copyWith(fontFamily: FontFamily.w700)
                 ),
               ),
               const SizedBox(height: 10),
@@ -127,16 +121,12 @@ class _FilterScreenState extends State<FilterScreen> {
                 child: Text(
                   "Sort By",
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 28,
-                    fontFamily: FontFamily.w700,
-                  ),
+                  style: context.theme.titleLarge?.copyWith(fontFamily: FontFamily.w700)
                 ),
               ),
               Wrap(
-                spacing: 3.0,
-                // runSpacing:2.0,
+                spacing: 4.0,
+                
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -147,10 +137,9 @@ class _FilterScreenState extends State<FilterScreen> {
                     child: Chip(
                       label: Text(
                         "New Today",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: FontFamily.w700,
-                            color: sortby == "New Today" ? Colors.white : null),
+                        style: context.theme.bodyMedium!.copyWith(
+                          color: sortby == "New Today"? Colors.white:null
+                        )
                       ),
                       backgroundColor: sortby == "New Today"? Colors.black : Colors.white,
                       shape: const StadiumBorder(
@@ -166,10 +155,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     child: Chip(
                       label: Text(
                         "New This Week",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: FontFamily.w700,
-                            color: sortby == "New This Week" ? Colors.white : null),
+                        style:context.theme.bodyMedium!.copyWith( color: sortby == "New This Week" ? Colors.white : null),
+                           
                       ),
                       backgroundColor: sortby == "New This Week" ? Colors.black : Colors.white,
                       shape: const StadiumBorder(
@@ -185,10 +172,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     child: Chip(
                       label: Text(
                         "Top Seller",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: FontFamily.w700,
-                            color: sortby == "Top Seller" ? Colors.white : null),
+                        style: context.theme.bodyMedium!.copyWith( color: sortby == "Top Seller" ? Colors.white : null),
                       ),
                       backgroundColor: sortby == "Top Seller" ? Colors.black : Colors.white,
                       shape: const StadiumBorder(
@@ -202,11 +186,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 child: Text(
                   "Rating",
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 28,
-                    fontFamily: FontFamily.w700,
-                  ),
+                  style: context.theme.titleLarge?.copyWith(fontFamily: FontFamily.w700)
                 ),
               ),
               Padding(

@@ -25,12 +25,11 @@ class _OrderdetailsState extends State<Orderdetails> {
               children: [
                 Text(
                   "Dilevery Address",
-                  style: TextStyle(fontSize: 28, fontFamily: FontFamily.w700),
+                  style:  context.theme.headlineSmall,
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  height: 220,
-                  width: 400,
+                 
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -50,44 +49,44 @@ class _OrderdetailsState extends State<Orderdetails> {
                       children: [
                         Row(
                           children: [
-                            Text("Street :",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),),
-                            const Text("3512 Pearl Street",style: TextStyle(color: Colors.grey, fontSize: 20,),),
+                            Text("Street : ",style:  context.theme.titleMedium),
+                          Text("3512 Pearl Street",style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
                           ],
                         ),
                          Row(
                           children: [
-                            Text("City :",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),),
-                            const Text("Sacramento",style: TextStyle(color: Colors.grey, fontSize: 20,),),
+                            Text("City : ",style:  context.theme.titleMedium),
+                             Text("Sacramento",style:context.theme.titleSmall!.copyWith(color: Colors.grey)),
                           ],
                         ),
                         Row(
                           children: [
-                            Text("State/Provision/Area :",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),),
-                            const Text("California",style: TextStyle(color: Colors.grey, fontSize: 20,),),
+                            Text("State/Provision/Area : ",style: context.theme.titleMedium),
+                             Text("California",style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
                           ],
                         ),
                         Row(
                           children: [
-                            Text("Phone number :",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),),
-                            const Text("916-299-4041",style: TextStyle(color: Colors.grey, fontSize: 20,),),
+                            Text("Phone number : ",style:  context.theme.titleMedium),
+                             Text("916-299-4041",style:context.theme.titleSmall!.copyWith(color: Colors.grey)),
                           ],
                         ),
                         Row(
                           children: [
-                            Text("ZipCode :",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),),
-                            const Text("95814",style: TextStyle(color: Colors.grey, fontSize: 20,),),
+                            Text("ZipCode : ",style:  context.theme.titleMedium),
+                            Text("95814",style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
                           ],
                         ),
                         Row(
                           children: [
-                            Text("Country Calling Code :",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),),
-                            const Text("+1",style: TextStyle(color: Colors.grey, fontSize: 20,),),
+                            Text("Country Calling Code : ",style:  context.theme.titleMedium),
+                             Text("+1",style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
                           ],
                         ),
                         Row(
                           children: [
-                            Text("Country :",style: TextStyle(fontSize: 20,fontFamily: FontFamily.w700),),
-                            const Text("United States",style: TextStyle(color: Colors.grey, fontSize: 20,),),
+                            Text("Country : ",style:  context.theme.titleMedium),
+                             Text("United States",style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
                           ],
                         ),
                       ],
@@ -95,7 +94,7 @@ class _OrderdetailsState extends State<Orderdetails> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text("Product Items", style: TextStyle(fontSize: 28,fontFamily: FontFamily.w700),),
+                Text("Product Items", style: context.theme.titleMedium),
           
                 Card(
                   color: Colors.white,
@@ -109,11 +108,9 @@ class _OrderdetailsState extends State<Orderdetails> {
                           Column(crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text("Roller Rabbit" ,style: TextStyle(
-                                fontSize: 18,fontFamily: FontFamily.w700
-                              ),),
-                              const Text("Vado Odelle Dress",style: TextStyle(color: Colors.grey),),
-                              Text("\$198.00" , style: TextStyle(fontFamily: FontFamily.w700,fontSize: 18),)
+                              Text("Roller Rabbit" ,style:context.theme.titleMedium),
+                              Text("Vado Odelle Dress",style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
+                              Text("\$198.00" , style: context.theme.titleMedium)
                             ],
                           ),
                         ],
@@ -132,18 +129,16 @@ class _OrderdetailsState extends State<Orderdetails> {
                           Column(crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text("Roller Rabbit" ,style: TextStyle(
-                                fontSize: 18,fontFamily: FontFamily.w700
-                              ),),
-                              const Text("Vado Odelle Dress",style: TextStyle(color: Colors.grey),),
-                              Text("\$198.00" , style: TextStyle(fontFamily: FontFamily.w700,fontSize: 18),)
+                              Text("Axel Arigato" ,style: context.theme.titleMedium),
+                               Text("Clean 90 sneakers",style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
+                              Text("\$245.00" , style:context.theme.titleMedium,)
                             ],
                           ),
                         ],
                       ),
                     ),
                 ),
-                Text("Promo Code",style: TextStyle(fontSize: 28,fontFamily: FontFamily.w700),),
+                Text("Promo Code",style: context.theme.titleMedium),
           
                 Card(
                   color: Colors.white,
@@ -157,8 +152,8 @@ class _OrderdetailsState extends State<Orderdetails> {
                          Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Add Promo Code" ,style: TextStyle(fontSize: 18,fontFamily: FontFamily.w700),),
-                            Text("#rika2021",style: TextStyle(color: Colors.grey),)
+                            Text("Add Promo Code" ,style: context.theme.titleMedium),
+                            Text("#rika2021",style: context.theme.titleSmall!.copyWith(color: Colors.grey))
                           ],
                         )
                       ],
@@ -166,13 +161,13 @@ class _OrderdetailsState extends State<Orderdetails> {
                   ) ,
                   ),
           
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 50),
                   Row(
                     children: [
                       Column(
                         children: [
-                          const Text("Total Price" , style: TextStyle(color: Colors.grey),),
-                          Text("\$443.00",style: TextStyle(fontSize: 24,fontFamily: FontFamily.w700),)
+                           Text("Total Price" , style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
+                          Text("\$443.00",style: context.theme.titleMedium)
                         ],
                       ),
                       const SizedBox(width: 100),
@@ -186,9 +181,9 @@ class _OrderdetailsState extends State<Orderdetails> {
                         onPressed: (){
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Ordertracking()));
                         },
-                       child: const Padding(
-                         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                         child: Text("Place order", style: TextStyle(color: Colors.white,fontSize: 20),),
+                       child: Padding(
+                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                         child: Text("Place order", style: context.theme.titleMedium!.copyWith(color: Colors.white)),
                        ))
                     ],
                   )

@@ -24,36 +24,29 @@ class _LoginState extends State<Login> {
               ),
               Center(child: Image.asset("assets/images/3x/logoblack.png")),
               const SizedBox(
-                height: 50,
+                height: 40,
               ),
               Text("Welcome!",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                     fontFamily: FontFamily.w700)),
+                  style: context.theme.headlineSmall),
               // const SizedBox(
               //   height: 2,
               // ),
-              const Text("please login or sign up to continue our app",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
-                  )),
+               Text("please login or sign up to continue our app",
+                  style: context.theme.bodyLarge!.copyWith(
+                    color: Colors.grey
+                  ) ),
               const SizedBox(
                 height: 25,
               ),
               Text("Email",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontFamily: FontFamily.w700),
+              style: context.theme.titleMedium,
                        
                       ),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
-                  style: TextStyle(
-                      color: Colors.black, fontFamily: FontFamily.w400),
+                  style: 
+                      context.theme.titleMedium,
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
@@ -71,10 +64,7 @@ class _LoginState extends State<Login> {
                 height: 20,
               ),
               Text("Password",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontFamily: FontFamily.w700)),
+                  style:context.theme.titleMedium,),
               TextField(
                
                   style: TextStyle(
@@ -87,7 +77,7 @@ class _LoginState extends State<Login> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
                       ),
-                      hintText: "Enter email",
+                      hintText: "Enter password",
                       suffixIcon: Icon(
                         Icons.check_circle,
                         color: Colors.black,
@@ -111,9 +101,8 @@ class _LoginState extends State<Login> {
                           padding: const EdgeInsets.fromLTRB(132, 10, 132, 10),
                           child: Text(
                             "Login",
-                            style: TextStyle(
-                              fontSize: 20,fontFamily: FontFamily.w700,
-                              color: const Color.fromARGB(255, 255, 255, 255),
+                            style: context.theme.titleMedium!.copyWith(
+                              color: Colors.white
                             ),
                           ),
                         )),
@@ -133,10 +122,9 @@ class _LoginState extends State<Login> {
                             children: [
                               const Icon(Icons.facebook_rounded,color: Colors.white,),
                               Text(
-                                "    Continue with Facebook",
-                                style: TextStyle(
-                                  fontSize: 18,fontFamily: FontFamily.w700,
-                                  color: const Color.fromARGB(255, 255, 255, 255),
+                                " Continue with Facebook",
+                                style: context.theme.titleMedium!.copyWith(
+                                  color: Colors.white
                                 ),
                               ),
                             ],
@@ -165,10 +153,7 @@ class _LoginState extends State<Login> {
                               Image.asset("assets/images/googleicon.png"),
                               Text(
                                 "    Continue with Google",
-                                style: TextStyle(
-                                  fontSize: 18,fontFamily: FontFamily.w700,
-                                  color: const Color.fromARGB(255, 0, 0, 0),
-                                ),
+                                style: context.theme.titleMedium,
                               ),
                             ],
                           ),
@@ -193,10 +178,8 @@ class _LoginState extends State<Login> {
                               Image.asset("assets/images/appleicon.png"),
                               Text(
                                 "    Continue with Apple",
-                                style: TextStyle(
-                                  fontSize: 18,fontFamily: FontFamily.w700,
-                                  color: const Color.fromARGB(255, 0, 0, 0),
-                                ),
+                                style: context.theme.titleMedium,
+                               
                               ),
                             ],
                           ),
