@@ -9,35 +9,69 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  int quantity = 1;
+  int quantity1 = 1;
+  int quantity2 = 1;
+  int quantity3 = 1;
   late String price;
 
-  void incrementCount() {
+  void incrementCount1() {
     setState(() {
-      quantity++;
-      calculatePrice();
+      quantity1++;
+      // calculatePrice();
     });
   }
 
-  void decrementCount() {
-    if (quantity > 1) {
+  void decrementCount1() {
+    if (quantity1 > 1) {
       setState(() {
-        quantity--;
-        calculatePrice();
+        quantity1--;
+        // calculatePrice();
       });
     }
   }
 
-  void calculatePrice() {
-    double initPrice = 245.00;
-    double totalPrice = initPrice * quantity;
-    price = totalPrice.toStringAsFixed(2); // Formatting the price
+  void incrementCount2() {
+    setState(() {
+      quantity2++;
+      // calculatePrice();
+    });
   }
+
+  void decrementCount2() {
+    if (quantity2 > 1) {
+      setState(() {
+        quantity2--;
+        // calculatePrice();
+      });
+    }
+  }
+
+  void incrementCount3() {
+    setState(() {
+      quantity3++;
+      // calculatePrice();
+    });
+  }
+
+  void decrementCount3() {
+    if (quantity3 > 1) {
+      setState(() {
+        quantity3--;
+        // calculatePrice();
+      });
+    }
+  }
+
+  // void calculatePrice() {
+  //   double initPrice = 245.00;
+  //   double totalPrice = initPrice * quantity1;
+  //   price = totalPrice.toStringAsFixed(2); // Formatting the price
+  // }
 
   @override
   void initState() {
     super.initState();
-    calculatePrice(); // Initialize price
+    // calculatePrice(); // Initialize price
   }
 
   @override
@@ -46,25 +80,31 @@ class _CartScreenState extends State<CartScreen> {
       child: Scaffold(
         appBar: AppBar(
           surfaceTintColor: Colors.white,
-          leading: Image.asset(
-            'assets/images/arrow.png',
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 10, left: 10),
+            child: Image.asset(
+              'assets/images/arrow.png',
+            ),
           ),
           actions: [
-            Image.asset(
-              'assets/images/cart2.png',
-              scale: 0.1,
+            Padding(
+              padding: const EdgeInsets.only(right: 10, top: 10),
+              child: Image.asset(
+                'assets/images/cart2.png',
+                // scale: 0.1,
+              ),
             ),
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 17),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'My Cart',
-                  style: TextStyle(fontSize: 28, fontFamily: FontFamily.w700),
+                Text('My Cart', style: context.theme.headlineSmall),
+                SizedBox(
+                  height: 10,
                 ),
                 Card(
                   color: Colors.white,
@@ -82,73 +122,65 @@ class _CartScreenState extends State<CartScreen> {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 'Roller Rabbit',
-                                style: TextStyle(
-                                    fontSize: 20, fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                'Vado Odelle Dress',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xff666666),
-                                ),
-                              ),
+                              Text('Vado Odelle Dress',
+                                  style: context.theme.bodySmall
+                                      ?.copyWith(color: Color(0xff666666))),
                               SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
                               Text(
                                 '\$198.00',
-                                style: TextStyle(
-                                    fontSize: 18, fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w900),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(width: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(50)),
-                          height: 40,
-                          width: 86,
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                child: TextButton(
-                                  onPressed: decrementCount,
-                                  child: Text(
-                                    "-",
+                        Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(50)),
+                              height: 30,
+                              width: 70,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                      onTap: decrementCount1,
+                                      child: Icon(
+                                        Icons.remove,
+                                        size: 15,
+                                      )),
+                                  Text(
+                                    '$quantity1',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 15,
                                         color: Colors.black,
                                         fontFamily: FontFamily.w400),
                                   ),
-                                ),
+                                  InkWell(
+                                    onTap: incrementCount1,
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 15,
+                                    ),
+                                  )
+                                ],
                               ),
-                              Text(
-                                '$quantity',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontFamily: FontFamily.w400),
-                              ),
-                              Container(
-                                width: 40,
-                                child: TextButton(
-                                    onPressed: incrementCount,
-                                    child: Text(
-                                      "+",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontFamily: FontFamily.w400),
-                                    )),
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -176,69 +208,55 @@ class _CartScreenState extends State<CartScreen> {
                             children: [
                               Text(
                                 'Axel Arigato',
-                                style: TextStyle(
-                                    fontSize: 20, fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                'Clean 90 Trible Snakers',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xff666666),
-                                ),
-                              ),
+                              Text('Clean 90 Trible Snakers',
+                                  style: context.theme.bodySmall
+                                      ?.copyWith(color: Color(0xff666666))),
                               SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
                               Text(
                                 '\$245.00',
-                                style: TextStyle(
-                                    fontSize: 18, fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w900),
                               ),
                             ],
                           ),
                         ),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
                                   borderRadius: BorderRadius.circular(50)),
-                              height: 40,
-                              width: 86,
+                              height: 30,
+                              width: 70,
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    width: 40,
-                                    child: TextButton(
-                                      onPressed: decrementCount,
-                                      child: Text(
-                                        "-",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontFamily: FontFamily.w400),
-                                      ),
-                                    ),
-                                  ),
+                                  InkWell(
+                                      onTap: decrementCount2,
+                                      child: Icon(
+                                        Icons.remove,
+                                        size: 15,
+                                      )),
                                   Text(
-                                    '$quantity',
+                                    '$quantity2',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 15,
                                         color: Colors.black,
                                         fontFamily: FontFamily.w400),
                                   ),
-                                  Container(
-                                    width: 40,
-                                    child: TextButton(
-                                        onPressed: incrementCount,
-                                        child: Text(
-                                          "+",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black,
-                                              fontFamily: FontFamily.w400),
-                                        )),
+                                  InkWell(
+                                    onTap: incrementCount2,
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 15,
+                                    ),
                                   )
                                 ],
                               ),
@@ -271,69 +289,55 @@ class _CartScreenState extends State<CartScreen> {
                             children: [
                               Text(
                                 'Herschel Supply Co.',
-                                style: TextStyle(
-                                    fontSize: 20, fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                'Daypack Backpack',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xff666666),
-                                ),
-                              ),
+                              Text('Daypack Backpack',
+                                  style: context.theme.bodySmall
+                                      ?.copyWith(color: Color(0xff666666))),
                               SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
                               Text(
                                 '\$40.00',
-                                style: TextStyle(
-                                    fontSize: 18, fontFamily: FontFamily.w700),
+                                style: context.theme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w900),
                               ),
                             ],
                           ),
                         ),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                   color: Colors.grey.shade200,
                                   borderRadius: BorderRadius.circular(50)),
-                              height: 40,
-                              width: 86,
+                              height: 30,
+                              width: 70,
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    width: 40,
-                                    child: TextButton(
-                                      onPressed: decrementCount,
-                                      child: Text(
-                                        "-",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontFamily: FontFamily.w400),
-                                      ),
-                                    ),
-                                  ),
+                                  InkWell(
+                                      onTap: decrementCount3,
+                                      child: Icon(
+                                        Icons.remove,
+                                        size: 15,
+                                      )),
                                   Text(
-                                    '$quantity',
+                                    '$quantity3',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 15,
                                         color: Colors.black,
                                         fontFamily: FontFamily.w400),
                                   ),
-                                  Container(
-                                    width: 40,
-                                    child: TextButton(
-                                        onPressed: incrementCount,
-                                        child: Text(
-                                          "+",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black,
-                                              fontFamily: FontFamily.w400),
-                                        )),
+                                  InkWell(
+                                    onTap: incrementCount3,
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 15,
+                                    ),
                                   )
                                 ],
                               ),
@@ -350,31 +354,31 @@ class _CartScreenState extends State<CartScreen> {
                   height: 50,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(7),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(10),
                     child: Center(
                       child: TextField(
                         decoration: InputDecoration(
                             hintText: 'Promo Code',
                             border: InputBorder.none,
                             hintStyle: TextStyle(
-                                fontSize: 16, color: Color(0xffAAAAAA)),
+                                fontSize: 15, color: Color(0xffAAAAAA)),
                             suffixIcon: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.black,
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                       side: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(7)),
+                                      borderRadius: BorderRadius.circular(10)),
                                 ),
                                 onPressed: () {
                                   // print('hi');
                                 },
                                 child: Text('Apply',
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 13,
                                         fontFamily: FontFamily.w400)))),
                       ),
                     ),
@@ -385,8 +389,10 @@ class _CartScreenState extends State<CartScreen> {
                   // width: 360,
                   // height: 143,
                   decoration: BoxDecoration(
-                    border: Border.all(color:const Color.fromARGB(255, 207, 206, 206),),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                      color: Color(0xffEEEEEE),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(15),
@@ -397,73 +403,73 @@ class _CartScreenState extends State<CartScreen> {
                           children: [
                             Text(
                               'Subtotal:',
-                              style: TextStyle(
-                                  fontSize: 18, fontFamily: FontFamily.w700),
+                              style: context.theme.titleSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             Text(
                               '\$483',
-                              style: TextStyle(
-                                  fontSize: 18, fontFamily: FontFamily.w700),
+                              style: context.theme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Container(
-                          height: 2,
-                          color: const Color.fromARGB(255, 207, 206, 206),
+                          height: 1,
+                          color: Color(0xffEEEEEE),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Shipping:',
-                              style: TextStyle(
-                                  fontSize: 20, fontFamily: FontFamily.w700),
+                              style: context.theme.titleSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             Text(
                               '\$17',
-                              style: TextStyle(
-                                  fontSize: 20, fontFamily: FontFamily.w700),
+                              style: context.theme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Container(
-                          height: 2,
-                          color: const Color.fromARGB(255, 207, 206, 206),
+                          height: 1,
+                          color: Color(0xffEEEEEE),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'BagTotal:',
-                              style: TextStyle(
-                                  fontSize: 20, fontFamily: FontFamily.w700),
+                              style: context.theme.titleSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             Row(
                               children: [
                                 Text(
                                   '(3 item)',
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 12,
                                       color: Color.fromARGB(255, 95, 95, 95),
                                       fontFamily: 'Mont Blanc Light'),
                                 ),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 10),
                                 Text(
                                   '\$500',
-                                  style: TextStyle(
-                                      fontSize:20, fontFamily: FontFamily.w700),
+                                  style: context.theme.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -476,41 +482,40 @@ class _CartScreenState extends State<CartScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Total (3 item) :',
-                        style: TextStyle(
-                            fontSize:20, fontFamily: FontFamily.w400,
-                            color: Color(0xff666666),
-                            ),
+                        style: context.theme.bodySmall,
                       ),
-                      Text('\$500',style: TextStyle(
-                            fontSize:20, fontFamily: FontFamily.w400,
-                            color: Color(0xff666666),
-                            ), ),
+                      Text(
+                        '\$500',
+                        style: context.theme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Center(
-                          child: Text(
-                            'Proceed to Checkout',
-                            style: TextStyle(color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Text('Proceed to Checkout',
+                                style: context.theme.titleSmall
+                                    ?.copyWith(color: Colors.white)),
                           ),
                         ),
                         Image.asset('assets/images/arrow3.png')
@@ -526,3 +531,27 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 }
+
+// ignore: must_be_immutable
+// class CounterState extends StatefulWidget {
+//   const CounterState({super.key});
+
+//   int firstcounter;
+//   int secondcounter;
+//   int thirdcounter;
+//   @override
+//   State<CounterState> createState() => _CounterStateState();
+// }
+
+// class _CounterStateState extends State<CounterState> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         GestureDetector(
+//           onTap: ,
+//         )
+//       ],
+//     );
+//   }
+// }

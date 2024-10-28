@@ -45,20 +45,27 @@ class _OnBoardingState extends State<OnBoarding> {
                 itemBuilder: (_, i) {
                   return Column(
                     children: [
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: Image.asset(
-                          contents[i].image,
+                      Expanded(
+                        flex: 3,
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          child: Image.asset(
+                            contents[i].image,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Text(
-                        contents[i].discription,
-                        style: context.theme.headlineSmall
-                      ),
-                      Text(
-                        contents[i].subDescription,
-                        style: context.theme.bodyLarge
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(contents[i].discription,
+                                style: context.theme.headlineSmall),
+                            Text(contents[i].subDescription,
+                                style: context.theme.bodyLarge),
+                          ],
+                        ),
                       ),
                     ],
                   );
@@ -82,7 +89,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   // SizedBox(width: 150,),
                   Container(
                     height: 60,
-                    margin: const EdgeInsets.all(40),
+                    margin: const EdgeInsets.all(16),
                     child: GestureDetector(
                       child: Image.asset(
                         "assets/images/arrowfront.png",

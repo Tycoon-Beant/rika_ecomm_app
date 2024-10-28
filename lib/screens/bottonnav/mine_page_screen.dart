@@ -27,11 +27,18 @@ class _MinePageState extends State<MinePage> {
       child: Scaffold(
         appBar: AppBar(
           surfaceTintColor: Colors.white,
-          leading: Image.asset("assets/images/menu.png",scale: 0.9,),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 10, left: 10),
+            child: Image.asset(
+              "assets/images/menu.png",
+            ),
+          ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 10, top: 6),
-              child: Image.asset("assets/images/user.png",scale: 1,),
+              padding: const EdgeInsets.only(right: 10, top: 10),
+              child: Image.asset(
+                "assets/images/user.png",
+              ),
             ),
           ],
         ),
@@ -44,18 +51,13 @@ class _MinePageState extends State<MinePage> {
               const SizedBox(
                 height: 20,
               ),
-              Text('Welcome,',
-                  style: TextStyle(
-                    fontFamily: FontFamily.w700,
-                    fontSize: 32,
-                  )),
-              Text(
-                "Our Rika Fashion App",
-                style: TextStyle(
-                    fontFamily: FontFamily.w700,
-                    color: Colors.blueGrey,
-                    fontSize: 20),
+              Text('Welcome,', style: context.theme.headlineSmall),
+              SizedBox(
+                height: 5,
               ),
+              Text("Our Rika Fashion App",
+                  style: context.theme.titleLarge
+                      ?.copyWith(color: Color(0xff666666))),
               const SizedBox(
                 height: 20,
               ),
@@ -70,7 +72,9 @@ class _MinePageState extends State<MinePage> {
                           ),
                           borderSide: BorderSide.none,
                         ),
-                        hintText: 'what would you like to buy...',
+                        hintText: 'Search...',
+                        hintStyle:
+                            TextStyle(fontSize: 18, color: Color(0xffAAAAAA)),
                         fillColor: const Color(0xffF3F4F5),
                         filled: true,
                         prefixIcon: Icon(Icons.search),
@@ -110,50 +114,40 @@ class _MinePageState extends State<MinePage> {
                               children: [
                                 Text(
                                   '50% Off',
-                                  style: TextStyle(
-                                    fontSize: 28,
-                                    fontFamily: FontFamily.w700,
-                                  ),
+                                  style: context.theme.headlineSmall,
                                 ),
                                 Text(
                                   'On everything today',
-                                  style: TextStyle(
-                                      fontFamily:FontFamily.w400,
-                                      fontSize:20),
+                                  style: context.theme.titleMedium,
                                 ),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                  'With code: rikafashion2021',
-                                  style: TextStyle(
-                                      fontFamily: FontFamily.w700,
-                                      fontSize: 16,
-                                      color: const Color.fromARGB(255, 97, 96, 96)),
-                                ),
+                                Text('With code: rikafashion2021',
+                                    style: context.theme.bodySmall?.copyWith(
+                                        color: Color(0xff666666),
+                                        fontWeight: FontWeight.bold)),
                                 const SizedBox(
                                   height: 15,
                                 ),
                                 Container(
-                                  // height: 25,
-                                  // width: 72,
+                                  height: 25,
+                                  width: 70,
                                   decoration: BoxDecoration(
                                       color: Colors.black,
                                       borderRadius: BorderRadius.circular(30)),
-                                  child:  Padding(
-                                      padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-                                      child: Center(
-                                        child: Text(
-                                          'Get Now',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: FontFamily.w400,
-                                            fontSize: 12),
-                                        ),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                    child: Center(
+                                      child: Text(
+                                        'Get Now',
+                                        style: context.theme.labelSmall
+                                            ?.copyWith(color: Colors.white),
                                       ),
                                     ),
                                 ),
-                              ],
+                            )]
                             ),
                           ),
                         ],
@@ -180,46 +174,37 @@ class _MinePageState extends State<MinePage> {
                                 children: [
                                   Text(
                                     '50% Off',
-                                    style: TextStyle(
-                                      fontSize: 28,
-                                      fontFamily: FontFamily.w700,
-                                    ),
+                                    style: context.theme.headlineSmall,
                                   ),
                                   Text(
                                     'On everything today',
-                                    style: TextStyle(
-                                        fontFamily: FontFamily.w400,
-                                        fontSize: 24),
+                                    style: context.theme.titleMedium,
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                    'With code: rikafashion2021',
-                                    style: TextStyle(
-                                        fontFamily: FontFamily.w700,
-                                        fontSize: 16,
-                                        color: const Color(0xff666666)),
-                                  ),
+                                  Text('With code: rikafashion2021',
+                                      style: context.theme.bodySmall?.copyWith(
+                                          color: Color(0xff666666),
+                                          fontWeight: FontWeight.bold)),
                                   const SizedBox(
                                     height: 15,
                                   ),
                                   Container(
-                                    // height: 25,
-                                    // width: 72,
+                                    height: 25,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                         color: Colors.black,
                                         borderRadius:
                                             BorderRadius.circular(30)),
-                                    child:  Padding(
-                                      padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 4, 8, 4),
                                       child: Center(
                                         child: Text(
                                           'Get Now',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: FontFamily.w400,
-                                            fontSize: 12),
+                                          style: context.theme.labelSmall
+                                              ?.copyWith(color: Colors.white),
                                         ),
                                       ),
                                     ),
@@ -268,19 +253,20 @@ class _MinePageState extends State<MinePage> {
                       children: [
                         Text(
                           'Axel Arigato',
-                          style: TextStyle(fontSize: 18, fontFamily: FontFamily.w700),
-                        ),
-                        const Text(
-                          'Clean 90 Triple Sneakers',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color.fromARGB(255, 132, 131, 131),
-                          ),
+                          style: context.theme.bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '\$245.00',
-                          style: TextStyle(fontSize: 20 ,fontFamily: FontFamily.w700),
+                          'Clean 90 Triple Sneakers',
+                          style: context.theme.bodySmall
+                              ?.copyWith(color: Color(0xff666666)),
                         ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Text('\$245.00',
+                            style: context.theme.bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.bold)),
                       ],
                     ),
                     const SizedBox(
@@ -291,11 +277,22 @@ class _MinePageState extends State<MinePage> {
                 ),
               ),
               const SizedBox(height: 25),
-              Text(
-                'Categories',
-                style: TextStyle(fontFamily: FontFamily.w700, fontSize: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Categories',
+                    style: context.theme.titleLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'View All',
+                    style: context.theme.bodyMedium
+                        ?.copyWith(color: Color(0xff666666)),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   GestureDetector(
@@ -308,8 +305,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Dresses',
                         style: TextStyle(
-                          fontSize: 16,
-                            fontFamily: FontFamily.w700,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
                             color:
                                 _isSelected == 'Dresses' ? Colors.white : null),
                       ),
@@ -333,8 +330,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Jackets',
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: FontFamily.w700,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
                             color:
                                 _isSelected == 'Jackets' ? Colors.white : null),
                       ),
@@ -358,8 +355,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Jeans',
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: FontFamily.w700,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
                             color:
                                 _isSelected == 'Jeans' ? Colors.white : null),
                       ),
@@ -382,8 +379,8 @@ class _MinePageState extends State<MinePage> {
                       label: Text(
                         'Shoese',
                         style: TextStyle(
-                           fontSize: 16,
-                            fontFamily: FontFamily.w700,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
                             color:
                                 _isSelected == 'Shoese' ? Colors.white : null),
                       ),
@@ -403,14 +400,14 @@ class _MinePageState extends State<MinePage> {
                 children: [
                   Text(
                     'Top Dresses',
-                    style: TextStyle(fontFamily: FontFamily.w700, fontSize: 24),
+                    style: context.theme.titleLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  const Text(
+                  Text(
                     'View All',
-                    style: TextStyle(
-                        color: Color(0xff666666),
-                        fontSize: 18),
-                  )
+                    style: context.theme.bodyMedium
+                        ?.copyWith(color: Color(0xff666666)),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -462,8 +459,9 @@ class _ProductItemState extends State<ProductItem> {
   Widget build(BuildContext context) {
     return Stack(children: [
       GestureDetector(
-        onTap: (){
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Rollerrabbitdetails()));
+        onTap: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Rollerrabbitdetails()));
         },
         child: Card(
           color: Colors.white,
@@ -475,28 +473,18 @@ class _ProductItemState extends State<ProductItem> {
                   images[widget.index],
                   fit: BoxFit.fill,
                 ),
-                Text(
-                  widget.mines.name!,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontFamily: FontFamily.w700),
+                SizedBox(
+                  height: 5,
                 ),
-                Text(
-                  widget.mines.type!,
-                  style: TextStyle(
-                    color: const Color(0xff666666),
-                    fontSize: 14,
-                    fontFamily: FontFamily.w400,
-                  ),
-                ),
-                Text(
-                  widget.mines.price!,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontFamily: FontFamily.w700),
-                )
+                Text(widget.mines.name!,
+                    style: context.theme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+                Text(widget.mines.type!,
+                    style: context.theme.bodySmall
+                        ?.copyWith(color: Color(0xff666666))),
+                Text(widget.mines.price!,
+                    style: context.theme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.bold))
               ],
             ),
           ),
