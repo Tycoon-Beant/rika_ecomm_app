@@ -20,45 +20,49 @@ class _MyorderState extends State<Myorder> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Container(
-              width: double.maxFinite,
-              child: DefaultTabController(
-                length: 2,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Expanded(child: Text('MyOrder',style: context.theme.headlineSmall)),
-                      
-                        ButtonsTabBar(
-                          contentPadding: EdgeInsets.all(8),
-                          backgroundColor: Colors.black,
-                          unselectedBackgroundColor: Colors.white,
-                          unselectedBorderColor: Colors.grey,
-                          borderWidth: 2,
-                          borderColor: Colors.black,
-                          labelStyle: context.theme.bodyLarge!.copyWith(color: Colors.white),
-                          unselectedLabelStyle:  context.theme.bodyLarge!.copyWith(color: Colors.grey),
-                          // Add your tabs here
-                          tabs: [
-                            Tab(
-                              text: "Ongoing",
-                            ),
-                            Tab(
-                              text: "Completed",
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+          child: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: [
                     Expanded(
-                      child: TabBarView(
-                        children: [OngoingOrders(), CompletedOrders()],
-                      ),
+                        child: Text('MyOrder',
+                            style: context.theme.headlineSmall)),
+                    ButtonsTabBar(
+                      contentPadding: EdgeInsets.all(8),
+                      backgroundColor: Colors.black,
+                      unselectedBackgroundColor: Colors.white,
+                      unselectedBorderColor: Colors.grey,
+                      borderWidth: 2,
+                      borderColor: Colors.black,
+                      labelStyle: context.theme.bodyLarge!
+                          .copyWith(color: Colors.white),
+                      unselectedLabelStyle: context.theme.bodyLarge!
+                          .copyWith(color: Colors.grey),
+                      // Add your tabs here
+                      tabs: [
+                        Tab(
+                          text: "Ongoing",
+                        ),
+                        Tab(
+                          text: "Completed",
+                        )
+                      ],
                     ),
                   ],
                 ),
-              )),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      OngoingOrders(),
+                      CompletedOrders(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ));
   }
 }

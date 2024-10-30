@@ -40,9 +40,10 @@ class _LoginState extends State<Login> {
                 style: context.theme.titleMedium,
               ),
               TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  style: context.theme.titleMedium,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                  style: 
+                      context.theme.titleMedium!.copyWith(color: Colors.grey,fontFamily: FontFamily.w400),
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
@@ -64,8 +65,8 @@ class _LoginState extends State<Login> {
                 style: context.theme.titleMedium,
               ),
               TextField(
-                  style: TextStyle(
-                      color: Colors.black, fontFamily: FontFamily.w400),
+               
+                  style:context.theme.titleMedium!.copyWith(color: Colors.grey,fontFamily: FontFamily.w400),
                   obscureText: true,
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -87,6 +88,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: [
                     ElevatedButton(
+                      
                         style: ElevatedButton.styleFrom(
                           fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
                           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
@@ -97,14 +99,11 @@ class _LoginState extends State<Login> {
                                 builder: (context) => const Succesfulscreen())),
                         child: Text(
                           "Login",
-                          style: context.theme.titleMedium!
-                              .copyWith(color: Colors.white),
+                          style: context.theme.titleMedium!.copyWith(
+                            color: Colors.white
+                          ),
                         )),
-                        
-                    const Text(
-                      "or",
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    const Text("or",style: TextStyle(fontSize: 20),),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
@@ -115,17 +114,14 @@ class _LoginState extends State<Login> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Login())),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
-                              Icons.facebook_rounded,
-                              color: Colors.white,
-                            ),
+                            const Icon(Icons.facebook_rounded,color: Colors.white,),
                             Text(
                               " Continue with Facebook",
-                              style: context.theme.titleMedium!
-                                  .copyWith(color: Colors.white),
+                              style: context.theme.titleMedium!.copyWith(
+                                color: Colors.white
+                              ),
                             ),
                           ],
                         )),
@@ -134,14 +130,14 @@ class _LoginState extends State<Login> {
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            fixedSize:
-                                Size(MediaQuery.sizeOf(context).width, 50),
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: const BorderSide(
-                                    color:
-                                        Color.fromARGB(255, 173, 170, 170)))),
+                          fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
+                          backgroundColor:
+                              Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: const BorderSide(color: Color.fromARGB(255, 173, 170, 170))
+                          )
+                        ),
                         onPressed: () => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -150,8 +146,9 @@ class _LoginState extends State<Login> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset("assets/images/googleicon.png"),
+                            const SizedBox(width: 10),
                             Text(
-                              "    Continue with Google",
+                              "Continue with Google",
                               style: context.theme.titleMedium,
                             ),
                           ],
@@ -159,15 +156,17 @@ class _LoginState extends State<Login> {
                     const SizedBox(height: 25),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            fixedSize:
-                                Size(MediaQuery.sizeOf(context).width, 50),
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: const BorderSide(
-                                    color:
-                                        Color.fromARGB(255, 173, 170, 170)))),
-                        onPressed: () {},
+                          fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
+                          backgroundColor:
+                              Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: const BorderSide(color: Color.fromARGB(255, 173, 170, 170))
+                          )
+                        ),
+                        onPressed: () {
+                          
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -175,6 +174,7 @@ class _LoginState extends State<Login> {
                             Text(
                               "    Continue with Apple",
                               style: context.theme.titleMedium,
+                             
                             ),
                           ],
                         )),

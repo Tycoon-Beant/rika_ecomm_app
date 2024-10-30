@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/models/mine_page_model.dart';
+import 'package:rika_ecomm_app/screens/categorys/categorie_screen.dart';
+import 'package:rika_ecomm_app/screens/categorys/cloth_category.dart';
 import 'package:rika_ecomm_app/screens/filter/filterscreen.dart';
 import 'package:rika_ecomm_app/screens/productdetails/rollerrabbitdetails.dart';
 
@@ -110,45 +112,46 @@ class _MinePageState extends State<MinePage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 13, left: 12),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '50% Off',
-                                  style: context.theme.headlineSmall,
-                                ),
-                                Text(
-                                  'On everything today',
-                                  style: context.theme.titleMedium,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text('With code: rikafashion2021',
-                                    style: context.theme.bodySmall?.copyWith(
-                                        color: Color(0xff666666),
-                                        fontWeight: FontWeight.bold)),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  height: 25,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                                    child: Center(
-                                      child: Text(
-                                        'Get Now',
-                                        style: context.theme.labelSmall
-                                            ?.copyWith(color: Colors.white),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '50% Off',
+                                    style: context.theme.headlineSmall,
+                                  ),
+                                  Text(
+                                    'On everything today',
+                                    style: context.theme.titleMedium,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('With code: rikafashion2021',
+                                      style: context.theme.bodySmall?.copyWith(
+                                          color: Color(0xff666666),
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    height: 25,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                      child: Center(
+                                        child: Text(
+                                          'Get Now',
+                                          style: context.theme.labelSmall
+                                              ?.copyWith(color: Colors.white),
+                                        ),
                                       ),
                                     ),
-                                ),
-                            )]
-                            ),
+                                  )
+                                ]),
                           ),
                         ],
                       ),
@@ -285,10 +288,15 @@ class _MinePageState extends State<MinePage> {
                     style: context.theme.titleLarge
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    'View All',
-                    style: context.theme.bodyMedium
-                        ?.copyWith(color: Color(0xff666666)),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Categories()));
+                    },
+                    child: Text(
+                      'View All',
+                      style: context.theme.bodyMedium
+                          ?.copyWith(color: Color(0xff666666)),
+                    ),
                   ),
                 ],
               ),
@@ -403,11 +411,15 @@ class _MinePageState extends State<MinePage> {
                     style: context.theme.titleLarge
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  Text(
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClothCategory()));
+                    },
+                    child: Text(
                     'View All',
                     style: context.theme.bodyMedium
                         ?.copyWith(color: Color(0xff666666)),
-                  ),
+                  )),
                 ],
               ),
               const SizedBox(

@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/screens/categorys/providers/category_notifier.dart';
 import 'package:rika_ecomm_app/screens/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          lazy: true,
+          create: (context) => CategoryNotifier(),
+        )
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

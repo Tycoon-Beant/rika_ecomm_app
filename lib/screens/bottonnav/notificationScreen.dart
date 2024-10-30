@@ -53,6 +53,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         leading: Image.asset("assets/images/arrowback.png"),
         actions: [
           Padding(
@@ -80,58 +81,55 @@ class _NotificationscreenState extends State<Notificationscreen> {
             style: context.theme.headlineSmall
           ),
           const SizedBox(height: 20),
-          SingleChildScrollView(
-            child: SizedBox(
-               height: 632,
-              child: ListView.builder(
-                itemCount: names.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(          
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 50,
-                            child: CircleAvatar(
-                                radius: 32, child: Image.asset(img[index])),
+          Expanded(
+            child: ListView.builder(
+              itemCount: names.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(          
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: CircleAvatar(
+                              radius: 32, child: Image.asset(img[index])),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 300,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                  text: TextSpan(
+                                      text: names[index],
+                                      style: context.theme.titleSmall,
+                                      children: [
+                                    TextSpan(
+                                        text: desc[index],
+                                        style: TextStyle(
+                                            color: Colors.grey, 
+                                            fontSize: 14,fontFamily: FontFamily.w400))
+                                  ])),
+                                  const SizedBox(height: 8),
+                                  Text(time[index],style:TextStyle(color: Colors.grey,),),
+                            ],
                           ),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: 300,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                RichText(
-                                    text: TextSpan(
-                                        text: names[index],
-                                        style: context.theme.titleSmall,
-                                        children: [
-                                      TextSpan(
-                                          text: desc[index],
-                                          style: TextStyle(
-                                              color: Colors.grey, 
-                                              fontSize: 14,fontFamily: FontFamily.w400))
-                                    ])),
-                                    const SizedBox(height: 8),
-                                    Text(time[index],style:TextStyle(color: Colors.grey,),),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      
-                       SizedBox(height: 10),
-                      Container(
-                        height: 1,
-                        color:  Colors.grey.shade300,
-                        width: 400,
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  );
-                },
-              ),
+                        )
+                      ],
+                    ),
+                    
+                     SizedBox(height: 10),
+                    Container(
+                      height: 1,
+                      color:  Colors.grey.shade300,
+                      width: 400,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                );
+              },
             ),
           )
         ]),
