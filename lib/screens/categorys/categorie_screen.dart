@@ -67,7 +67,7 @@ class _CategoriesState extends State<Categories> {
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'Mont Blanc Bold',
-                                        color: Colors.white),
+                                        color: Colors.white),-
                                   ),
                                 ),
                                 SizedBox(

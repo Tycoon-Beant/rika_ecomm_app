@@ -11,12 +11,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-   bool passwordVisible = false;
-    var ischecked = false;
-  
+  bool passwordVisible = false;
+  var ischecked = false;
+
+
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -31,24 +31,27 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 50,
               ),
-              Text("SignUp",
-                  style: context.theme.headlineSmall,),
+              Text(
+                "SignUp",
+                style: context.theme.headlineSmall,
+              ),
               const SizedBox(
                 height: 8,
               ),
-              Text("Create a new account",
-                  style: context.theme.titleSmall!.copyWith(
-                    color: Colors.grey
-                  ),),
+              Text(
+                "Create a new account",
+                style: context.theme.titleSmall!.copyWith(color: Colors.grey),
+              ),
               const SizedBox(
                 height: 20,
               ),
-              Text("User name ",
-                  style: context.theme.titleMedium,),
+              Text(
+                "User name ",
+                style: context.theme.titleMedium,
+              ),
               TextField(
                   style: context.theme.titleSmall,
-                      textInputAction: TextInputAction.next,
-                      
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey),
@@ -65,8 +68,10 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 20,
               ),
-              Text("Email",
-                  style: context.theme.titleMedium,),
+              Text(
+                "Email",
+                style: context.theme.titleMedium,
+              ),
               TextField(
                   style: context.theme.titleSmall,
                   keyboardType: TextInputType.emailAddress,
@@ -83,9 +88,12 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 20,
               ),
-              Text("Password",
-                  style: context.theme.titleMedium,),
-              TextField( textInputAction: TextInputAction.next,
+              Text(
+                "Password",
+                style: context.theme.titleMedium,
+              ),
+              TextField(
+                  textInputAction: TextInputAction.next,
                   style: context.theme.titleSmall,
                   obscureText: !passwordVisible, //
                   decoration: InputDecoration(
@@ -115,8 +123,10 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 20,
               ),
-              Text("Confirm Password",
-                  style: context.theme.titleMedium,),
+              Text(
+                "Confirm Password",
+                style: context.theme.titleMedium,
+              ),
               TextField(
                   style: context.theme.titleSmall,
                   obscureText: !passwordVisible, //
@@ -155,16 +165,18 @@ class _SignUpState extends State<SignUp> {
                         ischecked = !ischecked;
                       });
                     },
-                    
-                    icon: Icon(ischecked
-                        ? Icons.check_box
-                        : Icons.check_box_outline_blank,color: const Color.fromARGB(255, 197, 196, 196)),
+                    icon: Icon(
+                        ischecked
+                            ? Icons.check_box
+                            : Icons.check_box_outline_blank,
+                        color: const Color.fromARGB(255, 197, 196, 196)),
                   ),
                   SizedBox(
                       width: 300,
                       child: Text(
                         "By creating an account you have to agree with our terms & conditions.",
-                        style: context.theme.titleSmall!.copyWith(color: const Color.fromARGB(255, 197, 196, 196)),
+                        style: context.theme.titleSmall!.copyWith(
+                            color: const Color.fromARGB(255, 197, 196, 196)),
                       ))
                 ],
               ),
@@ -185,10 +197,9 @@ class _SignUpState extends State<SignUp> {
                                 builder: (context) => const Succesfulscreen())),
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(120, 10, 120, 10),
-                          child: Text(
-                            "Signup",
-                            style: context.theme.titleMedium!.copyWith(color: Colors.white)
-                          ),
+                          child: Text("Signup",
+                              style: context.theme.titleMedium!
+                                  .copyWith(color: Colors.white)),
                         )),
                     const SizedBox(
                       height: 20,

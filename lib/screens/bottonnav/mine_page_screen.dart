@@ -11,16 +11,34 @@ class MinePage extends StatefulWidget {
   State<MinePage> createState() => _MinePageState();
 }
 
-List<String> images = [
-  "assets/images/product1.png",
-  "assets/images/product2.png",
-  "assets/images/product3.png",
-  "assets/images/product1.png",
-];
+// List<String> images = [
+//   "assets/images/product1.png",
+//   "assets/images/product2.png",
+//   "assets/images/product3.png",
+//   "assets/images/product1.png",
+// ];
+
 String? _isSelected;
 late final MinePageModel mine;
 
 class _MinePageState extends State<MinePage> {
+  Result<List<Product>>? result;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.microtask(() async{
+      try {
+        result = Result(isLoading: true);
+        setState(() {
+          
+        });
+      } catch (e) {
+        
+      }
+    })
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -110,45 +128,46 @@ class _MinePageState extends State<MinePage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 13, left: 12),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '50% Off',
-                                  style: context.theme.headlineSmall,
-                                ),
-                                Text(
-                                  'On everything today',
-                                  style: context.theme.titleMedium,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text('With code: rikafashion2021',
-                                    style: context.theme.bodySmall?.copyWith(
-                                        color: Color(0xff666666),
-                                        fontWeight: FontWeight.bold)),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  height: 25,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                                    child: Center(
-                                      child: Text(
-                                        'Get Now',
-                                        style: context.theme.labelSmall
-                                            ?.copyWith(color: Colors.white),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '50% Off',
+                                    style: context.theme.headlineSmall,
+                                  ),
+                                  Text(
+                                    'On everything today',
+                                    style: context.theme.titleMedium,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('With code: rikafashion2021',
+                                      style: context.theme.bodySmall?.copyWith(
+                                          color: Color(0xff666666),
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    height: 25,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                      child: Center(
+                                        child: Text(
+                                          'Get Now',
+                                          style: context.theme.labelSmall
+                                              ?.copyWith(color: Colors.white),
+                                        ),
                                       ),
                                     ),
-                                ),
-                            )]
-                            ),
+                                  )
+                                ]),
                           ),
                         ],
                       ),
@@ -507,3 +526,12 @@ class _ProductItemState extends State<ProductItem> {
     ]);
   }
 }
+
+class Result<T> {
+  bool isLoading;
+  Object? error;
+  T? data;
+ 
+  Result({this.isLoading = false, this.error, this.data});
+}
+ 
