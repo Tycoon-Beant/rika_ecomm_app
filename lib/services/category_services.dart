@@ -1,20 +1,28 @@
-import 'package:dio/dio.dart';
+import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
+
+import 'package:rika_ecomm_app/model/user_cart_model.dart';
+import 'package:rika_ecomm_app/services/dio_instance.dart';
 
 class CategoryServices {
-  final Dio _dio = Dio();
 
    CategoryServices() {
-    _dio.options = BaseOptions(
-      baseUrl: "https://fakestoreapi.com/",
-      connectTimeout: Duration(minutes: 1),
-      receiveTimeout: Duration(minutes: 1),
-      sendTimeout: Duration(minutes: 1),
-    );
   }
 
-  Future<List<String>> getCategories() async {
-    final response = await _dio.get("products/categories");
-    final List<dynamic> categories = response.data;
-    return categories.map((e) => e.toString()).toList();
+  Future<CategoriModel> getCategories() async {
+    final response = await DioSingleton().dio.get("ecommerce/categories");
+    final body = response.data;
+    final categori = CategoriModel.fromJson(body);
+    return categori;
   }
+
+  Future<List<Product>> getProduct() async {
+    final response = await DioSingleton().dio.get("ecommerce/products");
+    final  body = response.data;
+    final List<dynamic> jsonResponse = body["data"]["products"]; //response["data"]
+    return jsonResponse.map((e) =>Product.fromJson(e) ).toList();//body["data"]
+
+  }
+
+
+
 }

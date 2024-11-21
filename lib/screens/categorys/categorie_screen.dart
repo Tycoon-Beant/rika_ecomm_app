@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/models/category_model.dart';
-import 'package:rika_ecomm_app/screens/categorys/providers/category_notifier.dart';
-import 'package:rika_ecomm_app/services/category_services.dart';
+import 'package:rika_ecomm_app/cubits/categotry_cubit/category_list_cubit.dart';
+import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
+import 'package:rika_ecomm_app/model/result.dart';
 
 class Categories extends StatelessWidget {
   const Categories({super.key});
@@ -13,7 +13,11 @@ class Categories extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: Image.asset("assets/images/arrow.png"),
+          leading: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+                child: Image.asset("assets/images/arrowback.png")),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
@@ -38,68 +42,57 @@ class Categories extends StatelessWidget {
                 height: 20,
               ),
               Expanded(
-                child: Consumer<CategoryNotifier>(
-                  builder: (context, notifier, child) {
-                    if (notifier.isLoading) {
+                child: BlocBuilder<CategoryListCubit , Result<CategoriModel>>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
                       return Center(
                         child: CircularProgressIndicator(),
                       );
-                    } else if (notifier.error != null) {
+                    } else if (state.error != null) {
                       return Center(
-                        child: Text("Error: ${notifier.error}"),
+                        child: Text("Error: ${state.error}"),
                       );
                     } else {
-                      final categoryList = notifier.categoryList;
+                      final categories = state.data?.data?.categories;
+                      if (categories == null || categories.isEmpty) {
+                        return const Center(child: Text("No categories available."));
+                      }
                       return ListView.builder(
-                        itemCount: categoryList.length,
+                        itemCount: categories.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            children: [
-                              Container(
-                                height: 70,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(80),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Image.asset(
-                                          categoryContents[index].image),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      SizedBox(
-                                        width: 150,
-                                        child: Text(
-                                          categoryList[index],
+                           final category = categories[index];
+                          return GestureDetector(
+                           
+                            onTap: () {  }   ,                    
+
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(80),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          category.name ?? 'Unnamed Category',
                                           style: context.theme.titleLarge!.copyWith(
                                             fontFamily: FontFamily.w700,
-                                            color: Colors.white
+                                            color: Colors.white,
                                           ),
                                         ),
-                                      ),
-                                      // SizedBox(
-                                      //   width: 100,
-                                      //   child: Text(
-                                      //     categoryContents[index].products,
-                                      //     style: TextStyle(
-                                      //       color: Colors.white,
-                                      //       fontFamily: 'Mont Blanc Regular',
-                                      //     ),
-                                      //   ),
-                                      // )
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              )
-                            ],
+                                SizedBox(height: 20),
+                              ],
+                            ),
                           );
                         },
                       );

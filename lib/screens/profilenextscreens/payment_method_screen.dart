@@ -21,7 +21,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           padding: const EdgeInsets.only(left: 12, top: 12),
           child: GestureDetector(
             onTap: (){
-              Navigator.of(context).pop(PaymentMethodScreen());
+              Navigator.of(context).pop();
             },
             child: Image.asset('assets/images/arrow.png')),
         ),
@@ -199,7 +199,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      AddCard()));
+                                      PaymentConfirmScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.all(8),

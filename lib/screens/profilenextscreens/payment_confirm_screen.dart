@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/profileScreen.dart';
 
-class AddCard extends StatefulWidget {
-  const AddCard({super.key});
+
+class PaymentConfirmScreen extends StatefulWidget {
+  const PaymentConfirmScreen({super.key});
 
   @override
-  State<AddCard> createState() => _AddCardState();
+  State<PaymentConfirmScreen> createState() => _PaymentConfirmScreenState();
 }
 
-class _AddCardState extends State<AddCard> {
+class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class _AddCardState extends State<AddCard> {
           padding: const EdgeInsets.only(left: 10, top: 10),
           child: GestureDetector(
             onTap: (){
-              Navigator.of(context).pop(Profilescreen());
+              Navigator.of(context).pop();
             },
             child: Image.asset('assets/images/arrow.png')),
         ),
@@ -44,7 +44,7 @@ class _AddCardState extends State<AddCard> {
               SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                 width: 400,
                 child: Image.asset('assets/images/card.png'),
               ),

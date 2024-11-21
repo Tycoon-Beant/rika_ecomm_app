@@ -16,7 +16,9 @@ class _MyorderState extends State<Myorder> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: Image.asset("assets/images/arrowback.png"),
+          leading: InkWell(
+            onTap: () => Navigator.of(context).pop(),
+            child: Image.asset("assets/images/arrowback.png")),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),

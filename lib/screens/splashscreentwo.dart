@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/cubits/login_cubit/login_cubit.dart';
+import 'package:rika_ecomm_app/cubits/signup_cubit/signup_cubit.dart';
 import 'package:rika_ecomm_app/screens/login.dart';
 import 'package:rika_ecomm_app/screens/signup.dart';
+import 'package:rika_ecomm_app/services/login_services.dart';
 
 class SplashScreenTwo extends StatefulWidget {
   const SplashScreenTwo({super.key});
@@ -32,16 +36,22 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Login())),
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => LoginCubit(context.read<LoginServices>()),
+                            child: const Login(),
+                          ),
+                        ),
+                      ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(99, 10, 95, 10),
-                    child: Text(
-                      "Login",
-                      style: context.theme.bodyLarge
-                    ),
+                    child: Text("Login", style: context.theme.bodyLarge),
                   )),
-                  const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
@@ -50,16 +60,20 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                       width: 2.0, // Border width
                     ),
                   ),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SignUp())),
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => SignupCubit(),
+                            child: const SignUp(),
+                          ),
+                        ),
+                      ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(90, 10, 90, 10),
-                    child: Text(
-                      "SignUp",
-                      style:  context.theme.bodyLarge!.copyWith(
-                        color: Colors.white
-                      )
-                    ),
+                    child: Text("SignUp",
+                        style: context.theme.bodyLarge!
+                            .copyWith(color: Colors.white)),
                   )),
             ],
           ),

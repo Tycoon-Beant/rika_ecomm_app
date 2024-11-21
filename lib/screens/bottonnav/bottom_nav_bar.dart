@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/screens/bottonnav/cart_screen.dart';
 import 'package:rika_ecomm_app/screens/bottonnav/mine_page_screen.dart';
 import 'package:rika_ecomm_app/screens/bottonnav/profileScreen.dart';
 import 'package:rika_ecomm_app/screens/bottonnav/notificationScreen.dart';
-
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
 
@@ -25,6 +23,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> _buildScreens() {
     return [
       MinePage(),
+      // ClothCategory(),
       CartScreen(),
       Notificationscreen(),
       Profilescreen()

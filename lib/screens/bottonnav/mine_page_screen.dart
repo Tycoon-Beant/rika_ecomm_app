@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/models/mine_page_model.dart';
+import 'package:rika_ecomm_app/model/mine_page_model.dart';
+import 'package:rika_ecomm_app/screens/bottonnav/cart_screen.dart';
 import 'package:rika_ecomm_app/screens/categorys/categorie_screen.dart';
 import 'package:rika_ecomm_app/screens/categorys/cloth_category.dart';
-import 'package:rika_ecomm_app/screens/filter/filterscreen.dart';
-import 'package:rika_ecomm_app/screens/productdetails/rollerrabbitdetails.dart';
 
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
@@ -92,7 +91,7 @@ class _MinePageState extends State<MinePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FilterScreen()));
+                              builder: (context) => CartScreen()));
                     },
                   ),
                 ],
@@ -472,8 +471,8 @@ class _ProductItemState extends State<ProductItem> {
     return Stack(children: [
       GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => Rollerrabbitdetails()));
+          // Navigator.of(context).push();
+              // MaterialPageRoute(builder: (context) => Rollerrabbitdetails(products: [], index: 0,)));
         },
         child: Card(
           color: Colors.white,

@@ -15,7 +15,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
         surfaceTintColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 15),
-          child: Image.asset('assets/images/arrow.png'),
+          child: InkWell(
+            onTap: () => Navigator.of(context).pop(),
+            child: Image.asset("assets/images/arrowback.png")),
         ),
         actions: [
           Padding(
@@ -35,7 +37,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
               Container(
                 child: Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 290,
                       child: TextField(
                         decoration: InputDecoration(

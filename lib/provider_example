@@ -1,0 +1,110 @@
+// import 'package:flutter/material.dart';
+// import 'package:rika_ecomm_app/model/result.dart';
+// import 'package:rika_ecomm_app/model/user_cart_model.dart';
+// import 'package:rika_ecomm_app/services/cart_services.dart';
+// import 'package:rika_ecomm_app/services/coupons_services.dart';
+
+// class UserCartNotifier extends ChangeNotifier {
+//   Result<UserCart> cartState = Result();
+//   Result<String> addToCartState = Result();
+//   Result<String> updateQuantityState = Result();
+//   Result<String> deleteCartItemState = Result();
+//   Result<UserCart> clearCartState = Result();
+//   Result<String> addCouponState = Result();
+
+//   UserCartNotifier() {
+//     getCart();
+//   }
+
+//   void updateCart(UserCart cart) {
+//     cartState = Result(data: cart);
+//     notifyListeners();
+//   }
+
+//   Future<void> getCart() async {
+//     try {
+//       cartState = Result(isLoading: true);
+//       notifyListeners();
+//       final cartDetail = await CartServices().getUserCart();
+//       cartState = Result(data: cartDetail);
+//       notifyListeners();
+//     } catch (e) {
+//       cartState = Result(error: e.toString());
+//       notifyListeners();
+//     }
+//   }
+
+//   Future<void> postCartItem(
+//       {required String productId, required int quantity}) async {
+//     try {
+//       addToCartState = Result(isLoading: true);
+//       notifyListeners();
+//       final cart = await CartServices()
+//           .postUserCart(productId: productId, quantity: quantity);
+//       addToCartState = Result(data: "Added to cart");
+//       cartState = Result(data: cart);
+//       notifyListeners();
+//     } catch (e) {
+//       addToCartState = Result(error: e.toString());
+//       notifyListeners();
+//     }
+//   }
+
+//   Future<void> deltCartItem({required String productId}) async {
+//     try {
+//       deleteCartItemState = Result(isLoading: true);
+//       notifyListeners();
+//       final cart = await CartServices().delUserCart(productId: productId);
+//       deleteCartItemState = Result(data: "Deleted from cart");
+//       cartState = Result(data: cart);
+//       notifyListeners();
+//     } catch (e) {
+//       deleteCartItemState = Result(error: e.toString());
+//       notifyListeners();
+//     }
+//   }
+
+//   Future<void> updateQuantity(
+//       {required String productId, required int quantity}) async {
+//     try {
+//       updateQuantityState = Result(isLoading: true);
+//       notifyListeners();
+//       final cart = await CartServices()
+//           .postUserCart(productId: productId, quantity: quantity);
+//       updateQuantityState = Result(data: "Added to cart");
+//       cartState = Result(data: cart);
+//       notifyListeners();
+//     } catch (e) {
+//       updateQuantityState = Result(error: e.toString());
+//       notifyListeners();
+//     }
+//   }
+
+//   Future<void> clearCartTotally() async {
+//     try {
+//       clearCartState = Result(isLoading: true);
+//       notifyListeners();
+//       final cartDetail = await CartServices().clearCart();
+//       cartState = Result(data: cartDetail);
+//       clearCartState =Result(isLoading: false);
+
+//       notifyListeners();
+//     } catch (e) {
+//       clearCartState = Result(error: e.toString());
+//       notifyListeners();
+//     }
+//   }
+
+//   Future<void> postCoupon({required String couponId}) async {
+//     try {
+//       addCouponState = Result(isLoading: true);
+//       notifyListeners();
+//       final couponResponse = await CouponsServices().postCustomerCoupon(couponId: couponId);
+//       addCouponState = Result(data: "Coupon added to cart");
+//       cartState =Result(data: couponResponse);
+//     } catch (e) {
+//       addCouponState = Result(error: e.toString());
+//     }
+//     notifyListeners();
+//   }
+// }

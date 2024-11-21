@@ -1,10 +1,10 @@
-// import 'dart:convert';
-// import 'dart:io';
-// import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/screens/profilenextscreens/language.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:rika_ecomm_app/cubits/my_profile_cubit/my_profile_list_cubit.dart';
+import 'package:rika_ecomm_app/model/my_profile_model.dart';
+import 'package:rika_ecomm_app/model/result.dart';
+
 
 class ProfileDetails extends StatefulWidget {
   const ProfileDetails({super.key});
@@ -15,14 +15,17 @@ class ProfileDetails extends StatefulWidget {
 
 class _ProfileDetailsState extends State<ProfileDetails>
     with TickerProviderStateMixin {
-  bool _male = false;
-  bool _female = false;
-  bool notificationOn = true;
-  bool isDarkmode = true;
+
 
   @override
   Widget build(BuildContext context) {
+    final profileState = context.watch<MyProfileListCubit>();
     return Scaffold(
+      appBar: AppBar(
+          leading: InkWell(
+            onTap: () => Navigator.of(context).pop(),
+            child: Image.asset("assets/images/arrowback.png")),
+        ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -117,322 +120,154 @@ class _ProfileDetailsState extends State<ProfileDetails>
               ),
             ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Text(
-                  "Name ",
-                  style:
-                      context.theme.titleMedium!.copyWith(color: Colors.grey),
-                ),
-                const SizedBox(width: 40),
-                SizedBox(
-                  width: 240,
-                  child: TextField(
-                      decoration: InputDecoration(
-                    hintText: "Enter your name",
-                    hintStyle: TextStyle(
-                      color: const Color.fromARGB(255, 191, 189, 189),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  )),
-                )
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Text(
-                  "Gender ",
-                  style:
-                      context.theme.titleMedium!.copyWith(color: Colors.grey),
-                ),
-                const SizedBox(width: 40),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _male = !_male;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: _male ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            _male
-                                ? Icons.radio_button_checked
-                                : Icons.circle_outlined,
-                            color: _male ? Colors.white : Colors.black,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            "Male",
-                            style: context.theme.titleMedium!
-                                .copyWith(color: _male ? Colors.white : Colors.black,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _female = !_female;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: _female ? Colors.black : Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            _female
-                                ? Icons.radio_button_checked
-                                : Icons.circle_outlined,
-                            color: _female ? Colors.white : Colors.black,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            "Female",
-                            style: context.theme.titleMedium!
-                                .copyWith(color: _male ? Colors.white : Colors.black,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text(
-                  "Age ",
-                  style: context.theme.titleMedium!.copyWith(color: Colors.grey),
-                ),
-                const SizedBox(width: 56),
-                SizedBox(
-                  width: 240,
-                  child: TextField(
-                      decoration: InputDecoration(
-                    hintText: "Enter your age",
-                    hintStyle: TextStyle(
-                      color: const Color.fromARGB(255, 191, 189, 189),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  )),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Text(
-                  "Email ",
-                  style: context.theme.titleMedium!.copyWith(color: Colors.grey),
-                ),
-                const SizedBox(width: 46),
-                SizedBox(
-                  width: 240,
-                  child: TextField(
-                      decoration: InputDecoration(
-                    hintText: "Enter your age",
-                    hintStyle: TextStyle(
-                      color: const Color.fromARGB(255, 191, 189, 189),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  )),
-                )
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Settings',
-              style: context.theme.titleLarge!.copyWith(fontFamily: FontFamily.w700),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              height: 264,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Color.fromARGB(255, 173, 170, 170),
-                      style: BorderStyle.solid),
-                  borderRadius: BorderRadius.circular(20)),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
+            BlocBuilder<MyProfileListCubit, Result<MyProfile>>(
+              builder: (context, state) {
+               return state.when(onData: (profile) {
+                return Column(
                   children: [
                     Row(
                       children: [
-                        Image.asset("assets/images/3x/language.png"),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                            width: 100,
-                            child: Text(
-                              "Language",
-                              style: context.theme.titleMedium,
-                            )),
-                        const SizedBox(width: 48),
-                        Text("English",
-                            style: context.theme.titleMedium!.copyWith(color: const Color.fromARGB(255, 182, 181, 181)),),
-                        const SizedBox(width: 20),
-                        SizedBox(
-                          width: 20,
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => LanguageScreen()));
-                              },
-                              icon: Icon(Icons.arrow_forward_ios)),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Image.asset("assets/images/3x/notificationset.png"),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                            width: 200,
-                            child: Text(
-                              "Notification",
-                              style: context.theme.titleMedium,
-                            )),
-                        const SizedBox(width: 20),
-                        SizedBox(
-                          
-                          width: 20,
-                          child: Switch(
-                            value: notificationOn,
-                            activeColor: Colors.black,
-                            onChanged: (bool value) {
-                              setState(() {
-                                notificationOn = value;
-                              });
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Image.asset("assets/images/3x/darkmode.png"),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                            width: 150,
-                            child: Text(
-                              "Dark mode",
-                              style: context.theme.titleMedium,
-                            )),
-                        SizedBox(
-                          width: 30,
-                          child: Text(
-                            isDarkmode ? "on" : "off",
-                            textAlign: TextAlign.right,
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
-                          ),
+                        Text(
+                          "First Name ",
+                          style: context.theme.titleMedium!
+                              .copyWith(color: Colors.grey),
                         ),
                         const SizedBox(width: 40),
-                        SizedBox(
-                          width: 20,
-                          child: Switch(
-                            value: isDarkmode,
-                            activeColor: Colors.black,
-                            onChanged: (bool value) {
-                              setState(() {
-                                isDarkmode = value;
-                              });
-                            },
+                        Expanded(
+                          child: SizedBox(
+                            child: TextFormField(
+                                initialValue:
+                                    profile?.firstName,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter first name',
+                                  hintStyle: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 191, 189, 189),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                )),
                           ),
                         )
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
-                        Image.asset("assets/images/3x/helpcenter.png"),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                            width: 200,
-                            child: Text(
-                              "Help Center",
-                              style: context.theme.titleMedium,
+                        Text(
+                          "First Name ",
+                          style: context.theme.titleMedium!
+                              .copyWith(color: Colors.grey),
+                        ),
+                        const SizedBox(width: 40),
+                        Expanded(
+                          child: SizedBox(
+                            child: TextFormField(
+                              initialValue: profileState.state.data?.lastName,
+                                decoration: InputDecoration(
+                              hintText: "Enter last name",
+                              hintStyle: TextStyle(
+                                color: const Color.fromARGB(255, 191, 189, 189),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
                             )),
-                        const SizedBox(width: 20),
-                        SizedBox(
-                          width: 20,
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.arrow_forward_ios)),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text(
+                          "Country Code",
+                          style: context.theme.titleMedium!
+                              .copyWith(color: Colors.grey),
+                        ),
+                        const SizedBox(width: 56),
+                        Expanded(
+                          child: SizedBox(
+                            child: TextFormField(
+                              initialValue: profileState.state.data?.countryCode,
+                                decoration: InputDecoration(
+                              hintText: "Enter country code",
+                              hintStyle: TextStyle(
+                                color: const Color.fromARGB(255, 191, 189, 189),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                            )),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text(
+                          "Phone number ",
+                          style: context.theme.titleMedium!
+                              .copyWith(color: Colors.grey),
+                        ),
+                        const SizedBox(width: 46),
+                        Expanded(
+                          child: SizedBox(
+                            child: TextFormField(
+                                decoration: InputDecoration(
+                              hintText: "Enter phone",
+                              hintStyle: TextStyle(
+                                color: const Color.fromARGB(255, 191, 189, 189),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                            )),
+                          ),
                         )
                       ],
                     ),
                   ],
-                ),
-              ),
+                );
+             
+               }, onLoading: () {
+                return Center(child: CircularProgressIndicator(),);
+               }, onError: (e) {
+                return Center(child: Text(e.toString()),);
+               });
+
+                 },
             ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Logout',
-                      style: context.theme.titleMedium!.copyWith(color: Colors.white)
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
+            const SizedBox(height: 20),
+            
+            
+            
           ]),
         ),
       ),

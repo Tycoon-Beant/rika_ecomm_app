@@ -191,7 +191,7 @@ class _FilterScreenState extends State<FilterScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Container(height: 150,
+                child: SizedBox(height: 150,
                   child: ListView.builder(
                     itemCount: stars.length,
                     itemBuilder: (BuildContext context, int index) {
