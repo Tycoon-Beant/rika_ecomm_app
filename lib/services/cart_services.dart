@@ -3,26 +3,19 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:rika_ecomm_app/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/services/dio_exceptions.dart';
+import 'package:rika_ecomm_app/services/dio_instance.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
 
 class CartServices {
 
   final LocalStorageService _localStorageService;
-  Dio _dio = Dio();
 
-  CartServices(this._localStorageService) {
-    _dio.options = BaseOptions(
-      baseUrl: "http://192.168.29.143:8080/api/v1/ecommerce/",
-      connectTimeout: Duration(minutes: 1),
-      receiveTimeout: Duration(minutes: 1),
-      sendTimeout: Duration(minutes: 1),
-    );
-  }
+  CartServices(this._localStorageService) {}
 
 //GET -->CART DETAILS --> LIST<ITEM> items
   Future<UserCart> getUserCart() async {
-    final response = await _dio.get(
-      "/cart",
+    final response = await DioSingleton().dio.get(
+      "ecommerce/cart",
       options:
           Options(headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
     );
@@ -35,7 +28,7 @@ class CartServices {
   Future<UserCart> postUserCart(
       {required String productId, required int quantity}) async {
     try {
-      final response = await _dio.post('cart/item/$productId',
+      final response = await DioSingleton().dio.post('ecommerce/cart/item/$productId',
           options:
           Options(headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
           data: {"quantity": quantity});
@@ -50,8 +43,8 @@ class CartServices {
 //dELETE --> ITEM FROM CART
   Future<UserCart> delUserCart({required dynamic productId}) async {
     try {
-      final response = await _dio.delete(
-        'cart/item/$productId',
+      final response = await DioSingleton().dio.delete(
+        'ecommerce/cart/item/$productId',
         options:
           Options(headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
       );
@@ -65,8 +58,8 @@ class CartServices {
 
   Future<UserCart> clearCart() async {
     try {
-      final response = await _dio.delete(
-        'cart/clear',
+      final response = await DioSingleton().dio.delete(
+        'ecommerce/cart/clear',
         options:
           Options(headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
       );

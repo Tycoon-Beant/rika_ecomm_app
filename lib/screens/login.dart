@@ -118,7 +118,7 @@ final passKey = GlobalKey<FormFieldState>();
                                   .read<LoginCubit>()
                                   .updateForm("password", value),
                               obscureText: !passwordVisible,
-                              textInputAction: TextInputAction.next,
+                              textInputAction: TextInputAction.done,
                               decoration: InputDecoration(
                                 hintText: "Enter password",
                                 hintStyle: Theme.of(context)

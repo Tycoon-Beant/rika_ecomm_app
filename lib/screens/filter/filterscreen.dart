@@ -7,7 +7,8 @@ class FilterScreen extends StatefulWidget {
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
-List stars =[
+
+List stars = [
   "assets/images/5star.png",
   "assets/images/4star.png",
   "assets/images/3star.png",
@@ -15,6 +16,7 @@ List stars =[
   "assets/images/1star.png",
 ];
 String? selectedRating;
+
 class _FilterScreenState extends State<FilterScreen> {
   List categoriesChip = [
     "Dresses",
@@ -30,10 +32,9 @@ class _FilterScreenState extends State<FilterScreen> {
     "Coats",
     "Lingeries",
   ];
-   String? selectedCategory;
+  String? selectedCategory;
   double _currentSliderValue = 20;
-  String? sortby ;
-  
+  String? sortby;
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +69,9 @@ class _FilterScreenState extends State<FilterScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: Text(
-                  "Categories",
-                  textAlign: TextAlign.left,
-                  style: context.theme.headlineSmall
-                ),
+                child: Text("Categories",
+                    textAlign: TextAlign.left,
+                    style: context.theme.headlineSmall),
               ),
               SizedBox(
                   height: 155,
@@ -80,27 +79,29 @@ class _FilterScreenState extends State<FilterScreen> {
                     spacing: 4.0,
                     children: categoriesChip.map((category) {
                       return RawChip(
-                        onPressed: (){
-                          setState(() {
-                            selectedCategory = category;
-                          });
-                        },
-                          label: Text(
-                            category,
-                            style:context.theme.bodyLarge!.copyWith(color: selectedCategory == category ?Colors.white:Colors.black)
-                          ),
-                          backgroundColor: selectedCategory == category?Colors.black: Colors.white,
+                          onPressed: () {
+                            setState(() {
+                              selectedCategory = category;
+                            });
+                          },
+                          label: Text(category,
+                              style: context.theme.bodyLarge!.copyWith(
+                                  color: selectedCategory == category
+                                      ? Colors.white
+                                      : Colors.black)),
+                          backgroundColor: selectedCategory == category
+                              ? Colors.black
+                              : Colors.white,
                           shape: const StadiumBorder(
                               side: BorderSide(color: Color(0xffCCCCCC))));
                     }).toList(),
                   )),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "Price Range",
-                  textAlign: TextAlign.left,
-                  style: context.theme.titleLarge?.copyWith(fontFamily: FontFamily.w700)
-                ),
+                child: Text("Price Range",
+                    textAlign: TextAlign.left,
+                    style: context.theme.titleLarge
+                        ?.copyWith(fontFamily: FontFamily.w700)),
               ),
               const SizedBox(height: 10),
               Slider(
@@ -118,15 +119,13 @@ class _FilterScreenState extends State<FilterScreen> {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  "Sort By",
-                  textAlign: TextAlign.left,
-                  style: context.theme.titleLarge?.copyWith(fontFamily: FontFamily.w700)
-                ),
+                child: Text("Sort By",
+                    textAlign: TextAlign.left,
+                    style: context.theme.titleLarge
+                        ?.copyWith(fontFamily: FontFamily.w700)),
               ),
               Wrap(
                 spacing: 4.0,
-                
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -135,13 +134,12 @@ class _FilterScreenState extends State<FilterScreen> {
                       });
                     },
                     child: Chip(
-                      label: Text(
-                        "New Today",
-                        style: context.theme.bodyMedium!.copyWith(
-                          color: sortby == "New Today"? Colors.white:null
-                        )
-                      ),
-                      backgroundColor: sortby == "New Today"? Colors.black : Colors.white,
+                      label: Text("New Today",
+                          style: context.theme.bodyMedium!.copyWith(
+                              color:
+                                  sortby == "New Today" ? Colors.white : null)),
+                      backgroundColor:
+                          sortby == "New Today" ? Colors.black : Colors.white,
                       shape: const StadiumBorder(
                           side: BorderSide(color: Color(0xffCCCCCC))),
                     ),
@@ -155,10 +153,14 @@ class _FilterScreenState extends State<FilterScreen> {
                     child: Chip(
                       label: Text(
                         "New This Week",
-                        style:context.theme.bodyMedium!.copyWith( color: sortby == "New This Week" ? Colors.white : null),
-                           
+                        style: context.theme.bodyMedium!.copyWith(
+                            color: sortby == "New This Week"
+                                ? Colors.white
+                                : null),
                       ),
-                      backgroundColor: sortby == "New This Week" ? Colors.black : Colors.white,
+                      backgroundColor: sortby == "New This Week"
+                          ? Colors.black
+                          : Colors.white,
                       shape: const StadiumBorder(
                           side: BorderSide(color: Color(0xffCCCCCC))),
                     ),
@@ -166,15 +168,18 @@ class _FilterScreenState extends State<FilterScreen> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                      sortby = "Top Seller";
+                        sortby = "Top Seller";
                       });
                     },
                     child: Chip(
                       label: Text(
                         "Top Seller",
-                        style: context.theme.bodyMedium!.copyWith( color: sortby == "Top Seller" ? Colors.white : null),
+                        style: context.theme.bodyMedium!.copyWith(
+                            color:
+                                sortby == "Top Seller" ? Colors.white : null),
                       ),
-                      backgroundColor: sortby == "Top Seller" ? Colors.black : Colors.white,
+                      backgroundColor:
+                          sortby == "Top Seller" ? Colors.black : Colors.white,
                       shape: const StadiumBorder(
                           side: BorderSide(color: Color(0xffCCCCCC))),
                     ),
@@ -183,72 +188,71 @@ class _FilterScreenState extends State<FilterScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Text(
-                  "Rating",
-                  textAlign: TextAlign.left,
-                  style: context.theme.titleLarge?.copyWith(fontFamily: FontFamily.w700)
-                ),
+                child: Text("Rating",
+                    textAlign: TextAlign.left,
+                    style: context.theme.titleLarge
+                        ?.copyWith(fontFamily: FontFamily.w700)),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: SizedBox(height: 150,
-                  child: ListView.builder(
-                    itemCount: stars.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final star = stars[index];
-                      final isRated = selectedRating == star;
-                      return Column(
-                               children: [
-                               Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            stars[index],
-                            scale: 0.8,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              if (selectedRating == star) {
-                                        setState(() {
-                                          selectedRating = null;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          selectedRating = star;
-                                        });
-                                      }
-                             
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: isRated ? Colors.black : Colors.grey),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: isRated
-                                    ? const Icon(
-                                        Icons.check,
-                                        size: 15.0,
-                                        color: Colors.white,
-                                      )
-                                    : const Icon(
-                                        Icons.check_box_outline_blank,
-                                        size: 15.0,
-                                        color: Colors.grey,
-                                      ),
-                              ),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: SizedBox(
+                    height: 150,
+                    child: ListView.builder(
+                      itemCount: stars.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final star = stars[index];
+                        final isRated = selectedRating == star;
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Image.asset(
+                                  stars[index],
+                                  scale: 0.8,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    if (selectedRating == star) {
+                                      setState(() {
+                                        selectedRating = null;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        selectedRating = star;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: isRated
+                                            ? Colors.black
+                                            : Colors.grey),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: isRated
+                                          ? const Icon(
+                                              Icons.check,
+                                              size: 15.0,
+                                              color: Colors.white,
+                                            )
+                                          : const Icon(
+                                              Icons.check_box_outline_blank,
+                                              size: 15.0,
+                                              color: Colors.grey,
+                                            ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                        ],
-                      );
+                            const SizedBox(height: 10),
+                          ],
+                        );
                       },
-                  
-                  ),
-                )
-              ),
+                    ),
+                  )),
               const SizedBox(height: 100),
               Center(
                 child: ElevatedButton(
@@ -259,36 +263,13 @@ class _FilterScreenState extends State<FilterScreen> {
                     //     context,
                     // MaterialPageRoute(
                     //     builder: (context) => const Succesfulscreen())),
-                    onPressed: () {     
+                    onPressed: () {
                       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-           backgroundColor: Colors.white,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset("assets/images/catsuc.png"),
-                Text("Successfull" ,
-                style: TextStyle(
-                  fontSize: 30,fontFamily: FontFamily.w700
-                ),),
-                Text("You have successfully your shopping cart list!" ,textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,color: Colors.grey
-                ),),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  onPressed: (){}, 
-                  child: Text("Checkout" ,style: TextStyle(color: Colors.white,fontSize: 18,fontFamily: FontFamily.w700),))
-            ],
-            )
-          );
-        },
-            );
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SuccesfullAlert();
+                        },
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
@@ -310,3 +291,42 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 }
 
+class SuccesfullAlert extends StatelessWidget {
+  const SuccesfullAlert({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        backgroundColor: Colors.white,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset("assets/images/catsuc.png"),
+            Text(
+              "Successfull",
+              style: TextStyle(fontSize: 30, fontFamily: FontFamily.w700),
+            ),
+            Text(
+              "You have successfully your shopping cart list!",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, color: Colors.grey),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                ),
+                onPressed: () {},
+                child: Text(
+                  "Checkout",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontFamily: FontFamily.w700),
+                ))
+          ],
+        ));
+  }
+}

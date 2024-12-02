@@ -103,7 +103,7 @@ class _PaymentConfirmScreenState extends State<PaymentConfirmScreen> {
                 ),
               ),
               SizedBox(
-                height: 80,
+                height: 40,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

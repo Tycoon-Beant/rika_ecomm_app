@@ -6,17 +6,17 @@ import 'package:rika_ecomm_app/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/services/dio_exceptions.dart';
 import 'package:rika_ecomm_app/services/dio_instance.dart';
 
-class CouponsServices {
-  final String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzNkY2RiOWIyOWJmNWFiMDY1ZWRlNTAiLCJlbWFpbCI6ImJlYW50LmthdXJAeWFob28uY29tIiwidXNlcm5hbWUiOiJiZWFudF9rYXVyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzMyMTAzNjMxLCJleHAiOjE3MzIxOTAwMzF9.jmzAw-uOGki19Ocmh6kYizst-kCLsmzJoIMVuhpM5v4";
+import 'local_storage_service.dart';
 
-  CouponsServices();
+class CouponsServices {
+  final LocalStorageService _localStorageService;
+  CouponsServices(this._localStorageService);
 
   Future<List<Coupon>> getCustomerCoupons() async {
     final response = await DioSingleton().dio.get(
           'ecommerce/coupons/customer/available',
           options: Options(
-              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+              headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
         );
     final body = response.data;
     final List<dynamic> jsonResponse = body['data']['coupons'];
@@ -29,7 +29,7 @@ class CouponsServices {
             'ecommerce/coupons/c/apply',
             data: {"couponCode": couponcode},
             options: Options(
-                headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+                headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
           );
       final body = response.data;
       return UserCart.fromJson(body["data"]);
@@ -44,7 +44,7 @@ class CouponsServices {
       final response = await DioSingleton().dio.post('ecommerce/coupons/c/remove',
       data: {"couponCode" : couponcode},
       options: Options(
-        headers: {HttpHeaders.authorizationHeader : "Bearer $token"}
+        headers: {HttpHeaders.authorizationHeader : "Bearer ${await _localStorageService.getToken()}"}
       ),
       );
       final body = response.data;

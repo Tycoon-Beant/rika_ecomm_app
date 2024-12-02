@@ -6,14 +6,15 @@ import '../../../model/result.dart';
 
 
 class MyProfileListCubit extends Cubit<Result<MyProfile>> {
-  MyProfileListCubit() : super(Result(isLoading: true)){
+  final MyProfileServices _myprofileServices;
+  MyProfileListCubit(this._myprofileServices) : super(Result(isLoading: true)){
     getProfile();
   }
 
   Future<void> getProfile () async{
     try {
       emit(Result(isLoading: true));
-      final profileDetail = await MyProfileServices().getMyProfile();
+      final profileDetail = await _myprofileServices.getMyProfile();
       emit(Result(data: profileDetail));
     } catch (e) {
       emit(Result(error: e));

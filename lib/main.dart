@@ -1,51 +1,54 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rika_ecomm_app/cubits/address_cubit/address_cubit.dart';
+import 'package:rika_ecomm_app/cubits/address_cubit/address_list_cubit.dart';
 import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/cubits/categotry_cubit/category_list_cubit.dart';
 import 'package:rika_ecomm_app/cubits/my_profile_cubit/my_profile_list_cubit.dart';
+import 'package:rika_ecomm_app/cubits/order_address_cubit/order_address_cubit.dart';
 import 'package:rika_ecomm_app/cubits/product_cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/cubits/coupon_cubit/apply_coupon_cubit.dart';
 import 'package:rika_ecomm_app/screens/splash_screen.dart';
+import 'package:rika_ecomm_app/services/address_services.dart';
 import 'package:rika_ecomm_app/services/cart_services.dart';
+import 'package:rika_ecomm_app/services/coupons_services.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
 import 'package:rika_ecomm_app/services/login_services.dart';
+import 'package:rika_ecomm_app/services/my_profile_services.dart';
+import 'package:rika_ecomm_app/services/order_address_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  // final prefs = await SharedPreferences.getInstance();
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
 
   runApp(
-    MultiProvider(
+    MultiRepositoryProvider(
       providers: [
-        Provider(create: (context) => LocalStorage()),
-        // ChangeNotifierProvider(
-        //   lazy: true,
-        //   create: (context) => CategoryNotifier(),
-        // ),
-        // ChangeNotifierProvider(
-        //   lazy: true,
-        //   create: (context) => ProductNotifier(),
-        // )
+        RepositoryProvider(create: (context) => LocalStorageService(prefs)),
+        RepositoryProvider(create: (context) => CartServices(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => LoginServices(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => MyProfileServices(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => CouponsServices(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => AddressServices(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => OrderAddressServices(context.read<LocalStorageService>()))
       ],
-      child: MultiRepositoryProvider(
+      child: MultiBlocProvider(
         providers: [
-          RepositoryProvider(create: (context) => LocalStorageService()),
-          RepositoryProvider(create: (context) => CartServices(context.read<LocalStorageService>())),
-          RepositoryProvider(create: (context) => LoginServices(context.read<LocalStorageService>()))
+          BlocProvider(create: (context) => ApplyCouponCubit(context.read<CouponsServices>())),
+          BlocProvider(create: (context) => CartCubit(context.read<CartServices>())),
+          BlocProvider(create: (context) => CartListCubit(context.read<CartServices>())),
+          BlocProvider(create: (context) => CategoryListCubit()),
+          BlocProvider(create: (context) => ProductCubit()),
+          BlocProvider(create: (context) => MyProfileListCubit(context.read<MyProfileServices>())),
+          BlocProvider(create: (context) => AddressListCubit(context.read<AddressServices>())),
+          BlocProvider(create: (context) => AddressCubit(context.read<AddressServices>(),context.read<LocalStorageService>())),
+          BlocProvider(create: (context) => OrderAddressCubit(context.read<OrderAddressServices>()))
         ],
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) => ApplyCouponCubit()),
-            BlocProvider(create: (context) => CartCubit(context.read<CartServices>())),
-            BlocProvider(create: (context) => CartListCubit(context.read<CartServices>())),
-            BlocProvider(create: (context) => CategoryListCubit()),
-            BlocProvider(create: (context) => ProductCubit()),
-            BlocProvider(create: (context) => MyProfileListCubit())
-          ],
-          child: const MyApp(),
-        ),
+        child: const MyApp(),
       ),
     ),
   );

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/cubits/categotry_cubit/category_list_cubit.dart';
+import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
 import 'package:rika_ecomm_app/model/mine_page_model.dart';
+import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/bottonnav/cart_screen.dart';
 import 'package:rika_ecomm_app/screens/categorys/categorie_screen.dart';
 import 'package:rika_ecomm_app/screens/categorys/cloth_category.dart';
+import 'package:rika_ecomm_app/screens/filter/filterscreen.dart';
 
-class MinePage extends StatefulWidget {
-  const MinePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MinePage> createState() => _MinePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 List<String> images = [
@@ -21,7 +26,9 @@ List<String> images = [
 String? _isSelected;
 late final MinePageModel mine;
 
-class _MinePageState extends State<MinePage> {
+class _HomeScreenState extends State<HomeScreen> {
+  String? selectedCategory;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -91,7 +98,7 @@ class _MinePageState extends State<MinePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CartScreen()));
+                              builder: (context) => FilterScreen()));
                     },
                   ),
                 ],
@@ -289,7 +296,8 @@ class _MinePageState extends State<MinePage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Categories()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CategoriScreen()));
                     },
                     child: Text(
                       'View All',
@@ -300,104 +308,61 @@ class _MinePageState extends State<MinePage> {
                 ],
               ),
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isSelected = 'Dresses';
-                      });
-                    },
-                    child: Chip(
-                      label: Text(
-                        'Dresses',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color:
-                                _isSelected == 'Dresses' ? Colors.white : null),
-                      ),
-                      backgroundColor: _isSelected == 'Dresses'
-                          ? Colors.black
-                          : Colors.white,
-                      shape: const StadiumBorder(
-                          side: BorderSide(color: Color(0xffCCCCCC))),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isSelected = 'Jackets';
-                      });
-                    },
-                    child: Chip(
-                      label: Text(
-                        'Jackets',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color:
-                                _isSelected == 'Jackets' ? Colors.white : null),
-                      ),
-                      backgroundColor: _isSelected == 'Jackets'
-                          ? Colors.black
-                          : Colors.white,
-                      shape: const StadiumBorder(
-                          side: BorderSide(color: Color(0xffCCCCCC))),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isSelected = 'Jeans';
-                      });
-                    },
-                    child: Chip(
-                      label: Text(
-                        'Jeans',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color:
-                                _isSelected == 'Jeans' ? Colors.white : null),
-                      ),
-                      backgroundColor:
-                          _isSelected == 'Jeans' ? Colors.black : Colors.white,
-                      shape: const StadiumBorder(
-                          side: BorderSide(color: Color(0xffCCCCCC))),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isSelected = 'Shoese';
-                      });
-                    },
-                    child: Chip(
-                      label: Text(
-                        'Shoese',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color:
-                                _isSelected == 'Shoese' ? Colors.white : null),
-                      ),
-                      backgroundColor:
-                          _isSelected == 'Shoese' ? Colors.black : Colors.white,
-                      shape: const StadiumBorder(
-                          side: BorderSide(color: Color(0xffCCCCCC))),
-                    ),
-                  ),
-                ],
+              BlocBuilder<CategoryListCubit, Result<CategoriModel>>(
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state.error != null) {
+                    return Center(
+                      child: Text("Error: ${state.error}"),
+                    );
+                  } else {
+                    final categories = state.data?.data?.categories;
+                    if (categories == null || categories.isEmpty) {
+                      return const Center(
+                          child: Text("No categories available."));
+                    }
+                    return SizedBox(
+                      height: 40,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: categories.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final category = categories[index];
+                            return Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedCategory = category.name;
+                                    });
+                                  },
+                                  child: Chip(
+                                    label: Text(category.name!,
+                                        style: context.theme.bodyLarge!
+                                            .copyWith(
+                                                color:
+                                                    selectedCategory == category.name
+                                                        ? Colors.white
+                                                        : Colors.black)),
+                                    backgroundColor:
+                                        selectedCategory == category.name
+                                            ? Colors.black
+                                            : Colors.white,
+                                    shape: const StadiumBorder(
+                                        side: BorderSide(
+                                            color: Color(0xffCCCCCC))),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                              ],
+                            );
+                          }),
+                    );
+                  }
+                },
               ),
               const SizedBox(
                 height: 20,
@@ -411,14 +376,15 @@ class _MinePageState extends State<MinePage> {
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClothCategory()));
-                    },
-                    child: Text(
-                    'View All',
-                    style: context.theme.bodyMedium
-                        ?.copyWith(color: Color(0xff666666)),
-                  )),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ClothCategory()));
+                      },
+                      child: Text(
+                        'View All',
+                        style: context.theme.bodyMedium
+                            ?.copyWith(color: Color(0xff666666)),
+                      )),
                 ],
               ),
               const SizedBox(
@@ -472,7 +438,7 @@ class _ProductItemState extends State<ProductItem> {
       GestureDetector(
         onTap: () {
           // Navigator.of(context).push();
-              // MaterialPageRoute(builder: (context) => Rollerrabbitdetails(products: [], index: 0,)));
+          // MaterialPageRoute(builder: (context) => Rollerrabbitdetails(products: [], index: 0,)));
         },
         child: Card(
           color: Colors.white,

@@ -11,8 +11,8 @@ UserCart _$UserCartFromJson(Map<String, dynamic> json) => UserCart(
       items: (json['items'] as List<dynamic>?)
           ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
-      cartTotal: (json['cartTotal'] as num?)?.toInt(),
-      discountedTotal: (json['discountedTotal'] as num?)?.toInt(),
+      cartTotal: json['cartTotal'] as num?,
+      discountedTotal: json['discountedTotal'] as num?,
       coupon: json['coupon'] == null
           ? null
           : Coupon.fromJson(json['coupon'] as Map<String, dynamic>),

@@ -124,134 +124,111 @@ class _ProfileDetailsState extends State<ProfileDetails>
               builder: (context, state) {
                return state.when(onData: (profile) {
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          "First Name ",
-                          style: context.theme.titleMedium!
-                              .copyWith(color: Colors.grey),
-                        ),
-                        const SizedBox(width: 40),
-                        Expanded(
-                          child: SizedBox(
-                            child: TextFormField(
-                                initialValue:
-                                    profile?.firstName,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter first name',
-                                  hintStyle: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 191, 189, 189),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                )),
-                          ),
-                        )
-                      ],
+                    Text(
+                      "First Name ",
+                      style: context.theme.titleMedium!
+                          .copyWith(color: Colors.black),
+                    ),
+                    const SizedBox(width: 40),
+                    SizedBox(
+                      child: TextFormField(
+                          initialValue:
+                              profile?.firstName,
+                          decoration: InputDecoration(
+                            hintText: 'Enter first name',
+                            hintStyle: TextStyle(
+                              color: const Color.fromARGB(
+                                  255, 191, 189, 189),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                          )),
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text(
-                          "First Name ",
-                          style: context.theme.titleMedium!
-                              .copyWith(color: Colors.grey),
+                    Text(
+                      "Last Name ",
+                      style: context.theme.titleMedium!
+                          .copyWith(color: Colors.black),
+                    ),
+                    const SizedBox(width: 40),
+                    SizedBox(
+                      child: TextFormField(
+                        initialValue: profileState.state.data?.lastName,
+                          decoration: InputDecoration(
+                        hintText: "Enter last name",
+                        hintStyle: TextStyle(
+                          color: const Color.fromARGB(255, 191, 189, 189),
                         ),
-                        const SizedBox(width: 40),
-                        Expanded(
-                          child: SizedBox(
-                            child: TextFormField(
-                              initialValue: profileState.state.data?.lastName,
-                                decoration: InputDecoration(
-                              hintText: "Enter last name",
-                              hintStyle: TextStyle(
-                                color: const Color.fromARGB(255, 191, 189, 189),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                            )),
-                          ),
-                        )
-                      ],
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      )),
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text(
-                          "Country Code",
-                          style: context.theme.titleMedium!
-                              .copyWith(color: Colors.grey),
+                    Text(
+                      "Country Code",
+                      style: context.theme.titleMedium!
+                          .copyWith(color: Colors.black),
+                    ),
+                    const SizedBox(width: 56),
+                    SizedBox(
+                      child: TextFormField(
+                        initialValue: profileState.state.data?.countryCode,
+                          decoration: InputDecoration(
+                        hintText: "Enter country code",
+                        hintStyle: TextStyle(
+                          color: const Color.fromARGB(255, 191, 189, 189),
                         ),
-                        const SizedBox(width: 56),
-                        Expanded(
-                          child: SizedBox(
-                            child: TextFormField(
-                              initialValue: profileState.state.data?.countryCode,
-                                decoration: InputDecoration(
-                              hintText: "Enter country code",
-                              hintStyle: TextStyle(
-                                color: const Color.fromARGB(255, 191, 189, 189),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                            )),
-                          ),
-                        )
-                      ],
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      )),
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text(
-                          "Phone number ",
-                          style: context.theme.titleMedium!
-                              .copyWith(color: Colors.grey),
+                    Text(
+                      "Phone number ",
+                      style: context.theme.titleMedium!
+                          .copyWith(color: Colors.black),
+                    ),
+                    const SizedBox(width: 46),
+                    SizedBox(
+                      child: TextFormField(
+                          decoration: InputDecoration(
+                        hintText: "Enter phone",
+                        hintStyle: TextStyle(
+                          color: const Color.fromARGB(255, 191, 189, 189),
                         ),
-                        const SizedBox(width: 46),
-                        Expanded(
-                          child: SizedBox(
-                            child: TextFormField(
-                                decoration: InputDecoration(
-                              hintText: "Enter phone",
-                              hintStyle: TextStyle(
-                                color: const Color.fromARGB(255, 191, 189, 189),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                            )),
-                          ),
-                        )
-                      ],
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                      )),
                     ),
                   ],
                 );

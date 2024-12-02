@@ -8,8 +8,8 @@ class UserCart {
   @JsonKey(name: "_id")
   String? id;
   List<Item>? items;
-  int? cartTotal;
-  int? discountedTotal;
+  num? cartTotal;
+  num? discountedTotal;
   Coupon? coupon;
 
   int? get itemCount => items?.map((e)=> e.quantity).fold(0, (e,t)=> (e ?? 0) +(t ?? 1));

@@ -18,7 +18,7 @@ class LoginServices {
         "username": username
       });
       final body = response.data;
-      final token = body["accessToken"];
+      final token = body["data"]["accessToken"];
       await _localStorageService.saveToken(token);
       return Loginuser.fromJson(body["data"]);
     } on DioException catch (e) {

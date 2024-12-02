@@ -5,8 +5,8 @@ import 'package:rika_ecomm_app/cubits/categotry_cubit/category_list_cubit.dart';
 import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 
-class Categories extends StatelessWidget {
-  const Categories({super.key});
+class CategoriScreen extends StatelessWidget {
+  const CategoriScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,38 +61,33 @@ class Categories extends StatelessWidget {
                         itemCount: categories.length,
                         itemBuilder: (BuildContext context, int index) {
                            final category = categories[index];
-                          return GestureDetector(
-                           
-                            onTap: () {  }   ,                    
-
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(80),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text(
-                                          category.name ?? 'Unnamed Category',
-                                          style: context.theme.titleLarge!.copyWith(
-                                            fontFamily: FontFamily.w700,
-                                            color: Colors.white,
-                                          ),
+                          return Column(
+                            children: [
+                              Container(
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(80),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        category.name ?? 'Unnamed Category',
+                                        style: context.theme.titleLarge!.copyWith(
+                                          fontFamily: FontFamily.w700,
+                                          color: Colors.white,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(height: 20),
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 20),
+                            ],
                           );
                         },
                       );

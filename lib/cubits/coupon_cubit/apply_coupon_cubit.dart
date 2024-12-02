@@ -5,12 +5,13 @@ import '../../model/user_cart_model.dart';
 import '../../services/coupons_services.dart';
 
 class ApplyCouponCubit extends Cubit<Result<UserCart>> {
-  ApplyCouponCubit() : super(Result(isLoading: false));
+  final CouponsServices _couponsServices;
+  ApplyCouponCubit(this._couponsServices) : super(Result(isLoading: false));
 
   Future<void> postCoupon({required String couponcode}) async {
     try {
       emit(Result(isLoading: true));
-      final couponResponse = await CouponsServices().postCustomerCoupon(couponcode: couponcode);
+      final couponResponse = await _couponsServices.postCustomerCoupon(couponcode: couponcode);
       emit(Result(data: couponResponse));
     } catch (e) {
       emit(Result(error: e.toString()));
@@ -20,7 +21,7 @@ class ApplyCouponCubit extends Cubit<Result<UserCart>> {
   Future<void> removeCoupon({required String couponcode}) async{
     try {
       emit(Result(isLoading: true));
-      final removeResponse = await CouponsServices().removeCustomerCoupon(couponcode: couponcode);
+      final removeResponse = await _couponsServices.removeCustomerCoupon(couponcode: couponcode);
       emit(Result(data: removeResponse));
     } catch (e) {
       emit(Result(error: e.toString()));

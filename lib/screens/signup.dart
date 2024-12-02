@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/cubits/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/cubits/signup_cubit/signup_cubit.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/model/user_model.dart';
 import 'package:rika_ecomm_app/screens/login.dart';
+import 'package:rika_ecomm_app/services/login_services.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -49,7 +51,10 @@ class _SignUpState extends State<SignUp> {
                     if (state.data != null) {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => Login(),
+                          builder: (context) => BlocProvider(
+                            create: (context) => LoginCubit(context.read<LoginServices>()),
+                            child: const Login(),
+                          ),
                         ),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -70,7 +75,7 @@ class _SignUpState extends State<SignUp> {
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Full name",
+                          Text("User name",
                               style: Theme.of(context).textTheme.titleMedium),
                           TextFormField(
                             validator: (value) {

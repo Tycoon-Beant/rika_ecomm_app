@@ -8,6 +8,7 @@ import 'package:rika_ecomm_app/model/coupons_model.dart';
 import 'package:rika_ecomm_app/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/cubits/coupon_cubit/apply_coupon_cubit.dart';
 import 'package:rika_ecomm_app/cubits/coupon_cubit/coupon_list_cubit.dart';
+import 'package:rika_ecomm_app/services/coupons_services.dart';
 
 import '../model/result.dart';
 
@@ -22,7 +23,7 @@ class _CouponScreenState extends State<CouponScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CouponListCubit(),
+      create: (context) => CouponListCubit(context.read<CouponsServices>()),
       child: Scaffold(
        appBar: AppBar(
           leading: InkWell(

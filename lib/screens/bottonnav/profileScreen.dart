@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/cubits/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/cubits/my_profile_cubit/my_profile_list_cubit.dart';
 import 'package:rika_ecomm_app/model/my_profile_model.dart';
+import 'package:rika_ecomm_app/screens/login.dart';
 import 'package:rika_ecomm_app/screens/orderscreens/orderdetails.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/payment_method_screen.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/myorder.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/profiledetails.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/setting._screen.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/wishlist_screen.dart';
+import 'package:rika_ecomm_app/services/local_storage_service.dart';
+import 'package:rika_ecomm_app/services/login_services.dart';
 
 import '../../model/result.dart';
 
@@ -85,7 +89,8 @@ class _ProfilescreenState extends State<Profilescreen> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingScreen())),
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => SettingScreen())),
               child: Image.asset(
                 "assets/images/settings.png",
                 scale: 0.7,
@@ -112,25 +117,37 @@ class _ProfilescreenState extends State<Profilescreen> {
                       const SizedBox(width: 10),
                       BlocBuilder<MyProfileListCubit, Result<MyProfile>>(
                         builder: (context, state) {
-                          return state.when(onData: (profile){
-                            return  Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(profile!.firstName! + " " + profileState.state.data!.lastName!,
-                                  style: context.theme.titleMedium),
-                              Text(
-                                'rikafashionshop@gmail.com',
-                                style: context.theme.titleSmall!
-                                    .copyWith(color: Colors.grey),
-                              ),
-                            ],
+                          return state.when(
+                            onData: (profile) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      profile!.firstName! +
+                                          " " +
+                                          profileState.state.data!.lastName!,
+                                      style: context.theme.titleMedium),
+                                  Text(
+                                    'rikafashionshop@gmail.com',
+                                    style: context.theme.titleSmall!
+                                        .copyWith(color: Colors.grey),
+                                  ),
+                                ],
+                              );
+                            },
+                            onLoading: () {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                ),
+                              );
+                            },
+                            onError: (Object? e) {
+                              return Center(
+                                child: Text(e.toString()),
+                              );
+                            },
                           );
-                          }, onLoading: () { 
-                            return Center(child: CircularProgressIndicator(color: Colors.black,),);
-                           }, onError: (Object? e) { 
-                            return  Center(child: Text(e.toString()),);
-                            } ,);
-                          
                         },
                       )
                     ],
@@ -173,30 +190,39 @@ class _ProfilescreenState extends State<Profilescreen> {
                 ),
               ),
               const SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(width: 8),
-                    Text('Logout',
-                        style: context.theme.titleMedium!
-                            .copyWith(color: Colors.white)),
-                  ],
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                onPressed: () {
+                  context.read<LocalStorageService>().clearSession();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                                create: (context) => LoginCubit(context.read<LoginServices>()),
+                                child: Login(),
+                              )),
+                      (route) => false);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 8),
+                      Text('Logout',
+                          style: context.theme.titleMedium!
+                              .copyWith(color: Colors.white)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
+              SizedBox(height: 20),
             ],
           ),
         ),
