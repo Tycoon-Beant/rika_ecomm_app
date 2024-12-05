@@ -108,9 +108,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                                       children: [
                                     TextSpan(
                                         text: desc[index],
-                                        style: TextStyle(
-                                            color: Colors.grey, 
-                                            fontSize: 14,fontFamily: FontFamily.w400))
+                                        style: context.theme.bodySmall!.copyWith(color: Colors.grey))
                                   ])),
                                   const SizedBox(height: 8),
                                   Text(time[index],style:TextStyle(color: Colors.grey,),),

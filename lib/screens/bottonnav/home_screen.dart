@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/cubits/categotry_cubit/category_list_cubit.dart';
+import 'package:rika_ecomm_app/cubits/product_cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
-import 'package:rika_ecomm_app/model/mine_page_model.dart';
 import 'package:rika_ecomm_app/model/result.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/cart_screen.dart';
+import 'package:rika_ecomm_app/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/categorys/categorie_screen.dart';
 import 'package:rika_ecomm_app/screens/categorys/cloth_category.dart';
 import 'package:rika_ecomm_app/screens/filter/filterscreen.dart';
@@ -17,20 +17,13 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-List<String> images = [
-  "assets/images/product1.png",
-  "assets/images/product2.png",
-  "assets/images/product3.png",
-  "assets/images/product1.png",
-];
-String? _isSelected;
-late final MinePageModel mine;
 
 class _HomeScreenState extends State<HomeScreen> {
   String? selectedCategory;
 
   @override
   Widget build(BuildContext context) {
+    final productState = context.read<ProductCubit>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -390,23 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 20,
               ),
-              GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Number of columns
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: images.length, // Number of items in your list
-                itemBuilder: (BuildContext context, int index) {
-                  final mines = minePageContents[index];
-
-                  return ProductItem(
-                    mines: mines,
-                    index: index,
-                  );
-                },
-                shrinkWrap: true,
-              )
+               TopDressGrid(productState: productState)
             ],
           ),
         ),
@@ -415,72 +392,48 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ProductItem extends StatefulWidget {
-  const ProductItem({
+class TopDressGrid extends StatelessWidget {
+  const TopDressGrid({
     super.key,
-    required this.mines,
-    required this.index,
+    required this.productState,
   });
 
-  final MinePageModel mines;
-  final int index;
-
-  @override
-  State<ProductItem> createState() => _ProductItemState();
-}
-
-class _ProductItemState extends State<ProductItem> {
-  bool _isLiked = false;
+  final ProductCubit productState;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      GestureDetector(
-        onTap: () {
-          // Navigator.of(context).push();
-          // MaterialPageRoute(builder: (context) => Rollerrabbitdetails(products: [], index: 0,)));
-        },
-        child: Card(
-          color: Colors.white,
-          elevation: 0,
-          child: Center(
-            child: Column(
-              children: [
-                Image.asset(
-                  images[widget.index],
-                  fit: BoxFit.fill,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(widget.mines.name!,
-                    style: context.theme.titleSmall
-                        ?.copyWith(fontWeight: FontWeight.bold)),
-                Text(widget.mines.type!,
-                    style: context.theme.bodySmall
-                        ?.copyWith(color: Color(0xff666666))),
-                Text(widget.mines.price!,
-                    style: context.theme.titleSmall
-                        ?.copyWith(fontWeight: FontWeight.bold))
-              ],
-            ),
-          ),
-        ),
-      ),
-      Positioned(
-          top: 3,
-          right: 10,
-          child: IconButton(
-            icon: Icon(
-              _isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-              color: _isLiked ? Colors.red : Colors.black,
-            ),
-            onPressed: () {
-              setState(() {
-                _isLiked = !_isLiked;
-              });
-            },
-          ))
-    ]);
+    return BlocBuilder<ProductCubit, Result<List<Product>>>(
+     builder: (context, state) {
+       if (state.isLoading) {
+       return Center(
+         child: CircularProgressIndicator(),
+       );
+     } else if (state.error != null) {
+       return Center(
+         child: Text("Error: ${state.error}"),
+       );
+     } else {
+       final products =productState.state.data  ?? [];
+       return GridView.builder(
+         physics: NeverScrollableScrollPhysics(),
+         gridDelegate:
+             const SliverGridDelegateWithFixedCrossAxisCount(
+           crossAxisCount: 2, // Number of columns
+           childAspectRatio: 0.75,
+         ),
+         itemCount: 4, // Number of items in your list
+         itemBuilder: (BuildContext context, int index) {
+           final product = products[index];
+       
+           return ClothItem(
+             cloth: product,
+           );
+         },
+         shrinkWrap: true,
+       );
+     }
+     }
+                  );
   }
 }
+

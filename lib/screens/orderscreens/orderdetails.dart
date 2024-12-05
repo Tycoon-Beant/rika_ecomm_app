@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/cubits/address_cubit/address_list_cubit.dart';
 import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/cubits/order_address_cubit/order_address_cubit.dart';
+import 'package:rika_ecomm_app/cubits/placed_order_cubit/place_order_list_cubit.dart';
+import 'package:rika_ecomm_app/cubits/placed_order_cubit/placed_order_cubit.dart';
 import 'package:rika_ecomm_app/model/address_model.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/address_screen.dart';
@@ -12,6 +13,7 @@ import 'package:rika_ecomm_app/screens/profilenextscreens/myorder.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/payment_method_screen.dart';
 import 'package:rika_ecomm_app/services/address_services.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
+import 'package:rika_ecomm_app/services/placed_order_services.dart';
 
 class Orderdetails extends StatefulWidget {
   const Orderdetails({
@@ -36,7 +38,7 @@ class _OrderdetailsState extends State<Orderdetails> {
   @override
   Widget build(BuildContext context) {
     final cartState = context.watch<CartListCubit>();
-    final addressSelected = context.read<LocalStorageService>().getAddressId();
+    // final addressSelected = context.read<LocalStorageService>().getAddressId();
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -138,8 +140,10 @@ class _OrderdetailsState extends State<Orderdetails> {
             Text("Payment Method", style: context.theme.titleMedium),
             const SizedBox(height: 10),
             PaymentMethodButton(),
-             Expanded(child: SizedBox()),
-            PlaceOderButton(cartState: cartState, addressSelected: addressSelected),
+            Expanded(child: Container()),
+            PlaceOderButton(
+              cartState: cartState,
+            ),
             const SizedBox(height: 10),
           ],
         ),
@@ -206,8 +210,7 @@ class AddressContainer extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text("City : ",
-                              style: context.theme.titleMedium),
+                          Text("City : ", style: context.theme.titleMedium),
                           Text(state.data?.city ?? "",
                               style: context.theme.titleSmall!
                                   .copyWith(color: Colors.grey)),
@@ -215,8 +218,7 @@ class AddressContainer extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text("State : ",
-                              style: context.theme.titleMedium),
+                          Text("State : ", style: context.theme.titleMedium),
                           Text(state.data?.state ?? "",
                               style: context.theme.titleSmall!
                                   .copyWith(color: Colors.grey)),
@@ -224,8 +226,7 @@ class AddressContainer extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text("Pin Code : ",
-                              style: context.theme.titleMedium),
+                          Text("Pin Code : ", style: context.theme.titleMedium),
                           Text(state.data?.pincode ?? '',
                               style: context.theme.titleSmall!
                                   .copyWith(color: Colors.grey)),
@@ -233,8 +234,7 @@ class AddressContainer extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text("Country : ",
-                              style: context.theme.titleMedium),
+                          Text("Country : ", style: context.theme.titleMedium),
                           Text(state.data?.country ?? '',
                               style: context.theme.titleSmall!
                                   .copyWith(color: Colors.grey)),
@@ -266,27 +266,28 @@ class PlaceOderButton extends StatelessWidget {
   const PlaceOderButton({
     super.key,
     required this.cartState,
-    required this.addressSelected,
   });
 
   final CartListCubit cartState;
-  final String? addressSelected;
 
   @override
   Widget build(BuildContext context) {
-    final orderState = context.read<OrderAddressCubit>();
+    final orderState = context.watch<OrderAddressCubit>();
+    final addressSelected =
+        orderState.state.data?.id; // Extract the address ID here.
+
     return Row(
       children: [
         Column(
           children: [
             Text("Total Price",
-                style: context.theme.titleSmall!
-                    .copyWith(color: Colors.grey)),
-            Text("\$ ${cartState.state.data?.cartTotal ?? 0}",
+                style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
+            Text(
+                "\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : "0"} ",
                 style: context.theme.titleMedium)
           ],
         ),
-        const SizedBox(width: 100),
+        SizedBox(width: 100),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
@@ -295,6 +296,9 @@ class PlaceOderButton extends StatelessWidget {
             onPressed: orderState.state.data == null
                 ? null
                 : () {
+                    context
+                        .read<PlacedOrderCubit>()
+                        .postplaceOderCubit(addressId: addressSelected!);
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -305,8 +309,8 @@ class PlaceOderButton extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: Text("Place order",
-                  style: context.theme.titleMedium!
-                      .copyWith(color: Colors.white)),
+                  style:
+                      context.theme.titleMedium!.copyWith(color: Colors.white)),
             ))
       ],
     );
@@ -328,8 +332,7 @@ class PaymentMethodButton extends StatelessWidget {
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-            border: Border.all(
-                color: const Color.fromARGB(255, 203, 202, 202)),
+            border: Border.all(color: const Color.fromARGB(255, 203, 202, 202)),
             borderRadius: BorderRadius.circular(20)),
         child: Center(
             child: Text(
@@ -353,12 +356,10 @@ class ChangeAddressButton extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => AddressListCubit(
-                  context.read<AddressServices>()),
+              create: (context) =>
+                  AddressListCubit(context.read<AddressServices>()),
               child: AddressScreen(
-                address: context
-                    .read<LocalStorageService>()
-                    .getAddressId(),
+                address: context.read<LocalStorageService>().getAddressId(),
               ),
             ),
           ),
@@ -367,9 +368,7 @@ class ChangeAddressButton extends StatelessWidget {
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-            border: Border.all(
-                color:
-                    const Color.fromARGB(255, 203, 202, 202)),
+            border: Border.all(color: const Color.fromARGB(255, 203, 202, 202)),
             borderRadius: BorderRadius.circular(20)),
         child: Center(
           child: Text(
@@ -390,36 +389,32 @@ class AddAddressButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => BlocProvider(
-                create: (context) => AddressListCubit(
-                    context.read<AddressServices>()),
-                child: AddressScreen(
-                  address: context
-                      .read<LocalStorageService>()
-                      .getAddressId(),
-                ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) =>
+                  AddressListCubit(context.read<AddressServices>()),
+              child: AddressScreen(
+                address: context.read<LocalStorageService>().getAddressId(),
               ),
             ),
-          );
-        },
-        child: Container(
-          height: 50,
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color:
-                      const Color.fromARGB(255, 203, 202, 202)),
-              borderRadius: BorderRadius.circular(20)),
-          child: Center(
-            child: Text(
-              "Add Address",
-              style: context.theme.titleMedium,
-            ),
+          ),
+        );
+      },
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+            border: Border.all(color: const Color.fromARGB(255, 203, 202, 202)),
+            borderRadius: BorderRadius.circular(20)),
+        child: Center(
+          child: Text(
+            "Add Address",
+            style: context.theme.titleMedium,
           ),
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -453,8 +448,11 @@ class OrderPlacedAlert extends StatelessWidget {
                   backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                 ),
                 onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Myorder()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                            create: (context) => PlaceOrderListCubit(context.read<PlacedOrderServices>()),
+                            child: Myorder(),
+                          )));
                 },
                 child: Text(
                   "Checkout",

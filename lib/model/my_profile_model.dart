@@ -1,7 +1,12 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'my_profile_model.g.dart';
+
+@JsonSerializable()
 class MyProfile {
   
-
-  String? sId;
+@JsonKey(name: "_id")
+  String? id;
   String? firstName;
   String? lastName;
   String? countryCode;
@@ -12,7 +17,7 @@ class MyProfile {
   int? iV;
 
   MyProfile(
-      {this.sId,
+      {this.id,
       this.firstName,
       this.lastName,
       this.countryCode,
@@ -22,15 +27,5 @@ class MyProfile {
       this.updatedAt,
       this.iV});
 
-  MyProfile.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    countryCode = json['countryCode'];
-    phoneNumber = json['phoneNumber'];
-    owner = json['owner'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-  }
+  factory MyProfile.fromJson(Map<String , dynamic> json) => _$MyProfileFromJson(json);
 }

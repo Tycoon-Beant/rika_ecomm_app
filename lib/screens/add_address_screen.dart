@@ -38,13 +38,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 BlocConsumer<AddressCubit, Result<AddressState>>(
                   listener: (context, state) {
                     if (state.data != null) {
-                      // Navigator.of(context).pop(MaterialPageRoute(builder: (context) => BlocProvider(create: (context) => AddressCubit(context.read<AddressServices>()),
-                      // child: AddressScreen(),),),);
+                      final message = widget.address != null
+                          ? "Address updated successfully!"
+                          : "Address added successfully!";
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Address added Successfully!!!!!"),
-                        ),
+                        SnackBar(content: Text(message)),
                       );
+                      Navigator.of(context).pop();
                     }
 
                     if (state.error != null) {
@@ -205,7 +205,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               onFieldSubmitted: (value) {
                                 if (addressKey.currentState!.validate()) {
                                   addressKey.currentState!.save();
-                                  
+
                                   if (widget.address != null) {
                                     context
                                         .read<AddressCubit>()
@@ -242,40 +242,62 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
-                  ),
-                  onPressed: () {
-                    if (addressKey.currentState!.validate()) {
-                      addressKey.currentState!.save();
-                      if (widget.address != null) {
-                        context
-                            .read<AddressCubit>()
-                            .patchAddressData(addresdId: widget.address!.id!);
-                        Navigator.of(context).pop();
-                      } else {
-                        context.read<AddressCubit>().postAddressData();
-                        Navigator.pop(context);
-                      }
-                    }
-                  },
-                  child: context.watch<AddressCubit>().state.isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : Text("Add Address",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.white)),
-                ),
-                // ),
+                AddAddressOrUdateButton(addressKey: addressKey, widget: widget),
                 const SizedBox(height: 10),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class AddAddressOrUdateButton extends StatelessWidget {
+  const AddAddressOrUdateButton({
+    super.key,
+    required this.addressKey,
+    required this.widget,
+  });
+
+  final GlobalKey<FormState> addressKey;
+  final AddAddressScreen widget;
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoading = context.watch<AddressCubit>().state.isLoading;
+
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.black,
+        fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
+      ),
+      onPressed: isLoading
+          ? null
+          : () {
+              if (addressKey.currentState!.validate()) {
+                addressKey.currentState!.save();
+
+                if (widget.address != null) {
+                  context.read<AddressCubit>().patchAddressData(
+                      addresdId: widget.address!.id!);
+                } else {
+                  context.read<AddressCubit>().postAddressData();
+                }
+              }
+            },
+      child: isLoading
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: const CircularProgressIndicator(color: Colors.white),
+            )
+          : Text(
+              widget.address != null ? "Update Address" : "Add Address",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: Colors.white),
+            ),
     );
   }
 }

@@ -257,7 +257,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   style: context.theme.bodySmall!.copyWith(
                                       fontFamily: FontFamily.w400,
                                       color: Colors.grey)),
-                              const SizedBox(height: 26),
+                              const SizedBox(height: 18),
                               AnimatedSwitcher(
                                 duration: const Duration(milliseconds: 250),
                                 child: isInCart

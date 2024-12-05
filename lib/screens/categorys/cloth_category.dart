@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/cubits/product_cubit/product_cubit.dart';
+import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/productdetails/product_detail_screen.dart';
 
-import '../../model/result.dart';
 import '../../model/user_cart_model.dart';
 
 class ClothCategory extends StatefulWidget {
@@ -59,20 +59,14 @@ class _ClothCategoryState extends State<ClothCategory> {
                 ),
               ),
             ),
-            BlocBuilder<ProductCubit , Result<List<Product>>>(
-              builder: (context, state) {
-                if (state.isLoading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state.error != null) {
-                  return Center(
-                    child: Text("Error: ${state.error}"),
-                  );
-                } else {
+            
+                  AsyncWidget<ProductCubit,List<Product>>(data: (products) {
+                    
                   final products =productState.state.data  ?? [];
                   return ProductList(products: products);
-                }
+                    
+                  },),
+                
                 // final state = notifier.resultState;
                 // return switch (state) {
                 //   LoadingState() => Center(child: CircularProgressIndicator()),
@@ -80,8 +74,6 @@ class _ClothCategoryState extends State<ClothCategory> {
                 //     ProductList(products: data.data?.products ?? []),
                 //   ErrorState(error: var e) => Center(child: Text(e.toString()))
                 // };
-              },
-            ),
           ],
         ),
       ),

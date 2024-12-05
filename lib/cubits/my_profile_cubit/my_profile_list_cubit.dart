@@ -20,4 +20,5 @@ class MyProfileListCubit extends Cubit<Result<MyProfile>> {
       emit(Result(error: e));
     } 
   }
+
 }

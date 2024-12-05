@@ -489,8 +489,11 @@ class CartItem extends StatelessWidget {
               children: [
                 AspectRatio(
                   aspectRatio: 1,
-                  child: Image.network(
-                    cartItem.product?.mainImage?.url ?? '',
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      cartItem.product?.mainImage?.url ?? '',fit: BoxFit.fill,
+                    ),
                   ),
                 ),
                 SizedBox(width: 16),
