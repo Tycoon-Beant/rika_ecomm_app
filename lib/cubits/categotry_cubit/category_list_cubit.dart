@@ -6,14 +6,15 @@ import '../../../services/category_services.dart';
 
 
 class CategoryListCubit extends Cubit<Result<CategoriModel>> {
-  CategoryListCubit() : super(Result(isLoading: false)){
+  final CategoryServices _categoryServices;
+  CategoryListCubit(this._categoryServices) : super(Result(isLoading: false)){
     getCategoryList();
   }
 
    Future<void> getCategoryList() async {
     try {
       emit(Result(isLoading: true));
-      final categoriDetail = await CategoryServices().getCategories();
+      final categoriDetail = await _categoryServices.getCategories();
       emit(Result(data: categoriDetail));
     } catch (e) {
       emit(Result(error: e));

@@ -70,224 +70,214 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final addedtocartState = context.watch<ProductCubit>();
     final product = widget.products;
     return Scaffold(
-      body: BlocConsumer<ProductCubit ,Result<List<Product>>>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          return LoadingOverlay(
-            isLoading: state.isLoading|| addedtocartState.state.isLoading,
-            child: Stack(
-              children: [
-                Positioned(
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    child: Image.network(
-                      product.mainImage?.url ?? '',
-                      height: 400,
-                      // width: MediaQuery.sizeOf(context).width,
-                      fit: BoxFit.fill,
-                    )),
-                Positioned(
-                    top: 10,
-                    left: 20,
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Image.asset("assets/images/arrowback.png"))),
-                Positioned(
-                    top: 10,
-                    right: 20,
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.white, width: 2),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset("assets/images/search.png",
-                              color: Colors.black),
-                        ))),
-                Positioned(
-                    top: 300,
-                    right: 20,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          fav = !fav;
-                        });
-                      },
-                      icon: Icon(
-                        fav ? Icons.favorite : Icons.favorite_border,
-                        color: fav ? Colors.red : Colors.white,
-                      ),
-                    )),
-                Positioned(
-                  top: 380,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Stack(children: [
-                      Container(
-                        // height: 800,
-                        width: MediaQuery.sizeOf(context).width,
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(28),
-                                topRight: Radius.circular(28))),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 8),
-                          child: Column(
+      body: LoadingOverlay(
+        isLoading: addedtocartState.state.isLoading,
+        child: Stack(
+          children: [
+            Positioned(
+                top: 0,
+                right: 0,
+                left: 0,
+                child: Image.network(
+                  product.mainImage?.url ?? '',
+                  height: 400,
+                  // width: MediaQuery.sizeOf(context).width,
+                  fit: BoxFit.fill,
+                )),
+            Positioned(
+                top: 10,
+                left: 20,
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Image.asset("assets/images/arrowback.png"))),
+            Positioned(
+                top: 10,
+                right: 20,
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.white, width: 2),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset("assets/images/search.png",
+                          color: Colors.black),
+                    ))),
+            Positioned(
+                top: 300,
+                right: 20,
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      fav = !fav;
+                    });
+                  },
+                  icon: Icon(
+                    fav ? Icons.favorite : Icons.favorite_border,
+                    color: fav ? Colors.red : Colors.white,
+                  ),
+                )),
+            Positioned(
+              top: 380,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Stack(children: [
+                  Container(
+                    // height: 800,
+                    width: MediaQuery.sizeOf(context).width,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(28),
+                            topRight: Radius.circular(28))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(product.name!,
-                                            style: context.theme.titleLarge!
-                                                .copyWith(
-                                              fontFamily: FontFamily.w700,
-                                            )),
-                                      ),
-                                    ],
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(product.name!,
+                                        style:
+                                            context.theme.titleLarge!.copyWith(
+                                          fontFamily: FontFamily.w700,
+                                        )),
                                   ),
-                                  Row(
-                                    children: [
-                                      Text("Available in stock",
-                                          style: context.theme.titleMedium!
-                                              .copyWith(
-                                                  fontFamily: FontFamily.w700)),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        product.stock.toString(),
-                                        style: context.theme.titleMedium!
-                                            .copyWith(
-                                                fontFamily: FontFamily.w700,
-                                                color: Colors.grey),
-                                      )
-                                    ],
-                                  )
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Image.asset("assets/images/star.png"),
-                                  Text(" (320 Reviews)",
-                                      style: context.theme.titleSmall!.copyWith(
-                                          fontFamily: FontFamily.w400)),
+                                  Text("Available in stock",
+                                      style: context.theme.titleMedium!
+                                          .copyWith(
+                                              fontFamily: FontFamily.w700)),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    product.stock.toString(),
+                                    style: context.theme.titleMedium!.copyWith(
+                                        fontFamily: FontFamily.w700,
+                                        color: Colors.grey),
+                                  )
                                 ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text("Sizes",
-                                  style: context.theme.titleLarge!
-                                      .copyWith(fontFamily: FontFamily.w700)),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              SizedBox(
-                                height: 40,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: sizes.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final size = sizes[index];
-                                    final isSelected = selectedSize == size;
-                                    return Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (selectedSize == size) {
-                                              setState(() {
-                                                selectedSize = null;
-                                              });
-                                            } else {
-                                              setState(() {
-                                                selectedSize = size;
-                                              });
-                                            }
-                                          },
-                                          child: Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              color: isSelected
-                                                  ? Colors.black
-                                                  : null,
-                                              border: Border.all(
-                                                  color: isSelected
-                                                      ? Colors.black
-                                                      : Colors.grey
-                                                          .withOpacity(0.3)),
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Center(
-                                                child: Text(
-                                              size,
-                                              style: TextStyle(
-                                                  color: isSelected
-                                                      ? Colors.white
-                                                      : null),
-                                            )),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text("Descriptions",
-                                  style: context.theme.titleLarge!
-                                      .copyWith(fontFamily: FontFamily.w700)),
-                              const SizedBox(height: 5),
-                              Text(product.description!,
-                                  style: context.theme.bodySmall!.copyWith(
-                                      fontFamily: FontFamily.w400,
-                                      color: Colors.grey)),
-                              const SizedBox(height: 18),
-                              AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 250),
-                                child: isInCart
-                                    ? AddedToCart(
-                                        onTap: () {
-                                          setState(() {
-                                            isInCart = false;
-                                          });
-                                        },
-                                      )
-                                    : ShowPrice(
-                                        amounts: product,
-                                        onTap: () {
-                                          setState(() {
-                                            isInCart = true;
-                                          });
-                                        },
-                                      ),
-                              ),
+                              )
                             ],
                           ),
-                        ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.asset("assets/images/star.png"),
+                              Text(" (320 Reviews)",
+                                  style: context.theme.titleSmall!
+                                      .copyWith(fontFamily: FontFamily.w400)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text("Sizes",
+                              style: context.theme.titleLarge!
+                                  .copyWith(fontFamily: FontFamily.w700)),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          SizedBox(
+                            height: 40,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: sizes.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final size = sizes[index];
+                                final isSelected = selectedSize == size;
+                                return Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (selectedSize == size) {
+                                          setState(() {
+                                            selectedSize = null;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            selectedSize = size;
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              isSelected ? Colors.black : null,
+                                          border: Border.all(
+                                              color: isSelected
+                                                  ? Colors.black
+                                                  : Colors.grey
+                                                      .withOpacity(0.3)),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                            child: Text(
+                                          size,
+                                          style: TextStyle(
+                                              color: isSelected
+                                                  ? Colors.white
+                                                  : null),
+                                        )),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text("Descriptions",
+                              style: context.theme.titleLarge!
+                                  .copyWith(fontFamily: FontFamily.w700)),
+                          const SizedBox(height: 5),
+                          Text(product.description!,
+                              style: context.theme.bodySmall!.copyWith(
+                                  fontFamily: FontFamily.w400,
+                                  color: Colors.grey)),
+                          const SizedBox(height: 18),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 250),
+                            child: isInCart
+                                ? AddedToCart(
+                                    onTap: () {
+                                      setState(() {
+                                        isInCart = false;
+                                      });
+                                    },
+                                  )
+                                : ShowPrice(
+                                    amounts: product,
+                                    onTap: () {
+                                      setState(() {
+                                        isInCart = true;
+                                      });
+                                    },
+                                  ),
+                          ),
+                        ],
                       ),
-                    ]),
+                    ),
                   ),
-                ),
-              ],
+                ]),
+              ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

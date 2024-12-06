@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/cubits/address_cubit/address_list_cubit.dart';
+import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/cubits/order_address_cubit/order_address_cubit.dart';
 import 'package:rika_ecomm_app/cubits/placed_order_cubit/place_order_list_cubit.dart';
@@ -283,7 +284,7 @@ class PlaceOderButton extends StatelessWidget {
             Text("Total Price",
                 style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
             Text(
-                "\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : "0"} ",
+                "\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : cartState.state.data?.cartTotal} ",
                 style: context.theme.titleMedium)
           ],
         ),
@@ -299,6 +300,7 @@ class PlaceOderButton extends StatelessWidget {
                     context
                         .read<PlacedOrderCubit>()
                         .postplaceOderCubit(addressId: addressSelected!);
+                        context.read<CartCubit>().clearCartTotally();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {

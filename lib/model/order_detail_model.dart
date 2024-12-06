@@ -2,7 +2,6 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rika_ecomm_app/model/orders_model.dart';
-import 'package:rika_ecomm_app/model/user_cart_model.dart';
 
 part 'order_detail_model.g.dart';
 
@@ -92,7 +91,6 @@ class Product {
   String? owner;
   num? price;
   num? stock;
-  List<SubImages>? subImages;
   num? iV;
   String? createdAt;
   String? updatedAt;
@@ -106,7 +104,6 @@ class Product {
       this.owner,
       this.price,
       this.stock,
-      this.subImages,
       this.iV,
       this.createdAt,
       this.updatedAt});
@@ -114,9 +111,8 @@ class Product {
   factory Product.fromJson(Map<String,dynamic> json) => _$ProductFromJson(json);
 
 }
-@JsonSerializable()
-class SubImages {
-}
+
+
 @JsonSerializable()
 class MainImage {
   String? url;

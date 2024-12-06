@@ -18,6 +18,7 @@ import 'package:rika_ecomm_app/cubits/coupon_cubit/apply_coupon_cubit.dart';
 import 'package:rika_ecomm_app/screens/splash_screen.dart';
 import 'package:rika_ecomm_app/services/address_services.dart';
 import 'package:rika_ecomm_app/services/cart_services.dart';
+import 'package:rika_ecomm_app/services/category_services.dart';
 import 'package:rika_ecomm_app/services/coupons_services.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
 import 'package:rika_ecomm_app/services/login_services.dart';
@@ -42,15 +43,16 @@ void main() async {
         RepositoryProvider(create: (context) => AddressServices(context.read<LocalStorageService>())),
         RepositoryProvider(create: (context) => OrderAddressServices(context.read<LocalStorageService>())),
         RepositoryProvider(create: (context) => PlacedOrderServices(context.read<LocalStorageService>())),
-        RepositoryProvider(create: (context) => OrderByIdServices(context.read<LocalStorageService>()))
+        RepositoryProvider(create: (context) => OrderByIdServices(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => CategoryServices(context.read<LocalStorageService>()))
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => ApplyCouponCubit(context.read<CouponsServices>())),
           BlocProvider(create: (context) => CartCubit(context.read<CartServices>())),
           BlocProvider(create: (context) => CartListCubit(context.read<CartServices>())),
-          BlocProvider(create: (context) => CategoryListCubit()),
-          BlocProvider(create: (context) => ProductCubit()),
+          BlocProvider(create: (context) => CategoryListCubit(context.read<CategoryServices>())),
+          BlocProvider(create: (context) => ProductCubit(context.read<CategoryServices>())),
           BlocProvider(create: (context) => MyProfileListCubit(context.read<MyProfileServices>())),
           BlocProvider(create: (context) => ProfileCubit(context.read<MyProfileServices>())),
           BlocProvider(create: (context) => AddressListCubit(context.read<AddressServices>())),

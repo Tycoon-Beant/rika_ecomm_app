@@ -166,7 +166,7 @@ class _CartScreenState extends State<CartScreen> {
                                       style: context.theme.bodySmall,
                                     ),
                                     Text(
-                                      '\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : "0"} ',
+                                      '\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : cartState.state.data?.cartTotal } ',
                                       style: context.theme.titleMedium
                                           ?.copyWith(
                                               fontWeight: FontWeight.bold),
@@ -307,7 +307,7 @@ class OrderSummary extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          '\$ ${cartState.state.data?.cartTotal ?? '0'} ',
+                          '\$ ${cartState.state.data?.cartTotal ?? 0 } ',
                           style: context
                               .theme.titleMedium
                               ?.copyWith(

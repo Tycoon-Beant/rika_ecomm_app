@@ -9,6 +9,7 @@ import 'package:rika_ecomm_app/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/categorys/categorie_screen.dart';
 import 'package:rika_ecomm_app/screens/categorys/cloth_category.dart';
 import 'package:rika_ecomm_app/screens/filter/filterscreen.dart';
+import 'package:rika_ecomm_app/screens/productdetails/product_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,10 +18,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
   String? selectedCategory;
-
+Categories? categories;
   @override
   Widget build(BuildContext context) {
     final productState = context.read<ProductCubit>();
@@ -330,16 +330,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     setState(() {
                                       selectedCategory = category.name;
+                                      
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClothCategory(categoryId: category,)));
                                     });
                                   },
                                   child: Chip(
                                     label: Text(category.name!,
                                         style: context.theme.bodyLarge!
                                             .copyWith(
-                                                color:
-                                                    selectedCategory == category.name
-                                                        ? Colors.white
-                                                        : Colors.black)),
+                                                color: selectedCategory ==
+                                                        category.name
+                                                    ? Colors.white
+                                                    : Colors.black)),
                                     backgroundColor:
                                         selectedCategory == category.name
                                             ? Colors.black
@@ -383,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 20,
               ),
-               TopDressGrid(productState: productState)
+              TopDressGrid(productState: productState)
             ],
           ),
         ),
@@ -402,38 +404,44 @@ class TopDressGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductCubit, Result<List<Product>>>(
-     builder: (context, state) {
-       if (state.isLoading) {
-       return Center(
-         child: CircularProgressIndicator(),
-       );
-     } else if (state.error != null) {
-       return Center(
-         child: Text("Error: ${state.error}"),
-       );
-     } else {
-       final products =productState.state.data  ?? [];
-       return GridView.builder(
-         physics: NeverScrollableScrollPhysics(),
-         gridDelegate:
-             const SliverGridDelegateWithFixedCrossAxisCount(
-           crossAxisCount: 2, // Number of columns
-           childAspectRatio: 0.75,
-         ),
-         itemCount: 4, // Number of items in your list
-         itemBuilder: (BuildContext context, int index) {
-           final product = products[index];
-       
-           return ClothItem(
-             cloth: product,
-           );
-         },
-         shrinkWrap: true,
-       );
-     }
-     }
-                  );
+    return BlocBuilder<ProductCubit, Result<ProductListState>>(
+        builder: (context, state) {
+      if (state.isLoading) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state.error != null) {
+        return Center(
+          child: Text("Error: ${state.error}"),
+        );
+      } else {
+        return GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Number of columns
+            childAspectRatio: 0.75,
+          ),
+          itemCount: 4, // Number of items in your list
+          itemBuilder: (BuildContext context, int index) {
+            final product = state.data!.products![index];
+
+            return InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProductDetailScreen(products: product),
+                  ),
+                );
+              },
+              child: ClothItem(
+                cloth: product,
+              ),
+            );
+          },
+          shrinkWrap: true,
+        );
+      }
+    });
   }
 }
-

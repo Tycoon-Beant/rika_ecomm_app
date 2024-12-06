@@ -98,9 +98,6 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       owner: json['owner'] as String?,
       price: json['price'] as num?,
       stock: json['stock'] as num?,
-      // subImages: (json['subImages'] as List<dynamic>?)
-      //     ?.map((e) => SubImages.fromJson(e as Map<String, dynamic>))
-      //     .toList(),
       iV: json['iV'] as num?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
@@ -115,16 +112,10 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'owner': instance.owner,
       'price': instance.price,
       'stock': instance.stock,
-      'subImages': instance.subImages,
       'iV': instance.iV,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
     };
-
-SubImages _$SubImagesFromJson(Map<String, dynamic> json) => SubImages();
-
-Map<String, dynamic> _$SubImagesToJson(SubImages instance) =>
-    <String, dynamic>{};
 
 MainImage _$MainImageFromJson(Map<String, dynamic> json) => MainImage(
       url: json['url'] as String?,

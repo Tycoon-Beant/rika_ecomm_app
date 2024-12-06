@@ -3,21 +3,38 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/cubits/product_cubit/product_cubit.dart';
+import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
+import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/productdetails/product_detail_screen.dart';
 
 import '../../model/user_cart_model.dart';
 
 class ClothCategory extends StatefulWidget {
-  const ClothCategory({super.key});
-
+  const ClothCategory({super.key, this.categoryId});
+  final Categories? categoryId;
   @override
   State<ClothCategory> createState() => _ClothCategoryState();
 }
 
 class _ClothCategoryState extends State<ClothCategory> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.categoryId != null) {
+      context
+          .read<ProductCubit>()
+          .getProductByCategoryId(widget.categoryId!.sId!);
+    } else {
+      context.read<ProductCubit>().getProductDetail();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final category = widget.categoryId;
+
     final productState = context.watch<ProductCubit>();
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +67,7 @@ class _ClothCategoryState extends State<ClothCategory> {
             Padding(
               padding: const EdgeInsets.only(left: 10, bottom: 10),
               child: Text(
-                "Cloths",
+                category?.name ?? 'Cloths',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: Colors.black,
@@ -59,21 +76,12 @@ class _ClothCategoryState extends State<ClothCategory> {
                 ),
               ),
             ),
-            
-                  AsyncWidget<ProductCubit,List<Product>>(data: (products) {
-                    
-                  final products =productState.state.data  ?? [];
-                  return ProductList(products: products);
-                    
-                  },),
-                
-                // final state = notifier.resultState;
-                // return switch (state) {
-                //   LoadingState() => Center(child: CircularProgressIndicator()),
-                //   DataState(products: var data) =>
-                //     ProductList(products: data.data?.products ?? []),
-                //   ErrorState(error: var e) => Center(child: Text(e.toString()))
-                // };
+            AsyncWidget<ProductCubit, ProductListState>(
+              data: (state) {
+                final products = widget.categoryId == null ? (state?.products ?? []) : (state?.categoryProducts ?? []);
+                return ProductList(products: products);
+              },
+            ),
           ],
         ),
       ),
