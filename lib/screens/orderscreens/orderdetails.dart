@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/cubits/address_cubit/address_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_cubit.dart';
-import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/order_address_cubit/order_address_cubit.dart';
-import 'package:rika_ecomm_app/cubits/placed_order_cubit/place_order_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/placed_order_cubit/placed_order_cubit.dart';
-import 'package:rika_ecomm_app/model/address_model.dart';
+import 'package:rika_ecomm_app/screens/addressScreen/model/address_model.dart';
+import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
+import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/order_address_cubit/order_address_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/placed_order_cubit/place_order_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/placed_order_cubit/placed_order_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/model/orders_model.dart';
 import 'package:rika_ecomm_app/model/result.dart';
-import 'package:rika_ecomm_app/screens/address_screen.dart';
-import 'package:rika_ecomm_app/screens/profilenextscreens/myorder.dart';
+import 'package:rika_ecomm_app/screens/addressScreen/address_screen.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/myorder.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/payment_method_screen.dart';
-import 'package:rika_ecomm_app/services/address_services.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
-import 'package:rika_ecomm_app/services/placed_order_services.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/service/placed_order_services.dart';
 
 class Orderdetails extends StatefulWidget {
   const Orderdetails({
@@ -58,16 +57,16 @@ class _OrderdetailsState extends State<Orderdetails> {
               "Dilevery Address",
               style: context.theme.headlineSmall,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             AddressContainer(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             Text("Product Items", style: context.theme.titleMedium),
             const SizedBox(height: 10),
             Builder(builder: (context) {
               final state = context.watch<CartListCubit>();
               final cart = state.state.data?.items ?? [];
               return SizedBox(
-                height: 120,
+                height: 80,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: cart.length,
@@ -160,105 +159,112 @@ class AddressContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderAddressCubit, Result<Addresses?>>(
-      builder: (context, state) {
-        if (state.isLoading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state.error != null) {
-          return Center(
-            child: AddAddressButton(),
-          );
-        } else if (state.data != null) {
-          return Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      offset: const Offset(2, 2),
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text("AddressLine 1 : ",
-                              style: context.theme.titleMedium),
-                          Text(state.data?.addressLine1 ?? "",
-                              style: context.theme.titleSmall!
-                                  .copyWith(color: Colors.grey)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text("AddressLine 2 : ",
-                              style: context.theme.titleMedium),
-                          Text(state.data?.addressLine2 ?? "",
-                              style: context.theme.titleSmall!
-                                  .copyWith(color: Colors.grey)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text("City : ", style: context.theme.titleMedium),
-                          Text(state.data?.city ?? "",
-                              style: context.theme.titleSmall!
-                                  .copyWith(color: Colors.grey)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text("State : ", style: context.theme.titleMedium),
-                          Text(state.data?.state ?? "",
-                              style: context.theme.titleSmall!
-                                  .copyWith(color: Colors.grey)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text("Pin Code : ", style: context.theme.titleMedium),
-                          Text(state.data?.pincode ?? '',
-                              style: context.theme.titleSmall!
-                                  .copyWith(color: Colors.grey)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text("Country : ", style: context.theme.titleMedium),
-                          Text(state.data?.country ?? '',
-                              style: context.theme.titleSmall!
-                                  .copyWith(color: Colors.grey)),
-                        ],
+    return BlocListener<OrderAddressCubit, Result<Addresses?>>(
+      listener: (context, state) {
+        if (state.data != null) {}
+      },
+      child: BlocBuilder<OrderAddressCubit, Result<Addresses?>>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.error != null) {
+            return Center(
+              child: AddAddressButton(),
+            );
+          } else if (state.data != null) {
+            return Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        offset: const Offset(2, 2),
+                        blurRadius: 5,
+                        spreadRadius: 2,
                       ),
                     ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text("AddressLine 1 : ",
+                                style: context.theme.titleMedium),
+                            Text(state.data?.addressLine1 ?? "",
+                                style: context.theme.titleSmall!
+                                    .copyWith(color: Colors.grey)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("AddressLine 2 : ",
+                                style: context.theme.titleMedium),
+                            Text(state.data?.addressLine2 ?? "",
+                                style: context.theme.titleSmall!
+                                    .copyWith(color: Colors.grey)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("City : ", style: context.theme.titleMedium),
+                            Text(state.data?.city ?? "",
+                                style: context.theme.titleSmall!
+                                    .copyWith(color: Colors.grey)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("State : ", style: context.theme.titleMedium),
+                            Text(state.data?.state ?? "",
+                                style: context.theme.titleSmall!
+                                    .copyWith(color: Colors.grey)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("Pin Code : ",
+                                style: context.theme.titleMedium),
+                            Text(state.data?.pincode ?? '',
+                                style: context.theme.titleSmall!
+                                    .copyWith(color: Colors.grey)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("Country : ",
+                                style: context.theme.titleMedium),
+                            Text(state.data?.country ?? '',
+                                style: context.theme.titleSmall!
+                                    .copyWith(color: Colors.grey)),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              ChangeAddressButton(),
-            ],
-          );
-        } else {
-          return Column(
-            children: [
-              SizedBox.shrink(),
-              const SizedBox(height: 20),
-              AddAddressButton()
-            ],
-          );
-        }
-      },
+                const SizedBox(height: 20),
+                ChangeAddressButton(),
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                SizedBox.shrink(),
+                const SizedBox(height: 20),
+                AddAddressButton()
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 }
@@ -278,6 +284,7 @@ class PlaceOderButton extends StatelessWidget {
         orderState.state.data?.id; // Extract the address ID here.
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           children: [
@@ -288,32 +295,42 @@ class PlaceOderButton extends StatelessWidget {
                 style: context.theme.titleMedium)
           ],
         ),
-        SizedBox(width: 100),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32))),
-            onPressed: orderState.state.data == null
-                ? null
-                : () {
-                    context
-                        .read<PlacedOrderCubit>()
-                        .postplaceOderCubit(addressId: addressSelected!);
-                        context.read<CartCubit>().clearCartTotally();
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return OrderPlacedAlert();
-                      },
-                    );
-                  },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-              child: Text("Place order",
-                  style:
-                      context.theme.titleMedium!.copyWith(color: Colors.white)),
-            ))
+
+        BlocListener<PlacedOrderCubit, Result<Order>>(
+          listener: (context, state) {
+            if (state.data != null) {
+              context.read<CartCubit>().clearCartTotally();
+
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return OrderPlacedAlert();
+                },
+              );
+            } else if (state.error != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.error.toString())));
+            }
+          },
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32))),
+              onPressed: orderState.state.data == null
+                  ? null
+                  : () {
+                      context
+                          .read<PlacedOrderCubit>()
+                          .postplaceOderCubit(addressId: addressSelected!);
+                    },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Text("Place order",
+                    style: context.theme.titleMedium!
+                        .copyWith(color: Colors.white)),
+              )),
+        )
       ],
     );
   }
@@ -357,12 +374,8 @@ class ChangeAddressButton extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) =>
-                  AddressListCubit(context.read<AddressServices>()),
-              child: AddressScreen(
-                address: context.read<LocalStorageService>().getAddressId(),
-              ),
+            builder: (context) => AddressScreen(
+              address: context.read<LocalStorageService>().getAddressId(),
             ),
           ),
         );
@@ -394,12 +407,8 @@ class AddAddressButton extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) =>
-                  AddressListCubit(context.read<AddressServices>()),
-              child: AddressScreen(
-                address: context.read<LocalStorageService>().getAddressId(),
-              ),
+            builder: (context) => AddressScreen(
+              address: context.read<LocalStorageService>().getAddressId(),
             ),
           ),
         );
@@ -452,7 +461,8 @@ class OrderPlacedAlert extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => BlocProvider(
-                            create: (context) => PlaceOrderListCubit(context.read<PlacedOrderServices>()),
+                            create: (context) => PlaceOrderListCubit(
+                                context.read<PlacedOrderServices>()),
                             child: Myorder(),
                           )));
                 },

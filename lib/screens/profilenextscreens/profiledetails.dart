@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rika_ecomm_app/cubits/my_profile_cubit/my_profile_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/my_profile_cubit/profile_cubit.dart';
-import 'package:rika_ecomm_app/model/my_profile_model.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/cubit/my_profile_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/cubit/profile_cubit.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/model/my_profile_model.dart';
 
 class ProfileDetails extends StatefulWidget {
   const ProfileDetails({super.key});
@@ -21,6 +21,7 @@ class _ProfileDetailsState extends State<ProfileDetails>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         leading: InkWell(
           onTap: () => Navigator.of(context).pop(),
           child: Image.asset("assets/images/arrowback.png"),
@@ -31,6 +32,9 @@ class _ProfileDetailsState extends State<ProfileDetails>
           if(state.data != null){
             
             context.read<MyProfileListCubit>().getProfile();
+          }
+          if(state.error != null){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error.toString())));
           }
         },
         child: AsyncWidget<MyProfileListCubit, MyProfile>(
@@ -94,6 +98,7 @@ class _ProfileDetailsState extends State<ProfileDetails>
                               );
                             },
                           ),
+                          SizedBox(height: 10,)
                         ],
                       ),
                     ),

@@ -46,13 +46,15 @@ class _SettingScreenState extends State<SettingScreen> with TickerProviderStateM
                         children: [
                           Image.asset("assets/images/3x/language.png"),
                           const SizedBox(width: 8),
-                          SizedBox(
-                              width: 100,
-                              child: Text(
-                                "Language",
-                                style: context.theme.titleMedium,
-                              )),
-                          const SizedBox(width: 48),
+                          Expanded(
+                            child: SizedBox(
+                                
+                                child: Text(
+                                  "Language",
+                                  style: context.theme.titleMedium,
+                                )),
+                          ),
+                          const SizedBox(width: 20),
                           Text(
                             "English",
                             style: context.theme.titleMedium!.copyWith(
@@ -75,13 +77,14 @@ class _SettingScreenState extends State<SettingScreen> with TickerProviderStateM
                         children: [
                           Image.asset("assets/images/3x/notificationset.png"),
                           const SizedBox(width: 8),
-                          SizedBox(
-                              width: 200,
-                              child: Text(
-                                "Notification",
-                                style: context.theme.titleMedium,
-                              )),
-                          const SizedBox(width: 20),
+                          Expanded(
+                            child: SizedBox(
+                                child: Text(
+                                  "Notification",
+                                  style: context.theme.titleMedium,
+                                )),
+                          ),
+                          const SizedBox(width: 10),
                           SizedBox(
                             width: 20,
                             child: Switch(
@@ -101,12 +104,13 @@ class _SettingScreenState extends State<SettingScreen> with TickerProviderStateM
                         children: [
                           Image.asset("assets/images/3x/darkmode.png"),
                           const SizedBox(width: 8),
-                          SizedBox(
-                              width: 150,
-                              child: Text(
-                                "Dark mode",
-                                style: context.theme.titleMedium,
-                              )),
+                          Expanded(
+                            child: SizedBox(
+                                child: Text(
+                                  "Dark mode",
+                                  style: context.theme.titleMedium,
+                                )),
+                          ),
                           SizedBox(
                             width: 30,
                             child: Text(
@@ -135,12 +139,13 @@ class _SettingScreenState extends State<SettingScreen> with TickerProviderStateM
                         children: [
                           Image.asset("assets/images/3x/helpcenter.png"),
                           const SizedBox(width: 8),
-                          SizedBox(
-                              width: 200,
-                              child: Text(
-                                "Help Center",
-                                style: context.theme.titleMedium,
-                              )),
+                          Expanded(
+                            child: SizedBox(
+                                child: Text(
+                                  "Help Center",
+                                  style: context.theme.titleMedium,
+                                )),
+                          ),
                           const SizedBox(width: 20),
                           SizedBox(
                             width: 20,

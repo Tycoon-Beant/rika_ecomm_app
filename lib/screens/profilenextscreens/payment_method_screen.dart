@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/screens/profilenextscreens/payment_confirm_screen.dart';
 
+
 class PaymentMethodScreen extends StatefulWidget {
   const PaymentMethodScreen({super.key});
 

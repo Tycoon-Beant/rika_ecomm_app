@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:rika_ecomm_app/config/common.dart';
 
 class DioSingleton {
   static final DioSingleton _instance = DioSingleton._internal();
@@ -7,7 +8,7 @@ class DioSingleton {
   DioSingleton._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: "http://192.168.1.8:8080/api/v1/", 
+        baseUrl: baseUrl, 
         connectTimeout: Duration(seconds: 10),
         receiveTimeout: Duration(seconds: 10),
         headers: {

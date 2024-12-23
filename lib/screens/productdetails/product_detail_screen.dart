@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/cubits/product_cubit/product_cubit.dart';
-import 'package:rika_ecomm_app/model/user_cart_model.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/cart_screen.dart';
+import 'package:rika_ecomm_app/screens/cart/cart_screen.dart';
+import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
+import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
+import 'package:rika_ecomm_app/screens/categorys/cubit/product_cubit.dart';
 
-import '../../model/result.dart';
+import '../../../model/result.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product products;
@@ -106,7 +106,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           color: Colors.black),
                     ))),
             Positioned(
-                top: 300,
+                top: 260,
                 right: 20,
                 child: IconButton(
                   onPressed: () {
@@ -120,161 +120,158 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 )),
             Positioned(
-              top: 380,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Stack(children: [
-                  Container(
-                    // height: 800,
-                    width: MediaQuery.sizeOf(context).width,
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(28),
-                            topRight: Radius.circular(28))),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(product.name!,
-                                        style:
-                                            context.theme.titleLarge!.copyWith(
-                                          fontFamily: FontFamily.w700,
-                                        )),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text("Available in stock",
-                                      style: context.theme.titleMedium!
-                                          .copyWith(
-                                              fontFamily: FontFamily.w700)),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    product.stock.toString(),
-                                    style: context.theme.titleMedium!.copyWith(
+              top: 300,
+              child: Stack(
+                  children: [
+                Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(28),
+                          topRight: Radius.circular(28))),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(product.name!,
+                                      style:
+                                          context.theme.titleLarge!.copyWith(
                                         fontFamily: FontFamily.w700,
-                                        color: Colors.grey),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset("assets/images/star.png"),
-                              Text(" (320 Reviews)",
-                                  style: context.theme.titleSmall!
-                                      .copyWith(fontFamily: FontFamily.w400)),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text("Sizes",
-                              style: context.theme.titleLarge!
-                                  .copyWith(fontFamily: FontFamily.w700)),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          SizedBox(
-                            height: 40,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: sizes.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final size = sizes[index];
-                                final isSelected = selectedSize == size;
-                                return Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        if (selectedSize == size) {
-                                          setState(() {
-                                            selectedSize = null;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            selectedSize = size;
-                                          });
-                                        }
-                                      },
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          color:
-                                              isSelected ? Colors.black : null,
-                                          border: Border.all(
-                                              color: isSelected
-                                                  ? Colors.black
-                                                  : Colors.grey
-                                                      .withOpacity(0.3)),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Center(
-                                            child: Text(
-                                          size,
-                                          style: TextStyle(
-                                              color: isSelected
-                                                  ? Colors.white
-                                                  : null),
-                                        )),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
+                                      )),
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text("Descriptions",
-                              style: context.theme.titleLarge!
-                                  .copyWith(fontFamily: FontFamily.w700)),
-                          const SizedBox(height: 5),
-                          Text(product.description!,
-                              style: context.theme.bodySmall!.copyWith(
-                                  fontFamily: FontFamily.w400,
-                                  color: Colors.grey)),
-                          const SizedBox(height: 18),
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 250),
-                            child: isInCart
-                                ? AddedToCart(
+                            Row(
+                              children: [
+                                Text("Available in stock",
+                                    style: context.theme.titleMedium!
+                                        .copyWith(
+                                            fontFamily: FontFamily.w700)),
+                                const SizedBox(width: 10),
+                                Text(
+                                  product.stock.toString(),
+                                  style: context.theme.titleMedium!.copyWith(
+                                      fontFamily: FontFamily.w700,
+                                      color: Colors.grey),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image.asset("assets/images/star.png"),
+                            Text(" (320 Reviews)",
+                                style: context.theme.titleSmall!
+                                    .copyWith(fontFamily: FontFamily.w400)),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Sizes",
+                            style: context.theme.titleLarge!
+                                .copyWith(fontFamily: FontFamily.w700)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: sizes.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final size = sizes[index];
+                              final isSelected = selectedSize == size;
+                              return Row(
+                                children: [
+                                  GestureDetector(
                                     onTap: () {
-                                      setState(() {
-                                        isInCart = false;
-                                      });
+                                      if (selectedSize == size) {
+                                        setState(() {
+                                          selectedSize = null;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          selectedSize = size;
+                                        });
+                                      }
                                     },
-                                  )
-                                : ShowPrice(
-                                    amounts: product,
-                                    onTap: () {
-                                      setState(() {
-                                        isInCart = true;
-                                      });
-                                    },
+                                    child: Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            isSelected ? Colors.black : null,
+                                        border: Border.all(
+                                            color: isSelected
+                                                ? Colors.black
+                                                : Colors.grey
+                                                    .withOpacity(0.3)),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        size,
+                                        style: TextStyle(
+                                            color: isSelected
+                                                ? Colors.white
+                                                : null),
+                                      )),
+                                    ),
                                   ),
+                                ],
+                              );
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Descriptions",
+                            style: context.theme.titleLarge!
+                                .copyWith(fontFamily: FontFamily.w700)),
+                        const SizedBox(height: 5),
+                        Text(product.description!,
+                            style: context.theme.bodySmall!.copyWith(
+                                fontFamily: FontFamily.w400,
+                                color: Colors.grey)),
+                        const SizedBox(height: 20),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 250),
+                          child: isInCart
+                              ? AddedToCart(
+                                  onTap: () {
+                                    setState(() {
+                                      isInCart = false;
+                                    });
+                                  },
+                                )
+                              : ShowPrice(
+                                  amounts: product,
+                                  onTap: () {
+                                    setState(() {
+                                      isInCart = true;
+                                    });
+                                  },
+                                ),
+                        ),
+                      ],
                     ),
                   ),
-                ]),
-              ),
+                ),
+              ]),
             ),
           ],
         ),
@@ -341,6 +338,7 @@ class _ShowPriceState extends State<ShowPrice> {
                 context
                     .read<CartCubit>()
                     .postCartItem(productId: product.id!, quantity: quantity);
+                
               },
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -411,7 +409,7 @@ class _AddedToCartState extends State<AddedToCart> {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(10),
@@ -424,7 +422,7 @@ class _AddedToCartState extends State<AddedToCart> {
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(50)),
               height: 40,
-              width: 88,
+              width: 80,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -453,7 +451,7 @@ class _AddedToCartState extends State<AddedToCart> {
               ),
             ),
           ),
-          const SizedBox(width: 20),
+          SizedBox(width: 4,),
           InkWell(
             onTap: () {
               context
@@ -462,36 +460,38 @@ class _AddedToCartState extends State<AddedToCart> {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => CartScreen()));
             },
-            child: Container(
-              padding: EdgeInsets.all(8),
-              margin: const EdgeInsets.only(right: 8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  Text("\$ $price",
-                      style: context.theme.titleMedium!
-                          .copyWith(color: Colors.black)),
-                  const SizedBox(width: 8),
-                  Container(
-                    color: Colors.grey,
-                    height: 24,
-                    width: 2,
-                  ),
-                  const SizedBox(width: 8),
-                  Image.asset(
-                    "assets/images/carticon.png",
-                    color: Colors.black,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    "Added To Cart",
-                    style: context.theme.bodyMedium!
-                        .copyWith(fontFamily: FontFamily.w700),
-                  )
-                ],
+            child: Expanded(
+              child: Container(
+                padding: EdgeInsets.all(8),
+                margin: const EdgeInsets.only(right: 4.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    Text("\$ $price",
+                        style: context.theme.titleMedium!
+                            .copyWith(color: Colors.black)),
+                    const SizedBox(width: 8),
+                    Container(
+                      color: Colors.grey,
+                      height: 24,
+                      width: 2,
+                    ),
+                    const SizedBox(width: 8),
+                    Image.asset(
+                      "assets/images/carticon.png",
+                      color: Colors.black,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      "Added To Cart",
+                      style: context.theme.bodyMedium!
+                          .copyWith(fontFamily: FontFamily.w700),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

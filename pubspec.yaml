@@ -44,9 +44,12 @@ dependencies:
   loading_overlay: ^0.4.2
   flutter_bloc: ^8.1.6
   shared_preferences: ^2.3.2
-  # image_picker: ^1.1.2
+  image_picker: ^1.1.2
   flutter_secure_storage: ^9.2.2
   path_provider: ^2.1.5
+  dotted_border: ^2.0.0
+  flutter_swipe_action_cell: ^3.1.5
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +81,10 @@ flutter:
     - assets/images/3x/
     - assets/images/2x/
     - assets/images/
+    - assets/social_media/
+    - assets/social_media/1x/
+    - assets/social_media/2x/
+    - assets/social_media/3x/
 
   # assets:
   #   - images/a_dot_burr.jpeg

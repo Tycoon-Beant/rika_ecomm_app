@@ -96,8 +96,10 @@ List langimg =[
                                 children: [
                                   Image.asset(langimg[index],scale: 2.5,),
                                   const SizedBox(width: 12),
-                                  SizedBox(width: 150,
-                                    child: Text(lang[index],style: context.theme.titleMedium!.copyWith(color: isSelected? Colors.white:null))),
+                                  Expanded(
+                                    child: SizedBox(
+                                      child: Text(lang[index],style: context.theme.titleMedium!.copyWith(color: isSelected? Colors.white:null))),
+                                  ),
                                     const SizedBox(width: 80),
                                     Icon(isSelected ? Icons.radio_button_checked : Icons.circle_outlined,
                                     color: isSelected ? Colors.white : Colors.black,)

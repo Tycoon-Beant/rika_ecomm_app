@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/cart_screen.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/home_screen.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/profileScreen.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/notificationScreen.dart';
+import 'package:rika_ecomm_app/screens/cart/cart_screen.dart';
+import 'package:rika_ecomm_app/screens/homescreen/home_screen.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/profile_screen.dart';
+import 'package:rika_ecomm_app/social/home/social_home_screen.dart';
+
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
 
@@ -25,7 +26,7 @@ class _BottomBarState extends State<BottomBar> {
       HomeScreen(),
       // ClothCategory(),
       CartScreen(),
-      Notificationscreen(),
+      SocialHomeScreen (),
       Profilescreen()
     ];
   }
@@ -47,8 +48,8 @@ class _BottomBarState extends State<BottomBar> {
       ),
       PersistentBottomNavBarItem(
           icon:
-              const Image(image: AssetImage("assets/images/notification.png")),
-          title: ("Notifications"),
+              const Image(image: AssetImage("assets/images/social_media.png")),
+          title: ("Social"),
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.grey,
           textStyle: const TextStyle(fontSize: 12)),

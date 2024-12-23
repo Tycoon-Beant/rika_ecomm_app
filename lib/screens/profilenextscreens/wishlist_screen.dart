@@ -37,17 +37,19 @@ class _WishlistScreenState extends State<WishlistScreen> {
               Container(
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: 290,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: Image.asset('assets/images/search.png'),
-                            hintText: 'Search...',
-                            hintStyle: TextStyle(color: Color(0xffAAAAAA)),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade100))),
+                    Expanded(
+                      child: SizedBox(
+                        
+                        child: TextField(
+                          decoration: InputDecoration(
+                              prefixIcon: Image.asset('assets/images/search.png'),
+                              hintText: 'Search...',
+                              hintStyle: TextStyle(color: Color(0xffAAAAAA)),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade100))),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -73,7 +75,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Card(
                 color: Colors.white,
@@ -89,34 +91,34 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       children: [
                         Image.asset('assets/images/girlimage.png'),
                         SizedBox(width: 5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Roller Rabbit',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Vado Odelle Dress',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Color(0xff666666),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Roller Rabbit',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              '\$198.00',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                              Text(
+                                'Vado Odelle Dress',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Color(0xff666666),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                '\$198.00',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          width: 70,
-                        ),
+                        
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -158,34 +160,34 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     children: [
                       Image.asset('assets/images/shoe2.png'),
                       SizedBox(width: 5),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Axel Arigato',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Clean 90 Trible Snakers',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xff666666),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Axel Arigato',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            '\$245.00',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                            Text(
+                              'Clean 90 Trible Snakers',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Color(0xff666666),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              '\$245.00',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        width: 45,
-                      ),
+                      
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -224,36 +226,36 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Image.asset('assets/images/bag2.png'),
+                      Image.asset('assets/images/bag2.png',height: 80,),
                       SizedBox(width: 5),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Herschel Supply Co.',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Daypack Backpack',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xff666666),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Herschel Supply Co.',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            '\$40.00',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                            Text(
+                              'Daypack Backpack',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Color(0xff666666),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              '\$40.00',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        width: 35,
-                      ),
+                      
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -294,33 +296,32 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     children: [
                       Image.asset('assets/images/shoe3.png'),
                       SizedBox(width: 5),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Soludos',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'lboza Classic Lace Sneakers',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xff666666),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Soludos',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            '\$120.00',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 22,
+                            Text(
+                              'lboza Classic Lace Sneakers',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Color(0xff666666),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              '\$120.00',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -362,33 +363,32 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     children: [
                       Image.asset('assets/images/headphones.png'),
                       SizedBox(width: 5),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'On Ear Headphone',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Beats Solo3 Wireless Kulak',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xff666666),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'On Ear Headphone',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            '\$50.00',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 28,
+                            Text(
+                              'Beats Solo3 Wireless Kulak',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Color(0xff666666),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              '\$50.00',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -417,6 +417,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 10,)
             ],
           ),
         ),

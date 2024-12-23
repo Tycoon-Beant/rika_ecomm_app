@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/cubits/product_cubit/product_cubit.dart';
-import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
-import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
+import 'package:rika_ecomm_app/screens/categorys/cubit/product_cubit.dart';
+import 'package:rika_ecomm_app/screens/categorys/model/category_model.dart';
 import 'package:rika_ecomm_app/screens/productdetails/product_detail_screen.dart';
 
-import '../../model/user_cart_model.dart';
+import '../cart/model/user_cart_model.dart';
 
 class ClothCategory extends StatefulWidget {
   const ClothCategory({super.key, this.categoryId});
@@ -35,7 +34,6 @@ class _ClothCategoryState extends State<ClothCategory> {
   Widget build(BuildContext context) {
     final category = widget.categoryId;
 
-    final productState = context.watch<ProductCubit>();
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.white,

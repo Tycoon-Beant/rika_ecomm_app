@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/cubits/placed_order_cubit/placed_order_cubit.dart';
-import 'package:rika_ecomm_app/cubits/placed_order_cubit/placed_order_id_cubit.dart';
-import 'package:rika_ecomm_app/model/order_detail_model.dart';
-import 'package:rika_ecomm_app/model/orders_model.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/placed_order_cubit/placed_order_id_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/model/order_detail_model.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/model/orders_model.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class Trakingaddress extends StatefulWidget {
@@ -27,7 +26,12 @@ class _TrakingaddressState extends State<Trakingaddress> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Image.asset("assets/images/3x/arrowback.png"),
+        surfaceTintColor: Colors.white,
+        leading: InkWell(
+          onTap: (){
+            Navigator.of(context).pop();
+          },
+          child: Image.asset("assets/images/3x/arrowback.png")),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -67,7 +71,7 @@ class OrderTrackingDetail extends StatelessWidget {
             style: context.theme.titleMedium!.copyWith(color: Colors.grey)),
         const SizedBox(height: 20),
         Container(
-          height: 100,
+          height: 80,
           width: MediaQuery.sizeOf(context).width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -86,7 +90,7 @@ class OrderTrackingDetail extends StatelessWidget {
                 AspectRatio(
                   aspectRatio: 1,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       orders.order?.items?.first.product?.mainImage?.url ?? '',fit: BoxFit.cover,
                     ),
@@ -100,15 +104,15 @@ class OrderTrackingDetail extends StatelessWidget {
                     children: [
                       Text(
                         orders.order?.items?.first.product?.name ?? "",
-                        style: context.theme.titleMedium
+                        style: context.theme.titleSmall
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        height: 5,
+                        height: 2,
                       ),
                       Text(
                         "Quantity: ${orders.order?.items?.first.quantity ?? 1 }",
-                        style: context.theme.titleMedium!.copyWith(color: Colors.grey),
+                        style: context.theme.titleSmall!.copyWith(color: Colors.grey),
                       ),
                       SizedBox(
                         height: 5,
@@ -161,16 +165,18 @@ class OrderTrackingDetail extends StatelessWidget {
         const SizedBox(height: 10),
         Row(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('You can change pick-up time for',
-                    style:
-                        context.theme.titleSmall!.copyWith(color: Colors.grey)),
-                Text('your order by 10:00, 24 June',
-                    style:
-                        context.theme.titleSmall!.copyWith(color: Colors.grey)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('You can change pick-up time for',
+                      style:
+                          context.theme.titleSmall!.copyWith(color: Colors.grey)),
+                  Text('your order by 10:00, 24 June',
+                      style:
+                          context.theme.titleSmall!.copyWith(color: Colors.grey)),
+                ],
+              ),
             ),
             const SizedBox(width: 50),
             ElevatedButton(

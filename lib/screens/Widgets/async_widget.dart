@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../model/result.dart';
+import '../../../model/result.dart';
  
 class AsyncWidget<C extends StateStreamable<Result<E>>, E> extends StatelessWidget {
   final Widget Function(E? data) data;

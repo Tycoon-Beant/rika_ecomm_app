@@ -96,8 +96,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
                               radius: 32, child: Image.asset(img[index])),
                         ),
                         const SizedBox(width: 8),
-                        SizedBox(
-                          width: 300,
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

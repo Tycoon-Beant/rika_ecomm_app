@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/cubits/categotry_cubit/category_list_cubit.dart';
-import 'package:rika_ecomm_app/model/categories_model/category_model.dart';
 import 'package:rika_ecomm_app/model/result.dart';
+import 'package:rika_ecomm_app/screens/categorys/cubit/category_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/categorys/model/category_model.dart';
 
 class CategoriScreen extends StatelessWidget {
   const CategoriScreen({super.key});
@@ -13,6 +13,7 @@ class CategoriScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          surfaceTintColor: Colors.white,
           leading: GestureDetector(
                 onTap: (){
                   Navigator.of(context).pop();

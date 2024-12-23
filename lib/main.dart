@@ -1,32 +1,37 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rika_ecomm_app/cubits/address_cubit/address_cubit.dart';
-import 'package:rika_ecomm_app/cubits/address_cubit/address_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_cubit.dart';
-import 'package:rika_ecomm_app/cubits/cart_bloc_cubit/cart_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/addressScreen/cubit/address_cubit.dart';
+import 'package:rika_ecomm_app/screens/addressScreen/cubit/address_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/bottonnav/bottom_nav_bar.dart';
+import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
+import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/cubits/categotry_cubit/category_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/my_profile_cubit/my_profile_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/my_profile_cubit/profile_cubit.dart';
-import 'package:rika_ecomm_app/cubits/order_address_cubit/order_address_cubit.dart';
-import 'package:rika_ecomm_app/cubits/placed_order_cubit/place_order_list_cubit.dart';
-import 'package:rika_ecomm_app/cubits/placed_order_cubit/placed_order_cubit.dart';
-import 'package:rika_ecomm_app/cubits/placed_order_cubit/placed_order_id_cubit.dart';
-import 'package:rika_ecomm_app/cubits/product_cubit/product_cubit.dart';
-import 'package:rika_ecomm_app/cubits/coupon_cubit/apply_coupon_cubit.dart';
-import 'package:rika_ecomm_app/screens/splash_screen.dart';
-import 'package:rika_ecomm_app/services/address_services.dart';
-import 'package:rika_ecomm_app/services/cart_services.dart';
-import 'package:rika_ecomm_app/services/category_services.dart';
-import 'package:rika_ecomm_app/services/coupons_services.dart';
+import 'package:rika_ecomm_app/screens/categorys/cubit/category_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/cubit/my_profile_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/profilenextscreens/cubit/profile_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/order_address_cubit/order_address_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/placed_order_cubit/place_order_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/placed_order_cubit/placed_order_cubit.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/cubit/placed_order_cubit/placed_order_id_cubit.dart';
+import 'package:rika_ecomm_app/screens/categorys/cubit/product_cubit.dart';
+import 'package:rika_ecomm_app/screens/coupon/cubit/apply_coupon_cubit.dart';
+import 'package:rika_ecomm_app/screens/addressScreen/services/address_services.dart';
+import 'package:rika_ecomm_app/screens/cart/service/cart_services.dart';
+import 'package:rika_ecomm_app/screens/categorys/service/category_services.dart';
+import 'package:rika_ecomm_app/screens/coupon/service/coupons_services.dart';
+import 'package:rika_ecomm_app/screens/splash/splash_screen.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
-import 'package:rika_ecomm_app/services/login_services.dart';
-import 'package:rika_ecomm_app/services/my_profile_services.dart';
-import 'package:rika_ecomm_app/services/order_address_services.dart';
-import 'package:rika_ecomm_app/services/order_by_id_services.dart';
-import 'package:rika_ecomm_app/services/placed_order_services.dart';
+import 'package:rika_ecomm_app/screens/auth/service/login_services.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/service/order_address_services.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/service/order_by_id_services.dart';
+import 'package:rika_ecomm_app/screens/orderscreens/service/placed_order_services.dart';
+import 'package:rika_ecomm_app/social/post_cubit/post_cubit.dart';
+import 'package:rika_ecomm_app/social/post_service/add_post_service.dart';
+import 'package:rika_ecomm_app/social/post_cubit/all_post_list_cubit.dart';
+import 'package:rika_ecomm_app/social/post_service/all_post_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'screens/profilenextscreens/service/my_profile_services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +49,9 @@ void main() async {
         RepositoryProvider(create: (context) => OrderAddressServices(context.read<LocalStorageService>())),
         RepositoryProvider(create: (context) => PlacedOrderServices(context.read<LocalStorageService>())),
         RepositoryProvider(create: (context) => OrderByIdServices(context.read<LocalStorageService>())),
-        RepositoryProvider(create: (context) => CategoryServices(context.read<LocalStorageService>()))
+        RepositoryProvider(create: (context) => CategoryServices(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => AllPostService(context.read<LocalStorageService>())),
+        RepositoryProvider(create: (context) => AddPostService(context.read<LocalStorageService>()))
       ],
       child: MultiBlocProvider(
         providers: [
@@ -61,6 +68,8 @@ void main() async {
           BlocProvider(create: (context) => PlaceOrderListCubit(context.read<PlacedOrderServices>())),
           BlocProvider(create: (context) => PlacedOrderCubit(context.read<PlacedOrderServices>())),
           BlocProvider(create: (context) => PlacedOrderIdCubit(context.read<OrderByIdServices>())),
+          BlocProvider(create: (context) => AllPostListCubit(context.read<AllPostService>())),
+          BlocProvider(create: (context) => PostCubit(context.read<AddPostService>()))
         ],
         child: const MyApp(),
       ),
@@ -101,7 +110,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Mont_Blanc_Regular",
           appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
         ),
-        home: const Splashscreen(),
+        home:  Splashscreen(),
       ),
     );
   }
