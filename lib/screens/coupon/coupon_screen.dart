@@ -21,13 +21,20 @@ class CouponScreen extends StatefulWidget {
 class _CouponScreenState extends State<CouponScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CouponListCubit(context.read<CouponsServices>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CouponListCubit(context.read<CouponsServices>()),
+        ),
+        BlocProvider(
+          create: (context) => ApplyCouponCubit(context.read<CouponsServices>()),
+        ),
+      ],
       child: Scaffold(
-       appBar: AppBar(
+        appBar: AppBar(
           leading: InkWell(
-            onTap: () => Navigator.of(context).pop(),
-            child: Image.asset("assets/images/arrowback.png")),
+              onTap: () => Navigator.of(context).pop(),
+              child: Image.asset("assets/images/arrowback.png")),
         ),
         body: BlocConsumer<ApplyCouponCubit, Result<UserCart>>(
           listener: (context, state) {
@@ -60,8 +67,10 @@ class _CouponScreenState extends State<CouponScreen> {
                               );
                             },
                             onData: (coupon) {
-                              if(coupon == null || coupon.isEmpty) {
-                                return Center(child: Text("Looks like no coupon is available. Come back later."));
+                              if (coupon == null || coupon.isEmpty) {
+                                return Center(
+                                    child: Text(
+                                        "Looks like no coupon is available. Come back later."));
                               }
                               return ListView.builder(
                                 itemCount: coupon.length,
@@ -71,29 +80,31 @@ class _CouponScreenState extends State<CouponScreen> {
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [BoxShadow(
-                                            offset: Offset(2, 3),
-                                            color: const Color.fromARGB(255, 195, 194, 194),
-                                            blurRadius: 5,
-                                            spreadRadius: 2
-                                          ),],
-                                          borderRadius: BorderRadius.circular(20)
-                                        ),
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: Offset(2, 3),
+                                                  color: const Color.fromARGB(
+                                                      255, 195, 194, 194),
+                                                  blurRadius: 5,
+                                                  spreadRadius: 2),
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Row(
                                             children: [
                                               Text(
                                                 coupons.type!,
-                                                style: context.theme.headlineSmall!
+                                                style: context
+                                                    .theme.headlineSmall!
                                                     .copyWith(
                                                   color: Colors.grey,
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
                                               Expanded(
-
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -103,24 +114,26 @@ class _CouponScreenState extends State<CouponScreen> {
                                                             .theme.bodyLarge
                                                             ?.copyWith(
                                                                 fontFamily:
-                                                                    FontFamily.w700,
-                                                                color:
-                                                                    Colors.black)),
-
+                                                                    FontFamily
+                                                                        .w700,
+                                                                color: Colors
+                                                                    .black)),
                                                     Row(
                                                       children: [
                                                         Text('Discount Value: ',
-                                                            style: context
-                                                                .theme.bodySmall!
+                                                            style: context.theme
+                                                                .bodySmall!
                                                                 .copyWith(
                                                                     color: Colors
                                                                         .grey)),
                                                         Expanded(
                                                           child: Text(
-                                                              coupons.discountValue!
+                                                              coupons
+                                                                  .discountValue!
                                                                   .toString(),
                                                               style: context
-                                                                  .theme.bodySmall!
+                                                                  .theme
+                                                                  .bodySmall!
                                                                   .copyWith(
                                                                       color: Colors
                                                                           .grey)),
@@ -129,9 +142,10 @@ class _CouponScreenState extends State<CouponScreen> {
                                                     ),
                                                     Row(
                                                       children: [
-                                                        Text('Minimum Cart Value: ',
-                                                            style: context
-                                                                .theme.bodySmall!
+                                                        Text(
+                                                            'Minimum Cart Value: ',
+                                                            style: context.theme
+                                                                .bodySmall!
                                                                 .copyWith(
                                                                     color: Colors
                                                                         .grey)),
@@ -139,9 +153,8 @@ class _CouponScreenState extends State<CouponScreen> {
                                                             coupons
                                                                 .minimumCartValue!
                                                                 .toString(),
-
-                                                            style: context
-                                                                .theme.bodySmall!
+                                                            style: context.theme
+                                                                .bodySmall!
                                                                 .copyWith(
                                                                     color: Colors
                                                                         .grey)),
@@ -150,22 +163,24 @@ class _CouponScreenState extends State<CouponScreen> {
                                                   ],
                                                 ),
                                               ),
-
                                               TextButton(
-                                                  onPressed: () {
-                                                    context
-                                                        .read<ApplyCouponCubit>()
-                                                        .postCoupon(
-                                                            couponcode: coupons
-                                                                .couponCode!);
-                                                  },
-                                                  child: Text(
-                                                    "APPLY",
-                                                    style: context.theme.bodyLarge
+                                                onPressed: () {
+                                                  context
+                                                      .read<ApplyCouponCubit>()
+                                                      .postCoupon(
+                                                          couponcode: coupons
+                                                              .couponCode!);
+                                                },
+                                                child: Text("APPLY",
+                                                    style: context
+                                                        .theme.bodyLarge
                                                         ?.copyWith(
-                                                            fontFamily:
-                                                                FontFamily.w700),
-                                                  ),)
+                                                      fontFamily:
+                                                          FontFamily.w700,
+                                                      color: context.colorScheme
+                                                          .secondary,
+                                                    )),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -178,7 +193,7 @@ class _CouponScreenState extends State<CouponScreen> {
                             },
                             onError: (e) {
                               return Center(
-                                child: Text("Error: ${state.error}"),
+                                child: Text("Error: //${state.error}"),
                               );
                             },
                           );

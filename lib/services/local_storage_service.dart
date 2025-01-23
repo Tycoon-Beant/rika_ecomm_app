@@ -28,4 +28,32 @@ class LocalStorageService {
   Future<void> clearAddress() async{
     await _pref.remove("addressId");
   }
+
+
+Future<void> setFavorite(List<String> products) async {
+    await _pref.setStringList("productId", products);
+  }
+  Future<List<String>?> getFavorite() async {
+    return _pref.getStringList("productId");
+  }
+
+  Future<void> addFavorite(String productId) async {
+    final currentFavorites = await getFavorite() ?? [];
+    if (!currentFavorites.contains(productId)) {
+      currentFavorites.add(productId);
+      await setFavorite(currentFavorites);
+    }
+  }
+
+  Future<void> removeFavorite(String productId) async {
+    final currentFavorites = await getFavorite() ?? [];
+    if (currentFavorites.contains(productId)) {
+      currentFavorites.remove(productId);
+      await setFavorite(currentFavorites);
+    }
+  }
+  Future<bool> isFavorite(String productId) async {
+    final currentFavorites = await getFavorite() ?? [];
+    return currentFavorites.contains(productId);
+  }
 }

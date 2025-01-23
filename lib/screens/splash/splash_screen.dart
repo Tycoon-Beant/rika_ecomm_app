@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rika_ecomm_app/screens/onboarding/on_boarding.dart';
+import 'package:rika_ecomm_app/screens/onboarding_screen/on_boarding_screen.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
 
-import '../bottonnav/bottom_nav_bar.dart';
+import '../botton_nav_bar/bottom_nav_bar.dart';
 
 
 class Splashscreen extends StatefulWidget {

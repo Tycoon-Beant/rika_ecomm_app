@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-String imageBaseUrl = "http://192.168.29.137:8080/";
-String baseUrl = "http://192.168.29.137:8080/api/v1/";
+String imageBaseUrl = "http://192.168.1.23:8080/";
+String baseUrl = "http://192.168.1.23:8080/api/v1/";
 abstract class FontFamily {
   static String get w700 => "Mont_Blanc_Bold";
   static String get w800 => "Mont_Blanc_Black";
@@ -11,4 +11,5 @@ abstract class FontFamily {
 
 extension ThemeGetter on BuildContext {
   TextTheme get theme => Theme.of(this).textTheme;
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
 }

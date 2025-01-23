@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/screens/bottonnav/bottom_nav_bar.dart';
+import 'package:rika_ecomm_app/screens/botton_nav_bar/bottom_nav_bar.dart';
 
 class Succesfulscreen extends StatefulWidget {
   const Succesfulscreen({super.key});

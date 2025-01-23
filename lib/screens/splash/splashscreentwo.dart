@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/signup_cubit/signup_cubit.dart';
-import 'package:rika_ecomm_app/screens/auth/login.dart';
+import 'package:rika_ecomm_app/screens/auth/login_screen.dart';
 import 'package:rika_ecomm_app/screens/auth/service/login_services.dart';
-import 'package:rika_ecomm_app/screens/auth/signup.dart';
+import 'package:rika_ecomm_app/screens/auth/signup_screen.dart';
 
 class SplashScreenTwo extends StatefulWidget {
   const SplashScreenTwo({super.key});

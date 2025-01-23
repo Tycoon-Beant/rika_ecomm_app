@@ -1,23 +1,16 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/coupon/model/coupons_model.dart';
-
 import 'package:rika_ecomm_app/services/dio_exceptions.dart';
 import 'package:rika_ecomm_app/services/dio_instance.dart';
 
-import '../../../../services/local_storage_service.dart';
-
 class CouponsServices {
-  final LocalStorageService _localStorageService;
-  CouponsServices(this._localStorageService);
+  CouponsServices();
 
-  Future<List<Coupon>> getCustomerCoupons() async {
+  Future<List<Coupon>> getCustomerCoupons({CancelToken? token}) async {
     final response = await DioSingleton().dio.get(
           'ecommerce/coupons/customer/available',
-          options: Options(
-              headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
+          cancelToken: token,
         );
     final body = response.data;
     final List<dynamic> jsonResponse = body['data']['coupons'];
@@ -27,11 +20,9 @@ class CouponsServices {
   Future<UserCart> postCustomerCoupon({required String couponcode}) async {
     try {
       final response = await DioSingleton().dio.post(
-            'ecommerce/coupons/c/apply',
-            data: {"couponCode": couponcode},
-            options: Options(
-                headers: {HttpHeaders.authorizationHeader: "Bearer ${await _localStorageService.getToken()}"}),
-          );
+        'ecommerce/coupons/c/apply',
+        data: {"couponCode": couponcode},
+      );
       final body = response.data;
       return UserCart.fromJson(body["data"]);
     } on DioException catch (e) {
@@ -40,13 +31,11 @@ class CouponsServices {
     }
   }
 
-  Future<UserCart> removeCustomerCoupon({required  String couponcode}) async{
+  Future<UserCart> removeCustomerCoupon({required String couponcode}) async {
     try {
-      final response = await DioSingleton().dio.post('ecommerce/coupons/c/remove',
-      data: {"couponCode" : couponcode},
-      options: Options(
-        headers: {HttpHeaders.authorizationHeader : "Bearer ${await _localStorageService.getToken()}"}
-      ),
+      final response = await DioSingleton().dio.post(
+        'ecommerce/coupons/c/remove',
+        data: {"couponCode": couponcode},
       );
       final body = response.data;
       return UserCart.fromJson(body["data"]);
