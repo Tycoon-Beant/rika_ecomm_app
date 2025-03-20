@@ -6,8 +6,14 @@ class Result<T> {
   bool isLoading;
   T? data;
   Object? error;
+  bool isRefreshing;
 
-  Result({this.isLoading = false, this.error, this.data});
+  Result({this.isLoading = false, this.error, this.data, this.isRefreshing = false});
+
+  factory Result.isLoading() => Result(isLoading: true);
+  factory Result.data(T data) => Result(data: data);
+  factory Result.error(Object? error) => Result(error: error);
+  factory Result.isRefreshing() => Result(isRefreshing: true);
 }
 
 extension ResultX<T> on Result<T> {

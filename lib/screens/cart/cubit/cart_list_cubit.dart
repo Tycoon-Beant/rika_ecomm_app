@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
-
 import '../service/cart_services.dart';
 
 class CartListCubit extends Cubit<Result<UserCart>> {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/model/result.dart';
+import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/categorie_screen.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/products_screen.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/category_list_cubit.dart';
@@ -433,32 +434,34 @@ class TopDressGrid extends StatelessWidget {
           child: Text("Error: ${state.error}"),
         );
       } else {
+        final productList = state.data?.products;
+        
+
         return GridView.builder(
           physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          primary: false,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Number of columns
-              childAspectRatio: 0.75,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10),
-          itemCount: 4, // Number of items in your list
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: 4,
           itemBuilder: (BuildContext context, int index) {
-            final product = state.data!.products![index];
-
+            final product = productList?.data[index];
             return InkWell(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        ProductDetailScreen(products: product),
+                        ProductDetailScreen(products: product!),
                   ),
                 );
               },
-              child: ClothItem(
-                cloth: product,
-              ),
+              child: ClothItem(product: product!),
             );
           },
-          shrinkWrap: true,
         );
       }
     });

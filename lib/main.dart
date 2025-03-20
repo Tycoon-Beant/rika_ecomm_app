@@ -48,6 +48,7 @@ void main() async {
         RepositoryProvider(create: (context) => PlacedOrderServices()),
         RepositoryProvider(create: (context) => GetOrderByIdServices()),
         RepositoryProvider(create: (context) => CategoryAndProductServices()),
+        // RepositoryProvider(create: (context) => ProductListRepository(productService: context.read())),
       ],
       child: MultiBlocProvider(
         providers: [

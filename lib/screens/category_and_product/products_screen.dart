@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rika_ecomm_app/config/common.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/model/category_model.dart';
 import 'package:rika_ecomm_app/screens/product_details/product_detail_screen.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/favorite_cubit.dart';
-import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/product_by_id_cubit.dart';
 
 import '../cart/model/user_cart_model.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key, this.categoryId});
   final Categories? categoryId;
+
   @override
   State<ProductScreen> createState() => _ProductScreenState();
 }
@@ -21,34 +21,26 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     super.initState();
+    final productCubit = context.read<ProductCubit>();
     if (widget.categoryId != null) {
-      context
-          .read<ProductCubit>()
-          .getProductByCategoryId(widget.categoryId!.sId!);
+      productCubit.getProductByCategoryId(widget.categoryId!.sId!);
     } else {
-      context.read<ProductCubit>().getProductDetail();
+      productCubit.getProductDetail();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final category = widget.categoryId;
-
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 24),
-          child: GestureDetector(
-            child: Image.asset("assets/images/arrowback.png",),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          ),
+        leading: IconButton(
+          icon: Image.asset("assets/images/arrowback.png"),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child:Icon(Icons.search),
+          const Padding(
+            padding: EdgeInsets.only(right: 24),
+            child: Icon(Icons.search),
           )
         ],
       ),
@@ -60,24 +52,14 @@ class _ProductScreenState extends State<ProductScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 10, bottom: 10),
               child: Text(
-                category?.name ?? 'Cloths',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  
+                widget.categoryId?.name ?? 'Clothes',
+                style: const TextStyle(
                   fontSize: 32,
-                  fontFamily: FontFamily.w700,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            AsyncWidget<ProductCubit, ProductListState>(
-              data: (state) {
-                final products = widget.categoryId == null
-                    ? (state?.products ?? [])
-                    : (state?.categoryProducts ?? []);
-                return ProductList(products: products);
-              },
-            ),
-            const SizedBox(height: 10),
+            Expanded(child: ProductList()),
           ],
         ),
       ),
@@ -88,140 +70,127 @@ class _ProductScreenState extends State<ProductScreen> {
 class ProductList extends StatelessWidget {
   const ProductList({
     super.key,
-    required this.products,
   });
-
-  final List<Product> products;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.7,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10
+    return AsyncWidget<ProductCubit, ProductListState>(data: (data) {
+      return SmartRefresher(
+        controller: context.read<ProductCubit>().refreshController,
+        enablePullUp: true,
+        enablePullDown: true,
+        onRefresh: () => context.read<ProductCubit>().getProductDetail(),
+        onLoading: () => context.read<ProductCubit>().loadMore(),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.7,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: data?.products?.data.length,
+          itemBuilder: (context, index) {
+            final product = data?.products?.data[index];
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProductDetailScreen(products: product),
+                  ),
+                );
+              },
+              child: ClothItem(product: product!),
+            );
+          },
         ),
-        itemCount: products.length,
-        itemBuilder: (BuildContext context, int index) {
-          final product = products[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ProductDetailScreen(products: product),
-                ),
-              );
-            },
-            child: ClothItem(cloth: product),
-          );
-        },
-      ),
-    );
+      );
+    });
   }
 }
 
-class ClothItem extends StatefulWidget {
-  final Product cloth;
-  // final MainImage image;
+class ClothItem extends StatelessWidget {
+  final Product product;
 
-  const ClothItem({
-    super.key,
-    required this.cloth,
-  });
-
-  @override
-  State<ClothItem> createState() => _ClothItemState();
-}
-
-class _ClothItemState extends State<ClothItem> {
-  bool isliked = false;
+  const ClothItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    final productId = widget.cloth.id;
-    return Stack(children: [
-      Container(
-        decoration: BoxDecoration(
-         
-          borderRadius: BorderRadius.circular(20)
-        ),
-        child: Card(
-          
-          elevation: 0,
+    final productId = product.id ?? '';
+    return Stack(
+      children: [
+        Card(
+          elevation: 2,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 Expanded(
-                  child: AspectRatio(
-                      aspectRatio: 2,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          widget.cloth.mainImage!.url!,
-                          fit: BoxFit.fill,
-                        ),
-                      )),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      product.mainImage?.url ?? '',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          "assets/images/placeholder.png",
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 8),
                 Text(
-                  widget.cloth.name.toString(),
+                  product.name ?? 'No Name',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: context.theme.titleMedium,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(widget.cloth.description.toString(),
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.theme.bodySmall!.copyWith(
-                          color: Color.fromARGB(255, 174, 173, 173),
-                          fontFamily: FontFamily.w300)),
-                ),
-                Text("\$ ${widget.cloth.price}",
+                  child: Text(
+                    product.description ?? '',
+                    maxLines: 1,
                     textAlign: TextAlign.center,
-                    style: context.theme.titleMedium),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
+                  ),
+                ),
+                Text(
+                  "\$${product.price?.toStringAsFixed(2) ?? '0.00'}",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ],
             ),
           ),
         ),
-      ),
-      Positioned(
-        top: 10,
-        right: 10,
-        child: BlocListener<FavoritesCubit,LikeState>(
-          listener: (context, state) {
-            context.read<ProductByIdCubit>().getProductById(state.productIds);
-          },
-          child: IconButton(
-            onPressed: () {
-              final cubit = context.read<FavoritesCubit>();
-              final isLiked = cubit.state.isLiked(productId);
-
-              if (isLiked) {
-                cubit.removeFavorite(productId);
-              } else {
-                cubit.addFavorite(productId);
-              }
+        Positioned(
+          top: 10,
+          right: 10,
+          child: BlocBuilder<FavoritesCubit, LikeState>(
+            builder: (context, state) {
+              final isLiked = state.isLiked(productId);
+              return IconButton(
+                onPressed: () {
+                  final cubit = context.read<FavoritesCubit>();
+                  isLiked
+                      ? cubit.removeFavorite(productId)
+                      : cubit.addFavorite(productId);
+                },
+                icon: Icon(
+                  isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: isLiked ? Colors.red : Colors.grey,
+                ),
+              );
             },
-            icon: Icon(
-              context.watch<FavoritesCubit>().state.isLiked(productId!)
-                  ? Icons.favorite
-                  : Icons.favorite_border,
-              color: context.watch<FavoritesCubit>().state.isLiked(productId)
-                  ? Colors.red
-                  : Colors.white,
-            ),
           ),
         ),
-
-        // Image.asset("assets/images/3x/love.png",
-        //     scale: 2,
-        //  )
-      )
-    ]);
+      ],
+    );
   }
 }

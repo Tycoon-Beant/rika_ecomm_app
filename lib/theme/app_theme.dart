@@ -9,9 +9,8 @@ class AppTheme {
         secondary: Colors.grey,
         onSecondary: Color(0xff808080),
         tertiary: Color.fromARGB(255, 240, 240, 240),
-        onTertiary:Colors.white,
-         outline: Color(0xff333333)
-        ),
+        onTertiary: Colors.white,
+        outline: Color(0xff333333)),
     brightness: Brightness.light,
     scaffoldBackgroundColor: const Color.fromARGB(255, 244, 242, 242),
     textTheme:
@@ -20,8 +19,8 @@ class AppTheme {
     useMaterial3: true,
     fontFamily: "Mont_Blanc_Regular",
     appBarTheme: AppBarTheme(
-      backgroundColor:Color.fromARGB(255, 240, 240, 240),
-      surfaceTintColor: Color.fromARGB(255, 240, 240, 240),
+      backgroundColor: Color.fromARGB(255, 244, 242, 242),
+      surfaceTintColor: Color.fromARGB(255, 244, 242, 242),
       iconTheme: IconThemeData(color: Colors.black),
     ),
     buttonTheme: ButtonThemeData(buttonColor: Colors.black),
@@ -55,22 +54,23 @@ class AppTheme {
       color: Colors.white,
     ),
     chipTheme: ChipThemeData(
-     
-      shape: const StadiumBorder(side: BorderSide(color: Color(0xff808080),),),
+      shape: const StadiumBorder(
+        side: BorderSide(
+          color: Color(0xff808080),
+        ),
+      ),
     ),
   );
 
   final ThemeData darkTheme = ThemeData(
     colorScheme: ColorScheme.dark(
-     primary: Colors.white,
+        primary: Colors.white,
         onPrimary: Colors.black,
         secondary: const Color.fromARGB(255, 190, 190, 190),
         onSecondary: Color(0xff2e2e2e),
         tertiary: Color(0xff959595),
         onTertiary: Color(0xff333333),
-        outline: Color(0xff333333)
-
-    ),
+        outline: Color(0xff333333)),
     brightness: Brightness.dark,
     snackBarTheme: SnackBarThemeData(
       backgroundColor: Colors.grey,

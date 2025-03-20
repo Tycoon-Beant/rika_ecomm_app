@@ -6,7 +6,6 @@ import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
-import 'package:rika_ecomm_app/screens/cart/service/cart_services.dart';
 import 'package:rika_ecomm_app/screens/coupon/coupon_screen.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/apply_coupon_cubit.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/coupon_list_cubit.dart';
@@ -42,7 +41,6 @@ class _CartScreenState extends State<CartScreen> {
           create: (context) =>
               ApplyCouponCubit(context.read<CouponsServices>()),
         ),
-        
       ],
       child: SafeArea(
         child: Scaffold(
@@ -68,24 +66,29 @@ class _CartScreenState extends State<CartScreen> {
                   }
                 },
               ),
-              // BlocListener<CartCubit, Result<CartState>>(
-              //   listener: (context, state) {
-              //     if (state.data?.cart != null) {
-              //       context.read<CartListCubit>().updateCart(state.data!.cart);
-              //     }
-              //   },
-              // ),
+              BlocListener<CartCubit, Result<CartState>>(
+                listener: (context, state) {
+                  if (state.data?.cart != null &&
+                      state.data?.event == CartEvent.clear) {
+                    context.read<CartListCubit>().updateCart(state.data!.cart);
+                  }
+                },
+              ),
             ],
             child: BlocBuilder<CartCubit, Result<CartState>>(
               builder: (context, state) {
                 final couponState = context.watch<ApplyCouponCubit>();
+                final clearCartState = context.watch<CartCubit>();
                 return LoadingOverlay(
-                  isLoading: state.isLoading || couponState.state.isLoading,
-                  color: context.colorScheme.onPrimary.withOpacity(0.8),
+                  isLoading: state.isLoading ||
+                      couponState.state.isLoading ||
+                      clearCartState.state.isLoading,
+                  color: Colors.transparent,
                   progressIndicator: Center(
-                      child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(
-                              context.colorScheme.primary))),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.grey),
+                    ),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 17),
                     child: Column(
@@ -105,34 +108,61 @@ class _CartScreenState extends State<CartScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        Expanded(
-                          child: Builder(builder: (context) {
-                            if (cartState.state.isLoading) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else if (state.error != null) {
-                              return Center(
-                                child: Text("Error: ////${state.error}"),
-                              );
-                            } else {
-                              var cart = cartState.state.data?.items ?? [];
-
-                              if (cart.isEmpty) {
-                                return const Center(
-                                    child: Text("No item in cart."));
+                        SizedBox(
+                          height: 300,
+                          child: BlocListener<CartCubit, Result<CartState>>(
+                            listener: (context, state) {
+                              if (state.data?.cart != null &&
+                                  state.data?.event == CartEvent.add) {
+                                context
+                                    .read<CartListCubit>()
+                                    .updateCart(state.data!.cart);
                               }
-
-                              //  final product = cart.firstOrNull;
-                              return ListView.builder(
-                                itemCount: cart.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final cartItem = cart[index];
-                                  return CartItem(cartItem: cartItem);
-                                },
-                              );
-                            }
-                          }),
+                              if (state.data?.cart != null &&
+                                  state.data?.event == CartEvent.update) {
+                                context
+                                    .read<CartListCubit>()
+                                    .updateCart(state.data!.cart);
+                              }
+                              if (state.data?.cart != null &&
+                                  state.data?.event == CartEvent.delete) {
+                                context
+                                    .read<CartListCubit>()
+                                    .updateCart(state.data!.cart);
+                              }
+                            },
+                            child: BlocBuilder<CartListCubit, Result<UserCart>>(
+                                builder: (context, state) {
+                              // if (cartState.state.isLoading) {
+                              //   return Center(
+                              //     child: CircularProgressIndicator(),
+                              //   );
+                              // } else 
+                              if (state.error != null) {
+                                return Center(
+                                  child:
+                                      Text("Error: ${state.error.toString()}"),
+                                );
+                              } else {
+                                var cart = cartState.state.data?.items ?? [];
+                          
+                                if (cart.isEmpty) {
+                                  return const Center(
+                                      child: Text("No item in cart."));
+                                }
+                          
+                                //  final product = cart.firstOrNull;
+                                return ListView.builder(
+                                  itemCount: cart.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final cartItem = cart[index];
+                                    return CartItem(cartItem: cartItem);
+                                  },
+                                );
+                              }
+                            }),
+                          ),
                         ),
                         SizedBox(height: 20),
                         BlocBuilder<CartListCubit, Result<UserCart>>(
@@ -180,34 +210,32 @@ class _CartScreenState extends State<CartScreen> {
                                                   Orderdetails()));
                                     },
                                     child: Container(
+                                      padding:  EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: context.colorScheme.secondary,
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Center(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5),
-                                                child: Text(
-                                                    'Proceed to Checkout',
-                                                    style: context
-                                                        .theme.titleSmall
-                                                        ?.copyWith(
-                                                            color: context
-                                                                .colorScheme
-                                                                .onPrimary)),
-                                              ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
+                                              child: Text(
+                                                  'Proceed to Checkout',
+                                                  style: context
+                                                      .theme.titleSmall
+                                                      ?.copyWith(
+                                                          color: context
+                                                              .colorScheme
+                                                              .onPrimary)),
                                             ),
-                                            Image.asset(
-                                                'assets/images/arrow3.png')
-                                          ],
-                                        ),
+                                          ),
+                                          Image.asset(
+                                              'assets/images/arrow3.png')
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -488,30 +516,34 @@ class CartItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 160,
+                      child: Text(
                         cartItem.product?.name ?? "",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: context.theme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        // '\$ ${(cartItem.product?.price ?? 0) * (cartItem.quantity ?? 0)}'
-                        '\$ ${cartItem.product?.price.toString()}',
-                        style: context.theme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w900),
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      // '\$ ${(cartItem.product?.price ?? 0) * (cartItem.quantity ?? 0)}'
+                      '\$ ${cartItem.product?.price.toString()}',
+                      style: context.theme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                  ],
                 ),
                 SizedBox(width: 10),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10, right: 10),
@@ -533,7 +565,7 @@ class CartItem extends StatelessWidget {
                                     // quantity --;
                                     context.read<CartCubit>().updateQuantity(
                                         productId: cartItem.product!.id!,
-                                        quantity: cartItem.quantity! - 1);
+                                        quantity: (cartItem.quantity ?? 1) - 1);
                                   } else {
                                     context.read<CartCubit>().deltCartItem(
                                         productId: cartItem.product!.id!);
@@ -555,7 +587,7 @@ class CartItem extends StatelessWidget {
                               onTap: () {
                                 context.read<CartCubit>().updateQuantity(
                                     productId: cartItem.product!.id!,
-                                    quantity: cartItem.quantity! + 1);
+                                    quantity: (cartItem.quantity ?? 1) + 1);
                               },
                               child: Icon(
                                 Icons.add,

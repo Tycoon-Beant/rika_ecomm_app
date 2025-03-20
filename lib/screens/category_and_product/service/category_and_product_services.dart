@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:rika_ecomm_app/model/common_response.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/model/category_model.dart';
 import 'package:rika_ecomm_app/services/dio_exceptions.dart';
@@ -8,22 +9,33 @@ class CategoryAndProductServices {
   CategoryAndProductServices();
 
   Future<CategoriModel> getCategories({CancelToken? token}) async {
-    final response = await DioSingleton().dio.get("ecommerce/categories", cancelToken: token);
+    final response = await DioSingleton()
+        .dio
+        .get("ecommerce/categories", cancelToken: token);
     final body = response.data;
     final categori = CategoriModel.fromJson(body);
     return categori;
   }
 
-  Future<List<Product>> getProduct({CancelToken? token}) async {
-    final response = await DioSingleton().dio.get("ecommerce/products", cancelToken: token);
+  Future<PaginationResponse<Product>> getProduct({CancelToken? token, int? page}) async {
+    final response = await DioSingleton().dio.get(
+      "ecommerce/products",
+      cancelToken: token,
+      queryParameters: {"page": page ?? 1},
+    );
     final body = response.data;
     final List<dynamic> jsonResponse =
         body["data"]["products"]; //response["data"]
-    return jsonResponse.map((e) => Product.fromJson(e)).toList(); //body["data"]
+        
+    return PaginationResponse(
+      page: page ?? 1,
+      totalPages: body["data"]["totalPages"],
+      data: jsonResponse.map((e) => Product.fromJson(e)).toList(),
+    );
   }
 
   Future<List<Product>> getProductByCategory(
-      {required String categoryId,  CancelToken? token}) async {
+      {required String categoryId, CancelToken? token}) async {
     try {
       final response = await DioSingleton().dio.get(
             "ecommerce/products/category/$categoryId",
@@ -38,7 +50,8 @@ class CategoryAndProductServices {
     }
   }
 
-  Future<Product> getProductById({required String productId, CancelToken? token}) async {
+  Future<Product> getProductById(
+      {required String productId, CancelToken? token}) async {
     try {
       final response = await DioSingleton().dio.get(
             "ecommerce/products/$productId",

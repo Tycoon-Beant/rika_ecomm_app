@@ -15,8 +15,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final loginkey = GlobalKey<FormState>();
-    bool passwordVisible = false;
-final passKey = GlobalKey<FormFieldState>();
+  bool passwordVisible = false;
+  final passKey = GlobalKey<FormFieldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,31 +40,32 @@ final passKey = GlobalKey<FormFieldState>();
                 //   height: 2,
                 // ),
                 Text("please login or sign up to continue our app",
-                    style: context.theme.bodyLarge!.copyWith(color: Colors.grey)),
+                    style:
+                        context.theme.bodyLarge!.copyWith(color: Colors.grey)),
                 const SizedBox(
                   height: 25,
                 ),
                 BlocConsumer<LoginCubit, Result<Loginuser>>(
                   listener: (context, state) {
-                     if (state.data != null) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => Succesfulscreen(),
-                          ),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Login successfull!"),
-                          ),
-                        );
-                      }
-                      if (state.error != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(state.error.toString()),
-                          ),
-                        );
-                      }
+                    if (state.data != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Succesfulscreen(),
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Login successfull!"),
+                        ),
+                      );
+                    }
+                    if (state.error != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.error.toString()),
+                        ),
+                      );
+                    }
                   },
                   builder: (context, state) {
                     return Column(
@@ -105,47 +106,53 @@ final passKey = GlobalKey<FormFieldState>();
                           style: context.theme.titleMedium,
                         ),
                         TextFormField(
-                              key: passKey,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
-                                } else if (value.length < 8) {
-                                  return 'Password must be at least 8 characters long';
-                                }
-                                return null;
+                          key: passKey,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            } else if (value.length < 8) {
+                              return 'Password must be at least 8 characters long';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) => context
+                              .read<LoginCubit>()
+                              .updateForm("password", value),
+                          obscureText: !passwordVisible,
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            hintText: "Enter password",
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                    color: Colors.grey,
+                                    fontFamily: FontFamily.w400),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.black),
+                              onPressed: () {
+                                setState(() {
+                                  passwordVisible = !passwordVisible;
+                                });
                               },
-                              onSaved: (value) => context
-                                  .read<LoginCubit>()
-                                  .updateForm("password", value),
-                              obscureText: !passwordVisible,
-                              textInputAction: TextInputAction.done,
-                              decoration: InputDecoration(
-                                hintText: "Enter password",
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                        color: Colors.grey,
-                                        fontFamily: FontFamily.w400),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                      passwordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: Colors.black),
-                                  onPressed: () {
-                                    setState(() {
-                                      passwordVisible = !passwordVisible;
-                                    });
-                                  },
-                                ),
-                              ),
                             ),
+                          ),
+                          onFieldSubmitted: (value) {
+                            if (loginkey.currentState!.validate()) {
+                              loginkey.currentState?.save();
+                              context.read<LoginCubit>().login();
+                            }
+                          },
+                        ),
                       ],
                     );
                   },
                 ),
-            
+
                 const SizedBox(
                   height: 50,
                 ),
@@ -153,26 +160,27 @@ final passKey = GlobalKey<FormFieldState>();
                   child: Column(
                     children: [
                       ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
-                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
+                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        ),
+                        onPressed: () {
+                          if (loginkey.currentState!.validate()) {
+                            loginkey.currentState?.save();
+                            context.read<LoginCubit>().login();
+                          }
+                        },
+                        child: context.watch<LoginCubit>().state.isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : Text("Login",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(color: Colors.white)),
                       ),
-                      onPressed: () {
-                        if (loginkey.currentState!.validate()) {
-                          loginkey.currentState?.save();
-                          context.read<LoginCubit>().login();
-                        }
-                      },
-                      child: context.watch<LoginCubit>().state.isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : Text("Login",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(color: Colors.white)),
-                    ),
-                    const SizedBox(height: 24),
-                    
+                      const SizedBox(height: 24),
+
                       const Text(
                         "or",
                         style: TextStyle(fontSize: 20),

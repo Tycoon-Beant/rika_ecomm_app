@@ -1,12 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart' as cs;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/screens/cart/cart_screen.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
-import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
-import 'package:rika_ecomm_app/screens/cart/service/cart_services.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/favorite_cubit.dart';
 
@@ -72,22 +71,71 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     final addedtocartState = context.watch<ProductCubit>();
     final product = widget.products;
+    String? mainImage = widget.products.mainImage?.url;
+    List? images = List<String>.from(widget.products.subImages!);
     return Scaffold(
       body: LoadingOverlay(
         isLoading: addedtocartState.state.isLoading,
         child: Stack(
           children: [
             Positioned(
-                top: 0,
-                right: 0,
-                left: 0,
-                child: Image.network(
-                  product.mainImage?.url ?? '',
-                  height: 380,
-                  width: 420,
-                  // width: MediaQuery.sizeOf(context).width,
-                  fit: BoxFit.fill,
-                )),
+              top: 0,
+              right: 0,
+              left: 0,
+              child: Column(
+                children: [
+                  cs.CarouselSlider(
+                    items: [Image.network(mainImage!)],
+                    options: cs.CarouselOptions(
+                      height: 300,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 100,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: images.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              mainImage = images[
+                                  index]; // Change main image when tapped
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Image.network(images[index],
+                                width: 100, fit: BoxFit.cover),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              // Sub Images (Scrollable List)
+
+              //  Image.network(
+              //   product.mainImage?.url ?? '',
+              //   height: 380,
+              //   width: 420,
+              //   // width: MediaQuery.sizeOf(context).width,
+              //   fit: BoxFit.fill,
+              //   errorBuilder: (context, error, stackTrace) {
+              //     return Center(
+              //       child: Text(
+              //         "Unable to fetch",
+              //         style: TextStyle(color: Colors.grey),
+              //       ),
+              //     );
+              //   },
+              // ),
+            ),
             Positioned(
                 top: 10,
                 left: 20,
@@ -340,6 +388,7 @@ class _AddToCartState extends State<AddToCart> {
     final itemList = cartState.state.data?.cart.items ?? [];
     if (itemList.any((e) => e.product?.id == amount.id)) {
       return AddedInToCart(
+        id: amount.id,
         onTap: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => CartScreen()));
@@ -401,11 +450,9 @@ class _AddToCartState extends State<AddToCart> {
 }
 
 class AddedInToCart extends StatefulWidget {
-  const AddedInToCart({
-    super.key,
-    required this.onTap,
-  });
+  const AddedInToCart({super.key, required this.onTap, this.id});
   final VoidCallback onTap;
+  final String? id;
   @override
   State<AddedInToCart> createState() => _AddedInToCartState();
 }
@@ -427,6 +474,8 @@ class _AddedInToCartState extends State<AddedInToCart> {
         quantity--;
         calculatePrice();
       });
+    } else {
+      context.read<CartCubit>().deltCartItem(productId: widget.id!);
     }
   }
 
@@ -499,39 +548,37 @@ class _AddedInToCartState extends State<AddedInToCart> {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => CartScreen()));
             },
-            child: Expanded(
-              child: Container(
-                padding: EdgeInsets.all(8),
-                margin: const EdgeInsets.only(right: 4.0),
-                decoration: BoxDecoration(
-                  color: context.colorScheme.onPrimary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Text("\$ $price",
-                        style: context.theme.titleMedium!
-                            .copyWith(color: context.colorScheme.primary)),
-                    const SizedBox(width: 8),
-                    Container(
-                      color: Colors.grey,
-                      height: 24,
-                      width: 2,
-                    ),
-                    const SizedBox(width: 8),
-                    Image.asset(
-                      "assets/images/carticon.png",
-                      color: context.colorScheme.primary,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      "Added To Cart",
-                      style: context.theme.bodyMedium!.copyWith(
-                          fontFamily: FontFamily.w700,
-                          color: context.colorScheme.primary),
-                    )
-                  ],
-                ),
+            child: Container(
+              padding: EdgeInsets.all(8),
+              margin: const EdgeInsets.only(right: 4.0),
+              decoration: BoxDecoration(
+                color: context.colorScheme.onPrimary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  Text("\$ $price",
+                      style: context.theme.titleMedium!
+                          .copyWith(color: context.colorScheme.primary)),
+                  const SizedBox(width: 8),
+                  Container(
+                    color: Colors.grey,
+                    height: 24,
+                    width: 2,
+                  ),
+                  const SizedBox(width: 8),
+                  Image.asset(
+                    "assets/images/carticon.png",
+                    color: context.colorScheme.primary,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    "Added To Cart",
+                    style: context.theme.bodyMedium!.copyWith(
+                        fontFamily: FontFamily.w700,
+                        color: context.colorScheme.primary),
+                  )
+                ],
               ),
             ),
           ),
