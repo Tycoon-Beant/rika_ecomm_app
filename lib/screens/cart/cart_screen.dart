@@ -89,165 +89,171 @@ class _CartScreenState extends State<CartScreen> {
                       valueColor: AlwaysStoppedAnimation(Colors.grey),
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 17),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('My Cart', style: context.theme.headlineSmall),
-                            if (cartState.state.data?.items?.isNotEmpty ??
-                                false)
-                              ClearButton()
-                            else
-                              SizedBox.shrink()
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 300,
-                          child: BlocListener<CartCubit, Result<CartState>>(
-                            listener: (context, state) {
-                              if (state.data?.cart != null &&
-                                  state.data?.event == CartEvent.add) {
-                                context
-                                    .read<CartListCubit>()
-                                    .updateCart(state.data!.cart);
-                              }
-                              if (state.data?.cart != null &&
-                                  state.data?.event == CartEvent.update) {
-                                context
-                                    .read<CartListCubit>()
-                                    .updateCart(state.data!.cart);
-                              }
-                              if (state.data?.cart != null &&
-                                  state.data?.event == CartEvent.delete) {
-                                context
-                                    .read<CartListCubit>()
-                                    .updateCart(state.data!.cart);
-                              }
-                            },
-                            child: BlocBuilder<CartListCubit, Result<UserCart>>(
-                                builder: (context, state) {
-                              // if (cartState.state.isLoading) {
-                              //   return Center(
-                              //     child: CircularProgressIndicator(),
-                              //   );
-                              // } else 
-                              if (state.error != null) {
-                                return Center(
-                                  child:
-                                      Text("Error: ${state.error.toString()}"),
-                                );
-                              } else {
-                                var cart = cartState.state.data?.items ?? [];
-                          
-                                if (cart.isEmpty) {
-                                  return const Center(
-                                      child: Text("No item in cart."));
-                                }
-                          
-                                //  final product = cart.firstOrNull;
-                                return ListView.builder(
-                                  itemCount: cart.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final cartItem = cart[index];
-                                    return CartItem(cartItem: cartItem);
-                                  },
-                                );
-                              }
-                            }),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 17),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('My Cart',
+                                  style: context.theme.headlineSmall),
+                              if (cartState.state.data?.items?.isNotEmpty ??
+                                  false)
+                                ClearButton()
+                              else
+                                SizedBox.shrink()
+                            ],
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        BlocBuilder<CartListCubit, Result<UserCart>>(
-                          builder: (context, state) {
-                            if (state.data?.items?.isNotEmpty ?? true) {
-                              return Column(
-                                children: [
-                                  if (cartState.state.data?.coupon != null)
-                                    CouponApplied(
-                                      coupon: cartState.state.data!.coupon!,
-                                    )
-                                  else
-                                    ApplyCoupon(),
-                                  SizedBox(height: 20),
-                                  OrderSummary(cartState: cartState),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Total : ${cartState.state.data?.itemCount ?? "0"} items',
-                                          style: context.theme.bodySmall,
-                                        ),
-                                        Text(
-                                          '\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : cartState.state.data?.cartTotal} ',
-                                          style: context.theme.titleMedium
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Orderdetails()));
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            height: 300,
+                            child: BlocListener<CartCubit, Result<CartState>>(
+                              listener: (context, state) {
+                                if (state.data?.cart != null &&
+                                    state.data?.event == CartEvent.add) {
+                                  context
+                                      .read<CartListCubit>()
+                                      .updateCart(state.data!.cart);
+                                }
+                                if (state.data?.cart != null &&
+                                    state.data?.event == CartEvent.update) {
+                                  context
+                                      .read<CartListCubit>()
+                                      .updateCart(state.data!.cart);
+                                }
+                                if (state.data?.cart != null &&
+                                    state.data?.event == CartEvent.delete) {
+                                  context
+                                      .read<CartListCubit>()
+                                      .updateCart(state.data!.cart);
+                                }
+                              },
+                              child:
+                                  BlocBuilder<CartListCubit, Result<UserCart>>(
+                                      builder: (context, state) {
+                                // if (cartState.state.isLoading) {
+                                //   return Center(
+                                //     child: CircularProgressIndicator(),
+                                //   );
+                                // } else
+                                if (state.error != null) {
+                                  return Center(
+                                    child: Text(
+                                        "Error: ${state.error.toString()}"),
+                                  );
+                                } else {
+                                  var cart = cartState.state.data?.items ?? [];
+
+                                  if (cart.isEmpty) {
+                                    return const Center(
+                                        child: Text("No item in cart."));
+                                  }
+
+                                  //  final product = cart.firstOrNull;
+                                  return ListView.builder(
+                                    itemCount: cart.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final cartItem = cart[index];
+                                      return CartItem(cartItem: cartItem);
                                     },
-                                    child: Container(
-                                      padding:  EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: context.colorScheme.secondary,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
+                                  );
+                                }
+                              }),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          BlocBuilder<CartListCubit, Result<UserCart>>(
+                            builder: (context, state) {
+                              if (state.data?.items?.isNotEmpty ?? true) {
+                                return Column(
+                                  children: [
+                                    if (cartState.state.data?.coupon != null)
+                                      CouponApplied(
+                                        coupon: cartState.state.data!.coupon!,
+                                      )
+                                    else
+                                      ApplyCoupon(),
+                                    SizedBox(height: 20),
+                                    OrderSummary(cartState: cartState),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Center(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Text(
-                                                  'Proceed to Checkout',
-                                                  style: context
-                                                      .theme.titleSmall
-                                                      ?.copyWith(
-                                                          color: context
-                                                              .colorScheme
-                                                              .onPrimary)),
-                                            ),
+                                          Text(
+                                            'Total : ${cartState.state.data?.itemCount ?? "0"} items',
+                                            style: context.theme.bodySmall,
                                           ),
-                                          Image.asset(
-                                              'assets/images/arrow3.png')
+                                          Text(
+                                            '\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : cartState.state.data?.cartTotal} ',
+                                            style: context.theme.titleMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                ],
-                              );
-                            } else {
-                              return SizedBox.shrink();
-                            }
-                          },
-                        )
-                      ],
+                                    const SizedBox(height: 10),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Orderdetails()));
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: context.colorScheme.secondary,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5),
+                                                child: Text(
+                                                    'Proceed to Checkout',
+                                                    style: context
+                                                        .theme.titleSmall
+                                                        ?.copyWith(
+                                                            color: context
+                                                                .colorScheme
+                                                                .onPrimary)),
+                                              ),
+                                            ),
+                                            Image.asset(
+                                                'assets/images/arrow3.png'),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                  ],
+                                );
+                              } else {
+                                return SizedBox.shrink();
+                              }
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -357,18 +363,22 @@ class ClearButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: context.colorScheme.onTertiary,
-          shape: RoundedRectangleBorder(
-              side: BorderSide.none, borderRadius: BorderRadius.circular(10)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: context.colorScheme.onTertiary,
+        shape: RoundedRectangleBorder(
+          side: BorderSide.none,
+          borderRadius: BorderRadius.circular(10),
         ),
-        onPressed: () async {
-          await context.read<CartCubit>().clearCartTotally();
-        },
-        child: Text('Clear Cart',
-            style: context.theme.bodyLarge!.copyWith(
-                fontFamily: FontFamily.w700,
-                color: context.colorScheme.primary)));
+      ),
+      onPressed: () async {
+        await context.read<CartCubit>().clearCartTotally();
+      },
+      child: Text(
+        'Clear Cart',
+        style: context.theme.bodyLarge!.copyWith(
+            fontFamily: FontFamily.w700, color: context.colorScheme.primary),
+      ),
+    );
   }
 }
 
@@ -394,27 +404,37 @@ class ApplyCoupon extends StatelessWidget {
             readOnly: true,
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => CouponScreen()));
+                MaterialPageRoute(
+                  builder: (context) => CouponScreen(),
+                ),
+              );
             },
             decoration: InputDecoration(
-                hintText: 'Promo Code',
-                border: InputBorder.none,
-                hintStyle: TextStyle(fontSize: 15, color: Color(0xffAAAAAA)),
-                suffixIcon: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10)),
+              hintText: 'Promo Code',
+              border: InputBorder.none,
+              hintStyle: TextStyle(fontSize: 15, color: Color(0xffAAAAAA)),
+              suffixIcon: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CouponScreen(),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CouponScreen()));
-                    },
-                    child: Text('Apply',
-                        style: TextStyle(
-                            fontSize: 13, fontFamily: FontFamily.w400)))),
+                  );
+                },
+                child: Text(
+                  'Apply',
+                  style: TextStyle(fontSize: 13, fontFamily: FontFamily.w400),
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -448,7 +468,10 @@ class CouponApplied extends StatelessWidget {
             decoration: InputDecoration(
                 hintText: 'Coupon Applied',
                 border: InputBorder.none,
-                hintStyle: TextStyle(fontSize: 15, color: Color(0xffAAAAAA)),
+                hintStyle: TextStyle(
+                  fontSize: 15,
+                  color: Color(0xffAAAAAA),
+                ),
                 suffixIcon: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,

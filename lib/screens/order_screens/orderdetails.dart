@@ -38,6 +38,7 @@ class _OrderdetailsState extends State<Orderdetails> {
     final cartState = context.watch<CartListCubit>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: InkWell(
             onTap: () {
@@ -47,52 +48,52 @@ class _OrderdetailsState extends State<Orderdetails> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Dilevery Address",
-              style: context.theme.headlineSmall,
-            ),
-            const SizedBox(height: 16),
-            AddressContainer(),
-            const SizedBox(height: 16),
-            Text("Product Items", style: context.theme.titleMedium),
-            const SizedBox(height: 10),
-            Builder(builder: (context) {
-              final state = context.watch<CartListCubit>();
-              final cart = state.state.data?.items ?? [];
-              return SizedBox(
-                height: 80,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: cart.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final cartdata = cart[index];
-                    return Row(
-                      children: [
-                        const SizedBox(width: 8),
-                        Container(
-                          width: 300,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: context.colorScheme.onSecondary),
-                            borderRadius: BorderRadius.circular(20),
-                            color: context.colorScheme.onTertiary,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: Image.network(
-                                    cartdata.product?.mainImage?.url ?? '',
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Dilevery Address",
+                style: context.theme.headlineSmall,
+              ),
+              const SizedBox(height: 16),
+              AddressContainer(),
+              const SizedBox(height: 16),
+              Text("Product Items", style: context.theme.titleMedium),
+              const SizedBox(height: 10),
+              Builder(builder: (context) {
+                final state = context.watch<CartListCubit>();
+                final cart = state.state.data?.items ?? [];
+                return SizedBox(
+                  height: 80,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: cart.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final cartdata = cart[index];
+                      return Row(
+                        children: [
+                          const SizedBox(width: 8),
+                          Container(
+                            width: 300,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: context.colorScheme.onSecondary),
+                              borderRadius: BorderRadius.circular(20),
+                              color: context.colorScheme.onTertiary,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Image.network(
+                                      cartdata.product?.mainImage?.url ?? '',
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
+                                  const SizedBox(width: 16),
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -115,28 +116,31 @@ class _OrderdetailsState extends State<Orderdetails> {
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                      ],
-                    );
-                  },
-                ),
-              );
-            }),
-            const SizedBox(height: 20),
-            Text("Payment Method", style: context.theme.titleMedium),
-            const SizedBox(height: 10),
-            PaymentMethodButton(),
-            Expanded(child: Container()),
-            PlaceOderButton(
-              cartState: cartState,
-            ),
-            const SizedBox(height: 10),
-          ],
+                          const SizedBox(width: 10),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              }),
+              const SizedBox(height: 20),
+              Text("Payment Method", style: context.theme.titleMedium),
+              const SizedBox(height: 10),
+              PaymentMethodButton(),
+              Container(),
+              SizedBox(
+                height: 20,
+              ),
+              PlaceOderButton(
+                cartState: cartState,
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
