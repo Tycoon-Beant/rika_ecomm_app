@@ -38,6 +38,7 @@ class _OrderdetailsState extends State<Orderdetails> {
     final cartState = context.watch<CartListCubit>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: InkWell(
             onTap: () {

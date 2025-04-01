@@ -1,0 +1,2 @@
+D:/Flutter/rika_ecomm_app/android/app/.cxx/Debug/322t3c73/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/Flutter/rika_ecomm_app/android/app/.cxx/Debug/322t3c73/armeabi-v7a/CMakeFiles/rebuild_cache.dir

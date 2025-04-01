@@ -29,7 +29,6 @@ import 'package:rika_ecomm_app/screens/order_screens/service/get_order_by_id_ser
 import 'package:rika_ecomm_app/screens/order_screens/service/placed_order_services.dart';
 import 'package:rika_ecomm_app/theme/cubit/theme_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'screens/profile_next_screens/service/my_profile_services.dart';
 
 void main() async {
@@ -146,20 +145,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
-
-class LocalStorage {
-  // static const _token = "token";
-
-  // final SharedPreferences _sharedPreferences;
-
-  // LocalStorage(this._sharedPreferences);
-
-  // Future<void> saveToken(String token) async {
-  //   _sharedPreferences.setString(_token, token);
-  // }
-
-  // String? token() {
-  //   return _sharedPreferences.getString(_token);
-  // }
 }

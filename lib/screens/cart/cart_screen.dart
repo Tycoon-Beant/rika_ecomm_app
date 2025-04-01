@@ -357,18 +357,22 @@ class ClearButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: context.colorScheme.onTertiary,
-          shape: RoundedRectangleBorder(
-              side: BorderSide.none, borderRadius: BorderRadius.circular(10)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: context.colorScheme.onTertiary,
+        shape: RoundedRectangleBorder(
+          side: BorderSide.none,
+          borderRadius: BorderRadius.circular(10),
         ),
-        onPressed: () async {
-          await context.read<CartCubit>().clearCartTotally();
-        },
-        child: Text('Clear Cart',
-            style: context.theme.bodyLarge!.copyWith(
-                fontFamily: FontFamily.w700,
-                color: context.colorScheme.primary)));
+      ),
+      onPressed: () async {
+        await context.read<CartCubit>().clearCartTotally();
+      },
+      child: Text(
+        'Clear Cart',
+        style: context.theme.bodyLarge!.copyWith(
+            fontFamily: FontFamily.w700, color: context.colorScheme.primary),
+      ),
+    );
   }
 }
 
@@ -394,7 +398,10 @@ class ApplyCoupon extends StatelessWidget {
             readOnly: true,
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => CouponScreen()));
+                MaterialPageRoute(
+                  builder: (context) => CouponScreen(),
+                ),
+              );
             },
             decoration: InputDecoration(
                 hintText: 'Promo Code',

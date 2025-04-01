@@ -543,39 +543,37 @@ class _AddedInToCartState extends State<AddedInToCart> {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: context.colorScheme.onSecondary,
-                  borderRadius: BorderRadius.circular(50)),
-              height: 40,
-              width: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                      onTap: decrementCount,
-                      child: Icon(
-                        Icons.remove,
-                        size: 16,
-                      )),
-                  Text(
-                    '$quantity',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: context.colorScheme.primary,
-                        fontFamily: FontFamily.w400),
-                  ),
-                  InkWell(
-                    onTap: incrementCount,
+          Container(
+            decoration: BoxDecoration(
+                color: context.colorScheme.onSecondary,
+                borderRadius: BorderRadius.circular(50)),
+            height: 40,
+            width: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                    onTap: decrementCount,
                     child: Icon(
-                      Icons.add,
+                      Icons.remove,
                       size: 16,
-                    ),
-                  )
-                ],
-              ),
+                    )),
+                Text(
+                  '$quantity',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: context.colorScheme.primary,
+                      fontFamily: FontFamily.w400),
+                ),
+                InkWell(
+                  onTap: incrementCount,
+                  child: Icon(
+                    Icons.add,
+                    size: 16,
+                  ),
+                )
+              ],
             ),
           ),
           SizedBox(
@@ -627,4 +625,17 @@ class _AddedInToCartState extends State<AddedInToCart> {
       ),
     );
   }
+}
+
+Container buildDot(int index, BuildContext context) {
+  return Container(
+    height: 10,
+    width: currentIndex == index ? 20 : 10,
+    margin: EdgeInsets.only(right: 5),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: Colors.white),
+      color: currentIndex == index ? Colors.white : Colors.transparent,
+    ),
+  );
 }
