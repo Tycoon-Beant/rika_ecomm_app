@@ -27,12 +27,16 @@ dependencies:
   path_provider: ^2.1.5
   dotted_border: ^2.0.0
   flutter_swipe_action_cell: ^3.1.5
-  intl: ^0.20.1
+  intl: 
   flutter_image_compress: ^2.1.0
   flutter_spinkit: ^5.2.0
   carousel_slider: ^5.0.0
-    #pagination
+  device_preview: ^1.2.0
+  #pagination
   pull_to_refresh: ^2.0.0
+  #google signin
+  google_sign_in: ^6.2.1
+ 
 
  
 

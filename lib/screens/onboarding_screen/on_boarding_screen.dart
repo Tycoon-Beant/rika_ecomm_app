@@ -32,6 +32,7 @@ class _OnBoardingState extends State<OnBoarding> {
       body: Column(
         children: [
           Expanded(
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: PageView.builder(
@@ -55,7 +56,7 @@ class _OnBoardingState extends State<OnBoarding> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Expanded(
+                      Expanded(flex: 2,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           mainAxisSize: MainAxisSize.max,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
+import 'package:rika_ecomm_app/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/order_screens/cubit/placed_order_cubit/get_placed_order_id_cubit.dart';
 import 'package:rika_ecomm_app/screens/order_screens/model/order_detail_model.dart';
 import 'package:rika_ecomm_app/screens/order_screens/model/orders_model.dart';

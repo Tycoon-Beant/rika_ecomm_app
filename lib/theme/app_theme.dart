@@ -6,7 +6,7 @@ class AppTheme {
     colorScheme: ColorScheme.light(
         primary: Colors.black,
         onPrimary: Colors.white,
-        secondary: Colors.grey,
+        secondary: const Color.fromARGB(255, 201, 200, 200),
         onSecondary: Color(0xff808080),
         tertiary: Color.fromARGB(255, 240, 240, 240),
         onTertiary: Colors.white,

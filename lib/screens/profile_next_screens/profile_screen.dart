@@ -80,19 +80,19 @@ class _ProfilescreenState extends State<Profilescreen> {
 
   @override
   Widget build(BuildContext context) {
+    final coverImage =
+        context.read<LocalStorageService>().getUser()?.avatar;
     return Scaffold(
       appBar: AppBar(
         elevation: 10,
         scrolledUnderElevation: 0.1,
-  
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: InkWell(
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => SettingScreen())),
-              child: Icon(Icons.settings)
-            ),
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SettingScreen())),
+                child: Icon(Icons.settings)),
           )
         ],
       ),
@@ -105,29 +105,51 @@ class _ProfilescreenState extends State<Profilescreen> {
               const SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
-                  // color: context.colorScheme.onSecondary,
-                  border: Border.all(color: context.colorScheme.onSecondary),
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                
-               
+                    // color: context.colorScheme.onSecondary,
+                    border: Border.all(color: context.colorScheme.onSecondary),
+                    borderRadius: BorderRadius.circular(20)),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: [
-                      Image.asset("assets/images/3x/profileimg.png"),
+                      coverImage?.localPath != null
+                          ? SizedBox(
+                            height: 80,
+                            width: 80,
+                            child: ClipRRect(
+                               borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  coverImage?.localPath ?? '',fit: BoxFit.fill,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Image.asset(
+                                          "assets/images/3x/profileimg.png"),
+                                ),
+                              ),
+                          )
+                          : Image.asset("assets/images/3x/profileimg.png"),
                       const SizedBox(width: 10),
                       BlocBuilder<MyProfileListCubit, Result<MyProfile>>(
                         builder: (context, state) {
+                          if (state.error != null) {
+                            return Center(
+                              child: Text("UnExpected Issue!!!"),
+                            );
+                          }
+                          final currentUserEmail = context
+                              .read<LocalStorageService>()
+                              .getUser()
+                              ?.email;
                           return state.when(
                             onData: (profile) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("${profile!.firstName!}  ${profile.lastName!}",
+                                  Text(
+                                      "${profile!.firstName!}  ${profile.lastName!}",
                                       style: context.theme.titleMedium),
                                   Text(
-                                    'rikafashionshop@gmail.com',
+                                    currentUserEmail ??
+                                        'rikafashionshop@gmail.com',
                                     style: context.theme.titleSmall!
                                         .copyWith(color: Colors.grey),
                                   ),
@@ -175,7 +197,7 @@ class _ProfilescreenState extends State<Profilescreen> {
               Container(
                 decoration: BoxDecoration(
                     border: Border.all(
-                        color: context.colorScheme.onTertiary,
+                        color: context.colorScheme.outline,
                         style: BorderStyle.solid),
                     borderRadius: BorderRadius.circular(20)),
                 child: Padding(
@@ -191,7 +213,6 @@ class _ProfilescreenState extends State<Profilescreen> {
               const SizedBox(height: 10),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
                 onPressed: () {
@@ -212,11 +233,11 @@ class _ProfilescreenState extends State<Profilescreen> {
                     children: [
                       Icon(
                         Icons.logout,
-                    
                       ),
                       const SizedBox(width: 8),
-                      Text('Logout',
-                          ),
+                      Text(
+                        'Logout',
+                      ),
                     ],
                   ),
                 ),

@@ -211,28 +211,7 @@ class _LoginState extends State<Login> {
                               ),
                             ],
                           )),
-                      // const SizedBox(height: 25),
-                      // ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(
-                      //         fixedSize:
-                      //             Size(MediaQuery.sizeOf(context).width, 50),
-                      //         backgroundColor: Colors.white,
-                      //         shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(40),
-                      //             side: const BorderSide(
-                      //                 color:
-                      //                     Color.fromARGB(255, 173, 170, 170)))),
-                      //     onPressed: () {},
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         Image.asset("assets/images/appleicon.png"),
-                      //         Text(
-                      //           "    Continue with Apple",
-                      //           style: context.theme.titleMedium,
-                      //         ),
-                      //       ],
-                      //     )),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

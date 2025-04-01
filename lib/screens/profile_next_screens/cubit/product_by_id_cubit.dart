@@ -12,10 +12,10 @@ class ProductByIdCubit extends Cubit<Result<List<Product>>> {
     cancelToken ??= CancelToken();
   }
 
-  Future<void> getProductById(List<String> productIds) async {
+  Future<void> getProductById({List<String>? productIds}) async {
     try {
       emit(Result(isLoading: true, data: state.data));
-      final productList = await Future.wait(productIds.map((e) => _categoryServices.getProductById(productId: e, token :cancelToken)));
+      final productList = await Future.wait(productIds!.map((e) => _categoryServices.getProductById(productId: e, token :cancelToken)));
       emit(Result(data:  productList));
     } catch (e) {
       emit(Result(error: e.toString()));

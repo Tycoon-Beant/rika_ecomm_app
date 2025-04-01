@@ -50,89 +50,105 @@ class _OrderdetailsState extends State<Orderdetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Dilevery Address",
-              style: context.theme.headlineSmall,
+            Expanded(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Dilevery Address",
+                        style: context.theme.headlineSmall,
+                      ),
+                      const SizedBox(height: 10),
+                      AddressContainer(),
+                      const SizedBox(height: 10),
+                      Text("Product Items", style: context.theme.titleMedium),
+                      const SizedBox(height: 10),
+                      Builder(builder: (context) {
+                        final state = context.watch<CartListCubit>();
+                        final cart = state.state.data?.items ?? [];
+                        return SizedBox(
+                          height: 80,
+                          child: ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: cart.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final cartdata = cart[index];
+                              return Row(
+                                children: [
+                                  Container(
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color:
+                                            Color.fromARGB(255, 203, 202, 202),
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: context.colorScheme.onTertiary,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 8.0),
+                                      child: Row(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image.network(
+                                              cartdata.product?.mainImage
+                                                      ?.url ??
+                                                  '',
+                                            ),
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  cartdata.product?.name ?? "",
+                                                  style: context
+                                                      .theme.titleMedium
+                                                      ?.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  // '\$ ${(cartItem.product?.price ?? 0) * (cartItem.quantity ?? 0)}'
+                                                  '\$ ${cartdata.product?.price.toString()}',
+                                                  style: context
+                                                      .theme.titleMedium
+                                                      ?.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w900),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        );
+                      }),
+                      const SizedBox(height: 10),
+                    ]),
+              ),
             ),
-            const SizedBox(height: 16),
-            AddressContainer(),
-            const SizedBox(height: 16),
-            Text("Product Items", style: context.theme.titleMedium),
             const SizedBox(height: 10),
-            Builder(builder: (context) {
-              final state = context.watch<CartListCubit>();
-              final cart = state.state.data?.items ?? [];
-              return SizedBox(
-                height: 80,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: cart.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final cartdata = cart[index];
-                    return Row(
-                      children: [
-                        const SizedBox(width: 8),
-                        Container(
-                          width: 300,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: context.colorScheme.onSecondary),
-                            borderRadius: BorderRadius.circular(20),
-                            color: context.colorScheme.onTertiary,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: Image.network(
-                                    cartdata.product?.mainImage?.url ?? '',
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        cartdata.product?.name ?? "",
-                                        style: context.theme.titleMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        // '\$ ${(cartItem.product?.price ?? 0) * (cartItem.quantity ?? 0)}'
-                                        '\$ ${cartdata.product?.price.toString()}',
-                                        style: context.theme.titleMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w900),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                      ],
-                    );
-                  },
-                ),
-              );
-            }),
-            const SizedBox(height: 20),
-            Text("Payment Method", style: context.theme.titleMedium),
-            const SizedBox(height: 10),
-            PaymentMethodButton(),
-            Expanded(child: Container()),
-            PlaceOderButton(
+            PlaceOrderButton(
               cartState: cartState,
             ),
             const SizedBox(height: 10),
@@ -170,7 +186,8 @@ class AddressContainer extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     color: context.colorScheme.onTertiary,
-                    border: Border.all(color: context.colorScheme.onSecondary),
+                    border:
+                        Border.all(color: Color.fromARGB(255, 203, 202, 202)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
@@ -184,7 +201,7 @@ class AddressContainer extends StatelessWidget {
                                 style: context.theme.titleMedium),
                             Text(state.data?.addressLine1 ?? "",
                                 style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
+                                    color: context.colorScheme.onSecondary)),
                           ],
                         ),
                         Row(
@@ -193,7 +210,7 @@ class AddressContainer extends StatelessWidget {
                                 style: context.theme.titleMedium),
                             Text(state.data?.addressLine2 ?? "",
                                 style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
+                                    color: context.colorScheme.onSecondary)),
                           ],
                         ),
                         Row(
@@ -253,8 +270,8 @@ class AddressContainer extends StatelessWidget {
   }
 }
 
-class PlaceOderButton extends StatelessWidget {
-  const PlaceOderButton({
+class PlaceOrderButton extends StatefulWidget {
+  const PlaceOrderButton({
     super.key,
     required this.cartState,
   });
@@ -262,40 +279,70 @@ class PlaceOderButton extends StatelessWidget {
   final CartListCubit cartState;
 
   @override
+  State<PlaceOrderButton> createState() => _PlaceOrderButtonState();
+}
+
+class _PlaceOrderButtonState extends State<PlaceOrderButton> {
+  String? selectedPaymentName;
+  String? selectedPaymentIcon;
+
+  void _navigateToPaymentScreen() async {
+    final selectedPayment = await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const PaymentMethodScreen()),
+    );
+
+    if (selectedPayment != null) {
+      setState(() {
+        selectedPaymentName = selectedPayment['name'];
+        selectedPaymentIcon = selectedPayment['icon'];
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final orderState = context.watch<GetOrderAddressCubit>();
-    final addressSelected =
-        orderState.state.data?.id; // Extract the address ID here.
+    final addressSelected = orderState.state.data?.id;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          children: [
-            Text("Total Price",
-                style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
-            Text(
-                "\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : cartState.state.data?.cartTotal} ",
-                style: context.theme.titleMedium)
-          ],
+        InkWell(
+          onTap: _navigateToPaymentScreen,
+          child: Column(
+            children: [
+              Text("Pay Method",
+                  style: context.theme.titleSmall!.copyWith(color: Colors.grey)),
+              selectedPaymentIcon != null
+                  ? Image.asset(selectedPaymentIcon!, width: 30, height: 30)
+                  : const Icon(Icons.payment),
+              selectedPaymentName != null
+                  ? Text(selectedPaymentName!,
+                      style: context.theme.bodySmall!.copyWith(fontWeight: FontWeight.bold))
+                  : const SizedBox(),
+            ],
+          ),
         ),
-        BlocListener<PostPlacedOrderCubit, Result<Order>>(
-          listener: (context, state) {
-            if (state.data != null) {
-              context.read<CartCubit>().clearCartTotally();
+        const SizedBox(width: 10),
+        Expanded(
+          flex: 3,
+          child: BlocListener<PostPlacedOrderCubit, Result<Order>>(
+            listener: (context, state) {
+              if (state.data != null) {
+                context.read<CartCubit>().clearCartTotally();
 
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return OrderPlacedAlert();
-                },
-              );
-            } else if (state.error != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.error.toString())));
-            }
-          },
-          child: ElevatedButton(
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const OrderPlacedAlert();
+                  },
+                );
+              } else if (state.error != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(state.error.toString())));
+              }
+            },
+            child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: context.colorScheme.primary,
                   shape: RoundedRectangleBorder(
@@ -308,16 +355,36 @@ class PlaceOderButton extends StatelessWidget {
                           .postplaceOderCubit(addressId: addressSelected!);
                     },
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: Text("Place order",
-                    style: context.theme.titleMedium!
-                        .copyWith(color: context.colorScheme.onPrimary)),
-              )),
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+                child: Row(
+                  children: [
+                    Text(
+                      "\$ ${widget.cartState.state.data?.coupon != null ? widget.cartState.state.data?.discountedTotal : widget.cartState.state.data?.cartTotal} ",
+                      style: context.theme.titleMedium!.copyWith(
+                        color: context.colorScheme.onPrimary,
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    Container(
+                      height: 40,
+                      width: 1,
+                      color: context.colorScheme.onPrimary,
+                    ),
+                    const SizedBox(width: 8),
+                    Text("Place order",
+                        style: context.theme.titleMedium!
+                            .copyWith(color: context.colorScheme.onPrimary)),
+                  ],
+                ),
+              ),
+            ),
+          ),
         )
       ],
     );
   }
 }
+
 
 class PaymentMethodButton extends StatelessWidget {
   const PaymentMethodButton({

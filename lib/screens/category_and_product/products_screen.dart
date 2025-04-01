@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
+import 'package:rika_ecomm_app/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/model/category_model.dart';
 import 'package:rika_ecomm_app/screens/product_details/product_detail_screen.dart';

@@ -1,5 +1,8 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/update_avatar_cubit.dart';
+import 'package:rika_ecomm_app/screens/profile_next_screens/service/update_avatar_service.dart';
 import 'package:rika_ecomm_app/theme/app_theme.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_list_cubit.dart';
@@ -34,66 +37,79 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
 
   runApp(
-    MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (context) => LocalStorageService(prefs)),
-        RepositoryProvider(create: (context) => CartServices()),
-        RepositoryProvider(
-            create: (context) =>
-                LoginServices(context.read<LocalStorageService>())),
-        RepositoryProvider(create: (context) => MyProfileServices()),
-        RepositoryProvider(create: (context) => CouponsServices()),
-        RepositoryProvider(create: (context) => AddressServices()),
-        RepositoryProvider(create: (context) => GetOrderAddressIdService()),
-        RepositoryProvider(create: (context) => PlacedOrderServices()),
-        RepositoryProvider(create: (context) => GetOrderByIdServices()),
-        RepositoryProvider(create: (context) => CategoryAndProductServices()),
-        // RepositoryProvider(create: (context) => ProductListRepository(productService: context.read())),
+    DevicePreview(
+      enabled: false,
+      tools: [
+        ...DevicePreview.defaultTools,
       ],
-      child: MultiBlocProvider(
+      builder: (context) => MultiRepositoryProvider(
         providers: [
-          BlocProvider(
-          create: (context) => CartCubit(context.read<CartServices>()),
-        ),
-          BlocProvider(
-              create: (context) => CartListCubit(context.read<CartServices>())),
-          BlocProvider(
-              create: (context) => CategoryListCubit(
-                  context.read<CategoryAndProductServices>())),
-          BlocProvider(
+          RepositoryProvider(create: (context) => LocalStorageService(prefs)),
+          RepositoryProvider(create: (context) => CartServices()),
+          RepositoryProvider(
               create: (context) =>
-                  ProductCubit(context.read<CategoryAndProductServices>())),
-          BlocProvider(
-              create: (context) =>
-                  MyProfileListCubit(context.read<MyProfileServices>())),
-          BlocProvider(
-              create: (context) =>
-                  ProfileCubit(context.read<MyProfileServices>())),
-          BlocProvider(
-              create: (context) =>
-                  AddressListCubit(context.read<AddressServices>())),
-          BlocProvider(
-              create: (context) => AddressCubit(context.read<AddressServices>(),
-                  context.read<LocalStorageService>())),
-          BlocProvider(
-              create: (context) => GetOrderAddressCubit(
-                  context.read<GetOrderAddressIdService>())),
-          BlocProvider(
-              create: (context) =>
-                  PostPlacedOrderCubit(context.read<PlacedOrderServices>())),
-          BlocProvider(
-              create: (context) =>
-                  GetPlacedOrderIdCubit(context.read<GetOrderByIdServices>())),
-          BlocProvider(
-              create: (context) =>
-                  FavoritesCubit(context.read<LocalStorageService>())),
-          BlocProvider(
-            create: (context) =>
-                ProductByIdCubit(context.read<CategoryAndProductServices>()),
-          ),
-          BlocProvider(create: (context) => ThemeCubit())
+                  LoginServices(context.read<LocalStorageService>())),
+          RepositoryProvider(create: (context) => MyProfileServices()),
+          RepositoryProvider(create: (context) => CouponsServices()),
+          RepositoryProvider(create: (context) => AddressServices()),
+          RepositoryProvider(create: (context) => GetOrderAddressIdService()),
+          RepositoryProvider(create: (context) => PlacedOrderServices()),
+          RepositoryProvider(create: (context) => GetOrderByIdServices()),
+          RepositoryProvider(create: (context) => CategoryAndProductServices()),
+          RepositoryProvider(
+              create: (context) => UpdateAvatarService(context.read())),
         ],
-        child: const MyApp(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => CartCubit(context.read<CartServices>()),
+            ),
+            BlocProvider(
+                create: (context) =>
+                    CartListCubit(context.read<CartServices>())),
+            BlocProvider(
+                create: (context) => CategoryListCubit(
+                    context.read<CategoryAndProductServices>())),
+            BlocProvider(
+                create: (context) =>
+                    ProductCubit(context.read<CategoryAndProductServices>())),
+            BlocProvider(
+                create: (context) =>
+                    MyProfileListCubit(context.read<MyProfileServices>())),
+            BlocProvider(
+                create: (context) =>
+                    ProfileCubit(context.read<MyProfileServices>())),
+            BlocProvider(
+                create: (context) =>
+                    AddressListCubit(context.read<AddressServices>())),
+            BlocProvider(
+                create: (context) => AddressCubit(
+                    context.read<AddressServices>(),
+                    context.read<LocalStorageService>())),
+            BlocProvider(
+                create: (context) => GetOrderAddressCubit(
+                    context.read<GetOrderAddressIdService>())),
+            BlocProvider(
+                create: (context) =>
+                    PostPlacedOrderCubit(context.read<PlacedOrderServices>())),
+            BlocProvider(
+                create: (context) => GetPlacedOrderIdCubit(
+                    context.read<GetOrderByIdServices>())),
+            BlocProvider(
+                create: (context) => FavoritesCubit(
+                      context.read<LocalStorageService>(),
+                      // context.read(),
+                    )),
+            BlocProvider(
+              create: (context) =>
+                  ProductByIdCubit(context.read<CategoryAndProductServices>()),
+            ),
+            BlocProvider(
+                create: (context) => UpdateAvatarCubit(context.read())),
+            BlocProvider(create: (context) => ThemeCubit()),
+          ],
+          child: const MyApp(),
+        ),
       ),
     ),
   );
@@ -112,6 +128,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             builder: (context, child) {
+              DevicePreview.appBuilder;
               final mediaQueryData = MediaQuery.of(context);
               return MediaQuery(
                 data: mediaQueryData.copyWith(
@@ -119,6 +136,7 @@ class MyApp extends StatelessWidget {
                 child: child!,
               );
             },
+            locale: DevicePreview.locale(context),
             theme: AppTheme().lightTheme,
             darkTheme: AppTheme().darkTheme,
             themeMode: state,

@@ -108,8 +108,8 @@ class _CartScreenState extends State<CartScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        SizedBox(
-                          height: 300,
+                        Flexible(
+                      
                           child: BlocListener<CartCubit, Result<CartState>>(
                             listener: (context, state) {
                               if (state.data?.cart != null &&
@@ -164,7 +164,7 @@ class _CartScreenState extends State<CartScreen> {
                             }),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        
                         BlocBuilder<CartListCubit, Result<UserCart>>(
                           builder: (context, state) {
                             if (state.data?.items?.isNotEmpty ?? true) {
@@ -176,10 +176,10 @@ class _CartScreenState extends State<CartScreen> {
                                     )
                                   else
                                     ApplyCoupon(),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 10),
                                   OrderSummary(cartState: cartState),
                                   SizedBox(
-                                    height: 10,
+                                    height: 8,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -383,7 +383,7 @@ class ApplyCoupon extends StatelessWidget {
       width: 400,
       height: 50,
       decoration: BoxDecoration(
-        color: context.colorScheme.onSecondary,
+        color: context.colorScheme.secondary,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
@@ -399,7 +399,7 @@ class ApplyCoupon extends StatelessWidget {
             decoration: InputDecoration(
                 hintText: 'Promo Code',
                 border: InputBorder.none,
-                hintStyle: TextStyle(fontSize: 15, color: Color(0xffAAAAAA)),
+                hintStyle: TextStyle(fontSize: 15, color: context.colorScheme.onPrimary),
                 suffixIcon: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
@@ -432,7 +432,7 @@ class CouponApplied extends StatelessWidget {
       width: 400,
       height: 50,
       decoration: BoxDecoration(
-        color: context.colorScheme.onSecondary,
+        color: context.colorScheme.secondary,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
@@ -448,7 +448,7 @@ class CouponApplied extends StatelessWidget {
             decoration: InputDecoration(
                 hintText: 'Coupon Applied',
                 border: InputBorder.none,
-                hintStyle: TextStyle(fontSize: 15, color: Color(0xffAAAAAA)),
+                hintStyle: TextStyle(fontSize: 15, color: context.colorScheme.onPrimary),
                 suffixIcon: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
@@ -516,30 +516,32 @@ class CartItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 160,
-                      child: Text(
-                        cartItem.product?.name ?? "",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.theme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 160,
+                        child: Text(
+                          cartItem.product?.name ?? "",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.theme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      // '\$ ${(cartItem.product?.price ?? 0) * (cartItem.quantity ?? 0)}'
-                      '\$ ${cartItem.product?.price.toString()}',
-                      style: context.theme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w900),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        // '\$ ${(cartItem.product?.price ?? 0) * (cartItem.quantity ?? 0)}'
+                        '\$ ${cartItem.product?.price.toString()}',
+                        style: context.theme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w900),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(width: 10),
                 Column(

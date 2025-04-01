@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/model/common_response.dart';
 import 'package:rika_ecomm_app/model/result.dart';
-import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/categorie_screen.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/products_screen.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/category_list_cubit.dart';
@@ -62,9 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 5,
               ),
-              Text("Our Rika Fashion App",
-                  style: context.theme.titleLarge
-                      ?.copyWith(color: Color(0xff666666))),
+              Text(
+                "Our Rika Fashion App",
+                style: context.theme.titleLarge?.copyWith(
+                  color: Color(0xff666666),
+                  fontFamily: FontFamily.w300,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -321,7 +326,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              BlocBuilder<CategoryListCubit, Result<CategoriModel>>(
+              BlocBuilder<CategoryListCubit,
+                  Result<PaginationResponse<Categories>>>(
                 builder: (context, state) {
                   if (state.isLoading) {
                     return Center(
@@ -332,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text("Error: ${state.error}"),
                     );
                   } else {
-                    final categories = state.data?.data?.categories;
+                    final categories = state.data?.data;
                     if (categories == null || categories.isEmpty) {
                       return const Center(
                           child: Text("No categories available."));
@@ -341,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 40,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: categories.length,
+                          itemCount: 10,
                           itemBuilder: (BuildContext context, int index) {
                             final category = categories[index];
                             return Row(
@@ -435,7 +441,6 @@ class TopDressGrid extends StatelessWidget {
         );
       } else {
         final productList = state.data?.products;
-        
 
         return GridView.builder(
           physics: NeverScrollableScrollPhysics(),
@@ -455,7 +460,7 @@ class TopDressGrid extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        ProductDetailScreen(products: product!),
+                        ProductDetailScreen(products: product),
                   ),
                 );
               },

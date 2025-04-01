@@ -8,16 +8,22 @@ import 'package:rika_ecomm_app/services/dio_instance.dart';
 class CategoryAndProductServices {
   CategoryAndProductServices();
 
-  Future<CategoriModel> getCategories({CancelToken? token}) async {
+  Future<PaginationResponse<Categories>> getCategories(
+      {CancelToken? token, int? page}) async {
     final response = await DioSingleton()
         .dio
         .get("ecommerce/categories", cancelToken: token);
     final body = response.data;
-    final categori = CategoriModel.fromJson(body);
-    return categori;
+    final List<dynamic> jsonResponse = body["data"]["categories"];
+    return PaginationResponse(
+      page: page ?? 1,
+      totalPages: body["data"]["totalPages"],
+      data: jsonResponse.map((e) => Categories.fromJson(e)).toList(),
+    );
   }
 
-  Future<PaginationResponse<Product>> getProduct({CancelToken? token, int? page}) async {
+  Future<PaginationResponse<Product>> getProduct(
+      {CancelToken? token, int? page}) async {
     final response = await DioSingleton().dio.get(
       "ecommerce/products",
       cancelToken: token,
@@ -26,7 +32,7 @@ class CategoryAndProductServices {
     final body = response.data;
     final List<dynamic> jsonResponse =
         body["data"]["products"]; //response["data"]
-        
+
     return PaginationResponse(
       page: page ?? 1,
       totalPages: body["data"]["totalPages"],

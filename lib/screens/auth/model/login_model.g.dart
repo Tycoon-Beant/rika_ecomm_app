@@ -50,7 +50,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
 
 Avatar _$AvatarFromJson(Map<String, dynamic> json) => Avatar(
       url: json['url'] as String?,
-      localPath: json['localPath'] as String?,
+      localPath: Avatar._localPathFromJson(json['localPath'] as String?),
       id: json['_id'] as String?,
     );
 

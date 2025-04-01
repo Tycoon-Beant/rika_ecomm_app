@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart' as cs;
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -42,6 +42,7 @@ List<Color> colors = [
 ];
 bool iscart = false;
 bool fav = false;
+int currentIndex = 0;
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
@@ -72,290 +73,330 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final addedtocartState = context.watch<ProductCubit>();
     final product = widget.products;
     String? mainImage = widget.products.mainImage?.url;
-    List? images = List<String>.from(widget.products.subImages!);
+    List<String?> images =
+        widget.products.subImages?.map((e) => e.url).toList() ?? [];
+
     return Scaffold(
+      backgroundColor: context.colorScheme.onPrimary,
       body: LoadingOverlay(
         isLoading: addedtocartState.state.isLoading,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              left: 0,
-              child: Column(
-                children: [
-                  cs.CarouselSlider(
-                    items: [Image.network(mainImage!)],
-                    options: cs.CarouselOptions(
-                      height: 300,
-                      enlargeCenterPage: true,
-                      autoPlay: true,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: images.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              mainImage = images[
-                                  index]; // Change main image when tapped
-                            });
-                          },
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    height: 335,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Positioned.fill(
+                          child: CarouselSlider.builder(
+                            options: CarouselOptions(
+                              height: 400,
+                              autoPlay: false,
+                              viewportFraction: 1,
+                              enableInfiniteScroll: false,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  currentIndex = index;
+                                });
+                              },
+                            ),
+                            itemCount: images.length,
+                            itemBuilder: (BuildContext context, int index,
+                                int realIndex) {
+                              return Image.network(
+                                mainImage!,
+                                height: 380,
+                                width: 420,
+                                fit: BoxFit.fill,
+                              );
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 0,
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Image.network(images[index],
-                                width: 100, fit: BoxFit.cover),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-
-              // Sub Images (Scrollable List)
-
-              //  Image.network(
-              //   product.mainImage?.url ?? '',
-              //   height: 380,
-              //   width: 420,
-              //   // width: MediaQuery.sizeOf(context).width,
-              //   fit: BoxFit.fill,
-              //   errorBuilder: (context, error, stackTrace) {
-              //     return Center(
-              //       child: Text(
-              //         "Unable to fetch",
-              //         style: TextStyle(color: Colors.grey),
-              //       ),
-              //     );
-              //   },
-              // ),
-            ),
-            Positioned(
-                top: 10,
-                left: 20,
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Image.asset("assets/images/arrowback.png"))),
-            Positioned(
-                top: 10,
-                right: 20,
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.white, width: 2),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        "assets/images/search.png",
-                        color: Colors.black,
-                        scale: 1,
-                      ),
-                    ))),
-            Positioned(
-              top: 10,
-              right: 70,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(40)),
-                child: InkWell(
-                  onTap: () {
-                    final cubit = context.read<FavoritesCubit>();
-                    final isLiked = cubit.state.isLiked(product.id!);
-
-                    if (isLiked) {
-                      cubit.removeFavorite(product.id!);
-                    } else {
-                      cubit.addFavorite(product.id!);
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      context.watch<FavoritesCubit>().state.isLiked(product.id!)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: context
-                              .watch<FavoritesCubit>()
-                              .state
-                              .isLiked(product.id!)
-                          ? Colors.red
-                          : Colors.black,
-                      size: 30,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 360,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              child: Container(
-                height: 800,
-                width: MediaQuery.sizeOf(context).width,
-                decoration: BoxDecoration(
-                  border: Border.all(color: context.colorScheme.secondary),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(28),
-                    topRight: Radius.circular(28),
-                  ),
-                  color: context.colorScheme.onPrimary,
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(product.name!,
-                                    style: context.theme.titleLarge!.copyWith(
-                                      fontFamily: FontFamily.w700,
-                                    )),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text("Available in stock",
-                                  style: context.theme.titleMedium!
-                                      .copyWith(fontFamily: FontFamily.w700)),
-                              const SizedBox(width: 10),
-                              Text(
-                                product.stock.toString(),
-                                style: context.theme.titleMedium!.copyWith(
-                                    fontFamily: FontFamily.w700,
-                                    color: Colors.grey),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset("assets/images/star.png"),
-                          Text(" (320 Reviews)",
-                              style: context.theme.titleSmall!
-                                  .copyWith(fontFamily: FontFamily.w400)),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text("Sizes",
-                          style: context.theme.titleLarge!
-                              .copyWith(fontFamily: FontFamily.w700)),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: sizes.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final size = sizes[index];
-                            final isSelected = selectedSize == size;
-                            return Row(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 16),
+                            child: Row(
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    if (selectedSize == size) {
-                                      setState(() {
-                                        selectedSize = null;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        selectedSize = size;
-                                      });
-                                    }
+                                    Navigator.of(context).pop();
                                   },
-                                  child: Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? context.colorScheme.primary
-                                          : context.colorScheme.onTertiary,
+                                  child: Image.asset(
+                                      "assets/images/arrowback.png"),
+                                ),
+                                Spacer(),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
                                       border: Border.all(
-                                          color: isSelected
-                                              ? Colors.black
-                                              : Colors.grey.withOpacity(0.3)),
-                                      shape: BoxShape.circle,
+                                          color: Colors.white, width: 2),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      "assets/images/search.png",
+                                      color: Colors.black,
+                                      scale: 1,
                                     ),
-                                    child: Center(
-                                        child: Text(
-                                      size,
-                                      style: TextStyle(
-                                          color: isSelected
-                                              ? context.colorScheme.onPrimary
-                                              : context.colorScheme.primary),
-                                    )),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(40)),
+                                  child: InkWell(
+                                    onTap: () {
+                                      final cubit =
+                                          context.read<FavoritesCubit>();
+                                      final isLiked =
+                                          cubit.state.isLiked(product.id!);
+
+                                      if (isLiked) {
+                                        cubit.removeFavorite(product.id!);
+                                      } else {
+                                        cubit.addFavorite(product.id!);
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Icon(
+                                        context
+                                                .watch<FavoritesCubit>()
+                                                .state
+                                                .isLiked(product.id!)
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: context
+                                                .watch<FavoritesCubit>()
+                                                .state
+                                                .isLiked(product.id!)
+                                            ? Colors.red
+                                            : Colors.black,
+                                        size: 30,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
-                            );
-                          },
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text("Descriptions",
-                          style: context.theme.titleLarge!
-                              .copyWith(fontFamily: FontFamily.w700)),
-                      const SizedBox(height: 5),
-                      Expanded(
-                        child: Text(product.description!,
-                            style: context.theme.bodySmall!.copyWith(
-                                fontFamily: FontFamily.w400,
-                                color: Colors.grey)),
-                      ),
-                      const SizedBox(),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
-                        child: isInCart
-                            ? AddedInToCart(
-                                onTap: () {
-                                  setState(() {
-                                    isInCart = true;
-                                  });
-                                },
-                              )
-                            : AddToCart(
-                                amounts: product,
-                                onTap: () {
-                                  setState(() {
-                                    isInCart = true;
-                                  });
-                                },
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            color: Colors.transparent,
+                            height: 50,
+                            width: 120,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Row(
+                                children: List.generate(
+                                  images.length,
+                                  (index) => buildDot(index, context),
+                                ),
                               ),
-                      ),
-                    ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  top: 320,
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(28),
+                        topRight: Radius.circular(28),
+                      ),
+                      color: context.colorScheme.onPrimary,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(product.name!,
+                                        style:
+                                            context.theme.titleLarge!.copyWith(
+                                          fontFamily: FontFamily.w700,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Available in stock",
+                                      style: context.theme.titleMedium!
+                                          .copyWith(
+                                              fontFamily: FontFamily.w700)),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    product.stock.toString(),
+                                    style: context.theme.titleMedium!.copyWith(
+                                        fontFamily: FontFamily.w700,
+                                        color: Colors.grey),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.asset("assets/images/star.png"),
+                              Text(" (320 Reviews)",
+                                  style: context.theme.titleSmall!
+                                      .copyWith(fontFamily: FontFamily.w400)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text("Sizes",
+                              style: context.theme.titleLarge!
+                                  .copyWith(fontFamily: FontFamily.w700)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            height: 40,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: sizes.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final size = sizes[index];
+                                final isSelected = selectedSize == size;
+                                return Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (selectedSize == size) {
+                                          setState(() {
+                                            selectedSize = null;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            selectedSize = size;
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                          color: isSelected
+                                              ? context.colorScheme.primary
+                                              : context.colorScheme.onTertiary,
+                                          border: Border.all(
+                                              color: isSelected
+                                                  ? Colors.black
+                                                  : Colors.grey
+                                                      .withOpacity(0.3)),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                            child: Text(
+                                          size,
+                                          style: TextStyle(
+                                              color: isSelected
+                                                  ? context
+                                                      .colorScheme.onPrimary
+                                                  : context
+                                                      .colorScheme.primary),
+                                        )),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text("Descriptions",
+                              style: context.theme.titleLarge!
+                                  .copyWith(fontFamily: FontFamily.w700)),
+                          const SizedBox(height: 5),
+                          Text(product.description!,
+                              style: context.theme.bodySmall!.copyWith(
+                                  fontFamily: FontFamily.w400,
+                                  color: Colors.grey)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: isInCart
+                  ? AddedInToCart(
+                      onTap: () {
+                        setState(() {
+                          isInCart = true;
+                        });
+                      },
+                    )
+                  : AddToCart(
+                      amounts: product,
+                      onTap: () {
+                        setState(() {
+                          isInCart = true;
+                        });
+                      },
+                    ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Container buildDot(int index, BuildContext context) {
+    return Container(
+      height: 10,
+      width: currentIndex == index ? 25 : 10,
+      margin: const EdgeInsets.only(right: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white),
+        color: currentIndex == index ? Colors.white : Colors.transparent,
       ),
     );
   }

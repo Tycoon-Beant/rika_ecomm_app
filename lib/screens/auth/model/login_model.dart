@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rika_ecomm_app/config/common.dart';
 
 part 'login_model.g.dart';
-
 
 @JsonSerializable()
 class Loginuser {
@@ -10,7 +10,8 @@ class Loginuser {
   String? refreshToken;
 
   Loginuser({this.user, this.accessToken, this.refreshToken});
-  factory Loginuser.fromJson(Map<String , dynamic> json) => _$LoginuserFromJson(json);
+  factory Loginuser.fromJson(Map<String, dynamic> json) =>
+      _$LoginuserFromJson(json);
 
   // Loginuser.fromJson(Map<String, dynamic> json) {
   //   user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -54,61 +55,42 @@ class User {
       this.createdAt,
       this.updatedAt,
       this.iV});
-      factory User.fromJson(Map<String , dynamic> json) => _$UserFromJson(json);
 
-  // User.fromJson(Map<String, dynamic> json) {
-  //   id = json['_id'];
-  //   avatar =
-  //       json['avatar'] != null ? new Avatar.fromJson(json['avatar']) : null;
-  //   username = json['username'];
-  //   email = json['email'];
-  //   role = json['role'];
-  //   loginType = json['loginType'];
-  //   isEmailVerified = json['isEmailVerified'];
-  //   createdAt = json['createdAt'];
-  //   updatedAt = json['updatedAt'];
-  //   iV = json['__v'];
-  // }
+  User copyWith({Avatar? avatar}) {
+    return User(
+      avatar: avatar ?? this.avatar,
+    );
+  }
 
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['_id'] = this.sId;
-  //   if (this.avatar != null) {
-  //     data['avatar'] = this.avatar!.toJson();
-  //   }
-  //   data['username'] = this.username;
-  //   data['email'] = this.email;
-  //   data['role'] = this.role;
-  //   data['loginType'] = this.loginType;
-  //   data['isEmailVerified'] = this.isEmailVerified;
-  //   data['createdAt'] = this.createdAt;
-  //   data['updatedAt'] = this.updatedAt;
-  //   data['__v'] = this.iV;
-  //   return data;
-  // }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
 @JsonSerializable()
 class Avatar {
   String? url;
+  @JsonKey(fromJson: _localPathFromJson)
   String? localPath;
   @JsonKey(name: "_id")
   String? id;
 
+  static String? _localPathFromJson(String? image) {
+    if (image == null) {
+      return null;
+    }
+    return "$imageBaseUrl${image.replaceAll("public/", "")}";
+  }
+
+  Avatar copyWith({String? localPath}) {
+    return Avatar(
+      localPath: localPath ?? this.localPath,
+    );
+  }
+
   Avatar({this.url, this.localPath, this.id});
 
-factory Avatar.fromJson(Map<String , dynamic> json) => _$AvatarFromJson(json);
-  // Avatar.fromJson(Map<String, dynamic> json) {
-  //   url = json['url'];
-  //   localPath = json['localPath'];
-  //   sId = json['_id'];
-  // }
+  factory Avatar.fromJson(Map<String, dynamic> json) => _$AvatarFromJson(json);
 
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['url'] = this.url;
-  //   data['localPath'] = this.localPath;
-  //   data['_id'] = this.sId;
-  //   return data;
-  // }
+  Map<String, dynamic> toJson() => _$AvatarToJson(this);
 }
