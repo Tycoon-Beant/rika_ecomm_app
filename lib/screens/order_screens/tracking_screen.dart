@@ -1,58 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/di/service_locator.dart';
-import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
-import 'package:rika_ecomm_app/screens/order_screens/cubit/placed_order_cubit/get_placed_order_id_cubit.dart';
-import 'package:rika_ecomm_app/screens/order_screens/model/order_detail_model.dart';
-import 'package:rika_ecomm_app/screens/order_screens/model/orders_model.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class Trakingaddress extends StatefulWidget {
-  const Trakingaddress({super.key, required this.orders});
+import '../../config/common.dart';
+import '../Widgets/async_widget.dart';
+import 'cubit/placed_order_cubit/get_placed_order_id_cubit.dart';
+import 'model/order_detail_model.dart';
+import 'model/orders_model.dart';
+
+class TrackingScreen extends StatefulWidget {
+  const TrackingScreen({super.key, required this.orders});
   final Orders orders;
 
   @override
-  State<Trakingaddress> createState() => _TrakingaddressState();
+  State<TrackingScreen> createState() => _TrackingScreenState();
 }
 
-class _TrakingaddressState extends State<Trakingaddress> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.orders.id != null) {
-      getIt<GetPlacedOrderIdCubit>().getOrderId(orderId: widget.orders.id!);
-    } else {
-      // Handle the case where orderId is null, show an error or fallback UI
-      print('Order ID is null');
-    }
-  }
-
+class _TrackingScreenState extends State<TrackingScreen> {
+  
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<GetPlacedOrderIdCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          surfaceTintColor: Colors.white,
-          leading: InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
+    return Scaffold(
+      appBar: AppBar(
+        surfaceTintColor: Colors.white,
+        leading: InkWell(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Image.asset("assets/images/3x/arrowback.png")),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: AsyncWidget<GetPlacedOrderIdCubit, OderDetail>(
+              data: (order) {
+                if (order == null) {
+                  return Center(child: Text("Order details not available."));
+                }
+                return OrderTrackingDetail(orders: order);
               },
-              child: Image.asset("assets/images/3x/arrowback.png")),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: AsyncWidget<GetPlacedOrderIdCubit, OderDetail>(
-                data: (order) {
-                  if (order == null) {
-                    return Center(child: Text("Order details not available."));
-                  }
-                  return OrderTrackingDetail(orders: order);
-                },
-              )),
-        ),
+            )),
       ),
     );
   }

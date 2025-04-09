@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/order_screens/model/orders_model.dart';

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/di/service_locator.dart';
-import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/signup_cubit/signup_cubit.dart';
-import 'package:rika_ecomm_app/screens/auth/login_screen.dart';
-import 'package:rika_ecomm_app/screens/auth/service/login_services.dart';
 import 'package:rika_ecomm_app/screens/auth/signup_screen.dart';
 
 class SplashScreenTwo extends StatefulWidget {
@@ -20,9 +16,8 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage("assets/images/3x/splash_ii.png"),
-            fit: BoxFit.cover),
+        image:
+            DecorationImage(image: AssetImage("assets/images/3x/splash_ii.png"), fit: BoxFit.cover),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -53,20 +48,11 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                       width: 2.0, // Border width
                     ),
                   ),
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context) => SignupCubit(),
-                            child: const SignUp(),
-                          ),
-                        ),
-                      ),
+                  onPressed: () => Navigator.pushNamed(context, "/signUp"),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(90, 10, 90, 10),
                     child: Text("SignUp",
-                        style: context.theme.bodyLarge!
-                            .copyWith(color: Colors.white)),
+                        style: context.theme.bodyLarge!.copyWith(color: Colors.white)),
                   )),
             ],
           ),

@@ -20,8 +20,6 @@ class FilterModel {
     return categoryId == null && min == null && max == null && sort == null;
   }
 
-  
-
   FilterModel copyWith({
     double? min,
     double? max,

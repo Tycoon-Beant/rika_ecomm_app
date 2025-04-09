@@ -5,15 +5,14 @@ import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/model/result.dart';
+import 'package:rika_ecomm_app/routes/routes.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/coupon/coupon_screen.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/apply_coupon_cubit.dart';
-import 'package:rika_ecomm_app/screens/coupon/cubit/coupon_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/coupon/model/coupons_model.dart';
-import 'package:rika_ecomm_app/screens/coupon/service/coupons_services.dart';
-import 'package:rika_ecomm_app/screens/order_screens/orderdetails.dart';
+import 'package:rika_ecomm_app/screens/order_screens/checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -62,8 +61,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
               BlocListener<CartCubit, Result<CartState>>(
                 listener: (context, state) {
-                  if (state.data?.cart != null &&
-                      state.data?.event == CartEvent.clear) {
+                  if (state.data?.cart != null && state.data?.event == CartEvent.clear) {
                     context.read<CartListCubit>().updateCart(state.data!.cart);
                   }
                 },
@@ -92,10 +90,8 @@ class _CartScreenState extends State<CartScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('My Cart',
-                                  style: context.theme.headlineSmall),
-                              if (cartState.state.data?.items?.isNotEmpty ??
-                                  false)
+                              Text('My Cart', style: context.theme.headlineSmall),
+                              if (cartState.state.data?.items?.isNotEmpty ?? false)
                                 ClearButton()
                               else
                                 SizedBox.shrink()
@@ -110,44 +106,33 @@ class _CartScreenState extends State<CartScreen> {
                               listener: (context, state) {
                                 if (state.data?.cart != null &&
                                     state.data?.event == CartEvent.add) {
-                                  context
-                                      .read<CartListCubit>()
-                                      .updateCart(state.data!.cart);
+                                  context.read<CartListCubit>().updateCart(state.data!.cart);
                                 }
                                 if (state.data?.cart != null &&
                                     state.data?.event == CartEvent.update) {
-                                  context
-                                      .read<CartListCubit>()
-                                      .updateCart(state.data!.cart);
+                                  context.read<CartListCubit>().updateCart(state.data!.cart);
                                 }
                                 if (state.data?.cart != null &&
                                     state.data?.event == CartEvent.delete) {
-                                  context
-                                      .read<CartListCubit>()
-                                      .updateCart(state.data!.cart);
+                                  context.read<CartListCubit>().updateCart(state.data!.cart);
                                 }
                               },
-                              child:
-                                  BlocBuilder<CartListCubit, Result<UserCart>>(
+                              child: BlocBuilder<CartListCubit, Result<UserCart>>(
                                 builder: (context, state) {
                                   if (state.error != null) {
                                     return Center(
-                                      child: Text(
-                                          "Error: ${state.error.toString()}"),
+                                      child: Text("Error: ${state.error.toString()}"),
                                     );
                                   } else {
-                                    var cart =
-                                        cartState.state.data?.items ?? [];
+                                    var cart = cartState.state.data?.items ?? [];
 
                                     if (cart.isEmpty) {
-                                      return const Center(
-                                          child: Text("No item in cart."));
+                                      return const Center(child: Text("No item in cart."));
                                     }
 
                                     return ListView.builder(
                                       itemCount: cart.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
+                                      itemBuilder: (BuildContext context, int index) {
                                         final cartItem = cart[index];
                                         return CartItem(cartItem: cartItem);
                                       },
@@ -177,8 +162,7 @@ class _CartScreenState extends State<CartScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Total : ${cartState.state.data?.itemCount ?? "0"} items',
@@ -187,9 +171,7 @@ class _CartScreenState extends State<CartScreen> {
                                           Text(
                                             '\$ ${cartState.state.data?.coupon != null ? cartState.state.data?.discountedTotal : cartState.state.data?.cartTotal} ',
                                             style: context.theme.titleMedium
-                                                ?.copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                ?.copyWith(fontWeight: FontWeight.bold),
                                           ),
                                         ],
                                       ),
@@ -197,41 +179,26 @@ class _CartScreenState extends State<CartScreen> {
                                     const SizedBox(height: 10),
                                     InkWell(
                                       onTap: () {
-                                        PersistentNavBarNavigator
-                                            .pushNewScreenWithRouteSettings(
-                                          context,
-                                          screen: Orderdetails(),
-                                          settings:
-                                              RouteSettings(name: "/checkout"),
-                                        );
+                                        Navigator.of(context).pushNamed(NavRoutes.checkout.path);
                                       },
                                       child: Container(
                                         padding: EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                           color: context.colorScheme.secondary,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(12),
                                         ),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Center(
                                               child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5),
-                                                child: Text(
-                                                    'Proceed to Checkout',
-                                                    style: context
-                                                        .theme.titleSmall
-                                                        ?.copyWith(
-                                                            color: context
-                                                                .colorScheme
-                                                                .onPrimary)),
+                                                padding: const EdgeInsets.only(left: 5),
+                                                child: Text('Proceed to Checkout',
+                                                    style: context.theme.titleSmall?.copyWith(
+                                                        color: context.colorScheme.onPrimary)),
                                               ),
                                             ),
-                                            Image.asset(
-                                                'assets/images/arrow3.png'),
+                                            Image.asset('assets/images/arrow3.png'),
                                           ],
                                         ),
                                       ),
@@ -271,8 +238,6 @@ class OrderSummary extends StatelessWidget {
     return BlocBuilder<CartCubit, Result<CartState>>(
       builder: (context, state) {
         return Container(
-          // width: 360,
-          // height: 143,
           decoration: BoxDecoration(
             border: Border.all(
               color: context.colorScheme.onTertiary,
@@ -288,13 +253,11 @@ class OrderSummary extends StatelessWidget {
                   children: [
                     Text(
                       'Discount value:',
-                      style: context.theme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: context.theme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
                       " - \$ ${(cartState.state.data?.cartTotal ?? 0) - (cartState.state.data?.discountedTotal ?? 0)}",
-                      style: context.theme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: context.theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -316,8 +279,7 @@ class OrderSummary extends StatelessWidget {
                   children: [
                     Text(
                       'BagTotal:',
-                      style: context.theme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: context.theme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
@@ -331,8 +293,7 @@ class OrderSummary extends StatelessWidget {
                         const SizedBox(width: 10),
                         Text(
                           '\$ ${cartState.state.data?.cartTotal ?? 0} ',
-                          style: context.theme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: context.theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -367,8 +328,8 @@ class ClearButton extends StatelessWidget {
       },
       child: Text(
         'Clear Cart',
-        style: context.theme.bodyLarge!.copyWith(
-            fontFamily: FontFamily.w700, color: context.colorScheme.primary),
+        style: context.theme.bodyLarge!
+            .copyWith(fontFamily: FontFamily.w700, color: context.colorScheme.primary),
       ),
     );
   }
@@ -395,11 +356,7 @@ class ApplyCoupon extends StatelessWidget {
             // key: couponsText,
             readOnly: true,
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CouponScreen(),
-                ),
-              );
+              Navigator.of(context).pushNamed(NavRoutes.coupon.path);
             },
             decoration: InputDecoration(
               hintText: 'Promo Code',
@@ -469,17 +426,13 @@ class CouponApplied extends StatelessWidget {
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                          side: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10)),
+                          side: BorderSide.none, borderRadius: BorderRadius.circular(10)),
                     ),
                     onPressed: () {
-                      context
-                          .read<ApplyCouponCubit>()
-                          .removeCoupon(couponcode: coupon.couponCode!);
+                      context.read<ApplyCouponCubit>().removeCoupon(couponcode: coupon.couponCode!);
                     },
                     child: Text('Remove',
-                        style: TextStyle(
-                            fontSize: 13, fontFamily: FontFamily.w400)))),
+                        style: TextStyle(fontSize: 13, fontFamily: FontFamily.w400)))),
           ),
         ),
       ),
@@ -513,8 +466,7 @@ class CartItem extends StatelessWidget {
           height: 100,
           width: 400,
           decoration: BoxDecoration(
-              color: context.colorScheme.onTertiary,
-              borderRadius: BorderRadius.circular(20)),
+              color: context.colorScheme.onTertiary, borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Row(
@@ -531,89 +483,82 @@ class CartItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 160,
-                      child: Text(
-                        cartItem.product?.name ?? "",
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        cartItem.product?.name ?? '',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: context.theme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: context.theme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      // '\$ ${(cartItem.product?.price ?? 0) * (cartItem.quantity ?? 0)}'
-                      '\$ ${cartItem.product?.price.toString()}',
-                      style: context.theme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w900),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        '\$ ${cartItem.product?.price.toString()}',
+                        style: context.theme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, right: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: context.colorScheme.onSecondary,
-                          border:
-                              Border.all(color: context.colorScheme.secondary),
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        height: 30,
-                        width: 80,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  if ((cartItem.quantity!) > 1) {
-                                    // quantity --;
-                                    context.read<CartCubit>().updateQuantity(
-                                        productId: cartItem.product!.id!,
-                                        quantity: (cartItem.quantity ?? 1) - 1);
-                                  } else {
-                                    context.read<CartCubit>().deltCartItem(
-                                        productId: cartItem.product!.id!);
-                                  }
-                                },
-                                child: Icon(
-                                  Icons.remove,
-                                  size: 20,
-                                )),
-                            Text(
-                              "${cartItem.quantity ?? 1}",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: context.colorScheme.primary,
-                                  fontFamily: FontFamily.w400),
-                            ),
-                            InkWell(
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: context.colorScheme.onSecondary,
+                        border: Border.all(color: context.colorScheme.secondary),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      height: 30,
+                      width: 80,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InkWell(
                               onTap: () {
-                                context.read<CartCubit>().updateQuantity(
-                                    productId: cartItem.product!.id!,
-                                    quantity: (cartItem.quantity ?? 1) + 1);
+                                if ((cartItem.quantity!) > 1) {
+                                  context.read<CartCubit>().updateQuantity(
+                                      productId: cartItem.product!.id!,
+                                      quantity: (cartItem.quantity ?? 1) - 1);
+                                } else {
+                                  context
+                                      .read<CartCubit>()
+                                      .deltCartItem(productId: cartItem.product!.id!);
+                                }
                               },
                               child: Icon(
-                                Icons.add,
+                                Icons.remove,
                                 size: 20,
-                              ),
-                            )
-                          ],
-                        ),
+                              )),
+                          Text(
+                            "${cartItem.quantity ?? 1}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: context.colorScheme.primary,
+                                fontFamily: FontFamily.w400),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              context.read<CartCubit>().updateQuantity(
+                                  productId: cartItem.product!.id!,
+                                  quantity: (cartItem.quantity ?? 1) + 1);
+                            },
+                            child: Icon(
+                              Icons.add,
+                              size: 20,
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String imageBaseUrl = "http://10.0.2.2:8080/";
+String imageBaseUrl = "http://localhost:8080/";
 String baseUrl = "$imageBaseUrl/api/v1/";
 
 abstract class FontFamily {

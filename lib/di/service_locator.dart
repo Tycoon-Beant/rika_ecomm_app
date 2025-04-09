@@ -1,10 +1,11 @@
 import 'package:get_it/get_it.dart';
-import 'package:rika_ecomm_app/routes/routes.dart';
+import 'package:rika_ecomm_app/routes/app_router.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/services/address_services.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
-import 'package:rika_ecomm_app/screens/auth/service/login_services.dart';
+import 'package:rika_ecomm_app/screens/auth/cubit/signup_cubit/signup_cubit.dart';
+import 'package:rika_ecomm_app/screens/auth/service/auth_service.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/service/cart_services.dart';
@@ -38,14 +39,11 @@ Future<void> setupServiceLocator() async {
   getIt.registerSingletonAsync(() async => SharedPreferences.getInstance());
   await getIt.isReady<SharedPreferences>();
 
-  getIt.registerSingleton<LocalStorageService>(
-      LocalStorageService(getIt.get<SharedPreferences>()));
-  getIt.registerSingleton<CategoryAndProductServices>(
-      CategoryAndProductServices());
-  getIt.registerSingleton<HomeScreenProductsService>(
-      HomeScreenProductsService());
+  getIt.registerSingleton<LocalStorageService>(LocalStorageService(getIt.get<SharedPreferences>()));
+  getIt.registerSingleton<CategoryAndProductServices>(CategoryAndProductServices());
+  getIt.registerSingleton<HomeScreenProductsService>(HomeScreenProductsService());
   getIt.registerSingleton<CartServices>(CartServices());
-  getIt.registerSingleton<LoginServices>(LoginServices(getIt()));
+  getIt.registerSingleton<AuthService>(AuthService(getIt()));
   getIt.registerSingleton<MyProfileServices>(MyProfileServices());
   getIt.registerSingleton<CouponsServices>(CouponsServices());
   getIt.registerSingleton<AddressServices>(AddressServices());
@@ -56,29 +54,28 @@ Future<void> setupServiceLocator() async {
   // Register Factory for Cubit
   getIt.registerFactory<CartCubit>(() => CartCubit(getIt()));
 
-  getIt.registerFactory<ApplyCouponCubit>(
-      () => ApplyCouponCubit(getIt<CouponsServices>()));
-  getIt.registerFactory<CouponListCubit>(
-      () => CouponListCubit(getIt<CouponsServices>()));
+  getIt.registerFactory<ApplyCouponCubit>(() => ApplyCouponCubit(getIt<CouponsServices>()));
+  getIt.registerFactory<CouponListCubit>(() => CouponListCubit(getIt<CouponsServices>()));
   getIt.registerFactory<FavoritesCubit>(() => FavoritesCubit(getIt()));
- 
+
   getIt.registerFactory<CategoryListCubit>(
       () => CategoryListCubit(getIt<CategoryAndProductServices>()));
 
   getIt.registerFactory<CartListCubit>(() => CartListCubit(getIt()));
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
+  getIt.registerFactory<SignupCubit>(() => SignupCubit(getIt()));
   getIt.registerFactory<ProductCubit>(() => ProductCubit(getIt()));
-  getIt.registerFactory<FilterCubit>(() => FilterCubit());
   getIt.registerFactory<MyOrderCubit>(() => MyOrderCubit(getIt()));
   getIt.registerFactory<ProductByIdCubit>(() => ProductByIdCubit(getIt()));
   getIt.registerFactory<MyProfileListCubit>(() => MyProfileListCubit(getIt()));
   getIt.registerFactory<ProfileCubit>(() => ProfileCubit(getIt()));
-  getIt.registerFactory<GetOrderAddressCubit>(() => GetOrderAddressCubit(getIt()));
   getIt.registerFactory<GetPlacedOrderIdCubit>(() => GetPlacedOrderIdCubit(getIt()));
   getIt.registerFactory<PostPlacedOrderCubit>(() => PostPlacedOrderCubit(getIt()));
   getIt.registerFactory<AddressListCubit>(() => AddressListCubit(getIt()));
-  getIt.registerFactory<AddressCubit>(() => AddressCubit(getIt(), getIt()));
-  getIt.registerFactory<HomeScreenProductsCubit>(
-      () => HomeScreenProductsCubit(getIt()));
-  getIt.registerFactory<Routes>(() => Routes());
+  getIt.registerFactory<HomeScreenProductsCubit>(() => HomeScreenProductsCubit(getIt()));
+  getIt.registerFactory<AppRouter>(() => AppRouter());
+
+  getIt.registerLazySingleton<GetOrderAddressCubit>(() => GetOrderAddressCubit(getIt()));
+  getIt.registerLazySingleton<AddressCubit>(() => AddressCubit(getIt(), getIt()));
+  getIt.registerLazySingleton<FilterCubit>(() => FilterCubit());
 }

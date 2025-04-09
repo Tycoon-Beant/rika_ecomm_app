@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/model/result.dart';
+import 'package:rika_ecomm_app/routes/routes.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/categorie_screen.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/products_screen.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/category_list_cubit.dart';
-import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/model/category_model.dart';
-import 'package:rika_ecomm_app/screens/category_and_product/service/category_and_product_services.dart';
-import 'package:rika_ecomm_app/screens/filter/filter_screen.dart';
 import 'package:rika_ecomm_app/screens/home_screen/cubit/home_screen_products_cubit.dart';
 import 'package:rika_ecomm_app/screens/product_details/product_detail_screen.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/profile_screen.dart';
@@ -25,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? selectedCategory;
   Categories? categories;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -117,47 +116,41 @@ class _HomeScreenState extends State<HomeScreen> {
                           Image.asset('assets/images/backgroundimage.png'),
                           Padding(
                             padding: const EdgeInsets.only(top: 13, left: 12),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '50% Off',
-                                    style: context.theme.headlineSmall,
-                                  ),
-                                  Text(
-                                    'On everything today',
-                                    style: context.theme.titleMedium,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('With code: rikafashion2021',
-                                      style: context.theme.bodySmall?.copyWith(
-                                          color: Color(0xff666666),
-                                          fontWeight: FontWeight.bold)),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Container(
-                                    height: 25,
-                                    width: 70,
-                                    decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                                      child: Center(
-                                        child: Text(
-                                          'Get Now',
-                                          style: context.theme.labelSmall
-                                              ?.copyWith(color: Colors.white),
-                                        ),
-                                      ),
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Text(
+                                '50% Off',
+                                style: context.theme.headlineSmall,
+                              ),
+                              Text(
+                                'On everything today',
+                                style: context.theme.titleMedium,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text('With code: rikafashion2021',
+                                  style: context.theme.bodySmall?.copyWith(
+                                      color: Color(0xff666666), fontWeight: FontWeight.bold)),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Container(
+                                height: 25,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                    color: Colors.black, borderRadius: BorderRadius.circular(30)),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                  child: Center(
+                                    child: Text(
+                                      'Get Now',
+                                      style:
+                                          context.theme.labelSmall?.copyWith(color: Colors.white),
                                     ),
-                                  )
-                                ]),
+                                  ),
+                                ),
+                              )
+                            ]),
                           ),
                         ],
                       ),
@@ -194,8 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   Text('With code: rikafashion2021',
                                       style: context.theme.bodySmall?.copyWith(
-                                          color: Color(0xff666666),
-                                          fontWeight: FontWeight.bold)),
+                                          color: Color(0xff666666), fontWeight: FontWeight.bold)),
                                   const SizedBox(
                                     height: 15,
                                   ),
@@ -204,11 +196,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: 70,
                                     decoration: BoxDecoration(
                                         color: Colors.black,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
+                                        borderRadius: BorderRadius.circular(30)),
                                     child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                                       child: Center(
                                         child: Text(
                                           'Get Now',
@@ -236,15 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: 100,
                 decoration: BoxDecoration(
-                  color: context.colorScheme.tertiary,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      offset: const Offset(2, 6),
-                      blurRadius: 1,
-                      spreadRadius: 1,
-                    )
-                  ],
+                  border: Border.all(color: context.colorScheme.tertiary, width: 2),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
@@ -262,20 +244,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Text(
                               'Axel Arigato',
-                              style: context.theme.bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
+                              style: context.theme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Clean 90 Triple Sneakers',
-                              style: context.theme.bodySmall?.copyWith(
-                                  color: context.colorScheme.onSecondary),
+                              style: context.theme.bodySmall
+                                  ?.copyWith(color: context.colorScheme.onSecondary),
                             ),
                             SizedBox(
                               height: 4,
                             ),
                             Text('\$245.00',
-                                style: context.theme.bodyLarge
-                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                                style:
+                                    context.theme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
@@ -293,20 +274,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     'Categories',
-                    style: context.theme.titleLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: context.theme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   TextButton(
                     onPressed: () {
-                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                          context,
-                          screen: CategoriScreen(),
-                          settings: RouteSettings(name: "/categoryList"));
+                      Navigator.of(context).pushNamed(NavRoutes.categoryList.path);
+                      // Navigator.push);
                     },
                     child: Text(
                       'View All',
-                      style: context.theme.bodyMedium
-                          ?.copyWith(color: context.colorScheme.secondary),
+                      style:
+                          context.theme.bodyMedium?.copyWith(color: context.colorScheme.secondary),
                     ),
                   ),
                 ],
@@ -325,8 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     final categories = state.data?.data?.categories;
                     if (categories == null || categories.isEmpty) {
-                      return const Center(
-                          child: Text("No categories available."));
+                      return const Center(child: Text("No categories available."));
                     }
                     return SizedBox(
                       height: 40,
@@ -341,24 +318,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     setState(() {
                                       selectedCategory = category.name;
-
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => ProductScreen(
-                                            categoryId: category,
-                                          ),
-                                        ),
-                                      );
                                     });
+                                    Navigator.of(context).pushNamed(
+                                      NavRoutes.productList.path,
+                                      arguments: category,
+                                    );
                                   },
                                   child: Chip(
                                     label: Text(
                                       category.name!,
-                                      style: context.theme.bodyLarge!.copyWith(
-                                          color: context.colorScheme.primary),
+                                      style: context.theme.bodyLarge!
+                                          .copyWith(color: context.colorScheme.primary),
                                     ),
-                                    backgroundColor:
-                                        context.colorScheme.onPrimary,
+                                    backgroundColor: context.colorScheme.onPrimary,
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -377,13 +349,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     'Top Dresses',
-                    style: context.theme.titleLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: context.theme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   Builder(builder: (context) {
                     return TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, "/productScreen");
+                          Navigator.of(context).pushNamed(NavRoutes.productList.path);
                         },
                         child: Text(
                           'View All',
@@ -394,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 8,
               ),
               TopDressGrid(),
               const SizedBox(height: 10),
@@ -418,8 +389,7 @@ class TopDressGrid extends StatefulWidget {
 class _TopDressGridState extends State<TopDressGrid> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeScreenProductsCubit, Result<List<Product>>>(
-        builder: (context, state) {
+    return BlocBuilder<HomeScreenProductsCubit, Result<List<Product>>>(builder: (context, state) {
       if (state.isLoading) {
         return Center(
           child: CircularProgressIndicator(),
@@ -446,12 +416,7 @@ class _TopDressGridState extends State<TopDressGrid> {
             final product = productList?[index];
             return InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ProductDetailScreen(products: product),
-                  ),
-                );
+                Navigator.of(context).pushNamed(NavRoutes.productDetail.path, arguments: product);
               },
               child: ClothItem(product: product!),
             );

@@ -8,22 +8,21 @@ import 'package:rika_ecomm_app/screens/order_screens/service/get_order_by_id_ser
 class GetPlacedOrderIdCubit extends Cubit<Result<OderDetail>> {
   final GetOrderByIdServices _orderByIdServices;
   CancelToken? cancelToken;
-  GetPlacedOrderIdCubit( this._orderByIdServices)
-      : super(Result(isLoading: false)){
-        cancelToken ??= CancelToken();
-      }
+  GetPlacedOrderIdCubit(this._orderByIdServices) : super(Result(isLoading: false)) {
+    cancelToken ??= CancelToken();
+  }
 
   Future<void> getOrderId({required String orderId}) async {
     try {
       emit(Result(isLoading: true));
-      final orders = await _orderByIdServices.getOrderById(orderId: orderId,token : cancelToken);
+      final orders = await _orderByIdServices.getOrderById(orderId: orderId, token: cancelToken);
       emit(Result(data: orders));
     } catch (e) {
       emit(Result(error: e.toString()));
     }
   }
 
-   @override
+  @override
   Future<void> close() {
     cancelToken?.cancel();
     return super.close();

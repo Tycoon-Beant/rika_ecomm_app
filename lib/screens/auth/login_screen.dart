@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/model/result.dart';
+import 'package:rika_ecomm_app/routes/app_router.dart';
+import 'package:rika_ecomm_app/routes/routes.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/model/login_model.dart';
-import 'package:rika_ecomm_app/screens/splash/succesful_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -40,19 +41,14 @@ class _LoginState extends State<Login> {
                 //   height: 2,
                 // ),
                 Text("please login or sign up to continue our app",
-                    style:
-                        context.theme.bodyLarge!.copyWith(color: Colors.grey)),
+                    style: context.theme.bodyLarge!.copyWith(color: Colors.grey)),
                 const SizedBox(
                   height: 25,
                 ),
                 BlocConsumer<LoginCubit, Result<Loginuser>>(
                   listener: (context, state) {
                     if (state.data != null) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Succesfulscreen(),
-                        ),
-                      );
+                      Navigator.of(context).pushNamed(AppRoute.success.path);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text("Login successfull!"),
@@ -84,18 +80,15 @@ class _LoginState extends State<Login> {
                             }
                             return null;
                           },
-                          onSaved: (value) => context
-                              .read<LoginCubit>()
-                              .updateForm("username", value),
+                          onSaved: (value) =>
+                              context.read<LoginCubit>().updateForm("username", value),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             hintText: "Enter full name",
                             hintStyle: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(
-                                    color: Colors.grey,
-                                    fontFamily: FontFamily.w400),
+                                .copyWith(color: Colors.grey, fontFamily: FontFamily.w400),
                           ),
                         ),
                         const SizedBox(
@@ -115,9 +108,8 @@ class _LoginState extends State<Login> {
                             }
                             return null;
                           },
-                          onSaved: (value) => context
-                              .read<LoginCubit>()
-                              .updateForm("password", value),
+                          onSaved: (value) =>
+                              context.read<LoginCubit>().updateForm("password", value),
                           obscureText: !passwordVisible,
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
@@ -125,14 +117,9 @@ class _LoginState extends State<Login> {
                             hintStyle: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(
-                                    color: Colors.grey,
-                                    fontFamily: FontFamily.w400),
+                                .copyWith(color: Colors.grey, fontFamily: FontFamily.w400),
                             suffixIcon: IconButton(
-                              icon: Icon(
-                                  passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                              icon: Icon(passwordVisible ? Icons.visibility : Icons.visibility_off,
                                   color: Colors.black),
                               onPressed: () {
                                 setState(() {
@@ -171,8 +158,7 @@ class _LoginState extends State<Login> {
                           }
                         },
                         child: context.watch<LoginCubit>().state.isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white)
+                            ? const CircularProgressIndicator(color: Colors.white)
                             : Text("Login",
                                 style: Theme.of(context)
                                     .textTheme
@@ -188,18 +174,14 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 24),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              fixedSize:
-                                  Size(MediaQuery.sizeOf(context).width, 50),
+                              fixedSize: Size(MediaQuery.sizeOf(context).width, 50),
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40),
-                                  side: const BorderSide(
-                                      color:
-                                          Color.fromARGB(255, 173, 170, 170)))),
+                                  side:
+                                      const BorderSide(color: Color.fromARGB(255, 173, 170, 170)))),
                           onPressed: () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Login())),
+                              context, MaterialPageRoute(builder: (context) => const Login())),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

@@ -1,12 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rika_ecomm_app/di/service_locator.dart';
-import 'package:rika_ecomm_app/screens/onboarding_screen/on_boarding_screen.dart';
-import 'package:rika_ecomm_app/services/local_storage_service.dart';
 
-import '../botton_nav_bar/bottom_nav_bar.dart';
+import '../../routes/routes.dart';
+import '../../di/service_locator.dart';
+import '../../services/local_storage_service.dart';
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
@@ -19,20 +17,14 @@ class _SplashscreenState extends State<Splashscreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () async {
-      final token = await getIt<LocalStorageService>().getToken();
-
-      if (token != null) {
-        Navigator.of(context).pushNamed("/bottomNavbar");
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const OnBoarding(),
-          ),
-        );
-        // }
-      }
+    Timer(const Duration(seconds: 2), () {
+      getIt<LocalStorageService>().getToken().then((token) {
+        if (token != null) {
+          Navigator.of(context).pushReplacementNamed(AppRoute.navbar.path);
+        } else {
+          Navigator.of(context).pushReplacementNamed(AppRoute.onboarding.path);
+        }
+      });
     });
   }
 
