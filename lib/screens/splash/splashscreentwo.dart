@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/signup_cubit/signup_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/login_screen.dart';
@@ -36,15 +37,7 @@ class _SplashScreenTwoState extends State<SplashScreenTwo> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context) => LoginCubit(context.read<LoginServices>()),
-                            child: const Login(),
-                          ),
-                        ),
-                      ),
+                  onPressed: () => Navigator.pushNamed(context, "/login"),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(99, 10, 95, 10),
                     child: Text("Login", style: context.theme.bodyLarge),

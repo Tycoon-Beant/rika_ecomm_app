@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/screens/onboarding_screen/on_boarding_screen.dart';
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
 
 import '../botton_nav_bar/bottom_nav_bar.dart';
-
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
@@ -20,14 +20,10 @@ class _SplashscreenState extends State<Splashscreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
-      final token = await context.read<LocalStorageService>().getToken();
-      
+      final token = await getIt<LocalStorageService>().getToken();
+
       if (token != null) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => BottomBar(),
-          ),
-        );
+        Navigator.of(context).pushNamed("/bottomNavbar");
       } else {
         Navigator.pushReplacement(
           context,
@@ -35,9 +31,9 @@ class _SplashscreenState extends State<Splashscreen> {
             builder: (context) => const OnBoarding(),
           ),
         );
-      // }
-    }
-  });
+        // }
+      }
+    });
   }
 
   @override

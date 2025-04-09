@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
@@ -8,7 +9,9 @@ import 'package:rika_ecomm_app/screens/category_and_product/products_screen.dart
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/category_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/model/category_model.dart';
+import 'package:rika_ecomm_app/screens/category_and_product/service/category_and_product_services.dart';
 import 'package:rika_ecomm_app/screens/filter/filter_screen.dart';
+import 'package:rika_ecomm_app/screens/home_screen/cubit/home_screen_products_cubit.dart';
 import 'package:rika_ecomm_app/screens/product_details/product_detail_screen.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/profile_screen.dart';
 
@@ -24,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Categories? categories;
   @override
   Widget build(BuildContext context) {
-    final productState = context.read<ProductCubit>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -40,7 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Profilescreen()));
+                    MaterialPageRoute(
+                      builder: (context) => Profilescreen(),
+                    ),
+                  );
                 },
                 child: Image.asset(
                   "assets/images/user.png",
@@ -62,9 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 5,
               ),
-              Text("Our Rika Fashion App",
-                  style: context.theme.titleLarge
-                      ?.copyWith(color: Color(0xff666666))),
+              Text(
+                "Our Rika Fashion App",
+                style: context.theme.titleLarge?.copyWith(
+                  color: Color(0xff666666),
+                ),
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -81,8 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         hintText: 'Search...',
                         hintStyle: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 133, 131, 131)),
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 133, 131, 131),
+                        ),
                         fillColor: const Color.fromARGB(255, 200, 198, 198),
                         filled: true,
                         prefixIcon: Icon(Icons.search),
@@ -91,26 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(
                     width: 10,
-                  ),
-                  GestureDetector(
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: context.colorScheme.primary,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Icon(
-                            Icons.filter_alt_outlined,
-                            color: context.colorScheme.onPrimary,
-                            size: 30,
-                          ),
-                        )),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FilterScreen()));
-                    },
                   ),
                 ],
               ),
@@ -309,8 +298,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CategoriScreen()));
+                      PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          context,
+                          screen: CategoriScreen(),
+                          settings: RouteSettings(name: "/categoryList"));
                     },
                     child: Text(
                       'View All',
@@ -352,11 +343,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       selectedCategory = category.name;
 
                                       Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProductScreen(
-                                                    categoryId: category,
-                                                  )));
+                                        MaterialPageRoute(
+                                          builder: (context) => ProductScreen(
+                                            categoryId: category,
+                                          ),
+                                        ),
+                                      );
                                     });
                                   },
                                   child: Chip(
@@ -388,22 +380,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: context.theme.titleLarge
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ProductScreen()));
-                      },
-                      child: Text(
-                        'View All',
-                        style: context.theme.bodyMedium
-                            ?.copyWith(color: context.colorScheme.secondary),
-                      )),
+                  Builder(builder: (context) {
+                    return TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/productScreen");
+                        },
+                        child: Text(
+                          'View All',
+                          style: context.theme.bodyMedium
+                              ?.copyWith(color: context.colorScheme.secondary),
+                        ));
+                  }),
                 ],
               ),
               const SizedBox(
                 height: 20,
               ),
-              TopDressGrid(productState: productState),
+              TopDressGrid(),
               const SizedBox(height: 10),
             ],
           ),
@@ -413,17 +406,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class TopDressGrid extends StatelessWidget {
+class TopDressGrid extends StatefulWidget {
   const TopDressGrid({
     super.key,
-    required this.productState,
   });
 
-  final ProductCubit productState;
+  @override
+  State<TopDressGrid> createState() => _TopDressGridState();
+}
 
+class _TopDressGridState extends State<TopDressGrid> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductCubit, Result<ProductListState>>(
+    return BlocBuilder<HomeScreenProductsCubit, Result<List<Product>>>(
         builder: (context, state) {
       if (state.isLoading) {
         return Center(
@@ -434,8 +429,7 @@ class TopDressGrid extends StatelessWidget {
           child: Text("Error: ${state.error}"),
         );
       } else {
-        final productList = state.data?.products;
-        
+        final productList = state.data;
 
         return GridView.builder(
           physics: NeverScrollableScrollPhysics(),
@@ -449,13 +443,13 @@ class TopDressGrid extends StatelessWidget {
           ),
           itemCount: 4,
           itemBuilder: (BuildContext context, int index) {
-            final product = productList?.data[index];
+            final product = productList?[index];
             return InkWell(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        ProductDetailScreen(products: product!),
+                        ProductDetailScreen(products: product),
                   ),
                 );
               },

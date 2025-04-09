@@ -35,4 +35,10 @@ class FavoritesCubit extends Cubit<LikeState> {
     final updatedFavorites = await localStorageService.getFavorite() ?? [];
     emit(LikeState(productIds: updatedFavorites));
   }
+
+   Future<void> clearFavorites() async {
+    await localStorageService.clearFavorites();
+    emit(LikeState(productIds: []));
+    // _productByIdCubit.emit(Result(data: []));
+  }
 }

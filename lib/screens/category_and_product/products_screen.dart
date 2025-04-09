@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/model/category_model.dart';
+import 'package:rika_ecomm_app/screens/filter/cubit/filter_cubit.dart';
+import 'package:rika_ecomm_app/screens/filter/filter_screen.dart';
 import 'package:rika_ecomm_app/screens/product_details/product_detail_screen.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/favorite_cubit.dart';
 
@@ -21,7 +26,7 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     super.initState();
-    final productCubit = context.read<ProductCubit>();
+    final productCubit = getIt<ProductCubit>();
     if (widget.categoryId != null) {
       productCubit.getProductByCategoryId(widget.categoryId!.sId!);
     } else {
@@ -31,38 +36,79 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Image.asset("assets/images/arrowback.png"),
-          onPressed: () => Navigator.of(context).pop(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<FilterCubit>(),
         ),
-        actions: [
-          const Padding(
-            padding: EdgeInsets.only(right: 24),
-            child: Icon(Icons.search),
-          )
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 10),
-              child: Text(
-                widget.categoryId?.name ?? 'Clothes',
-                style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        BlocProvider(
+          create: (context) => getIt<ProductCubit>(),
+        ),
+      ],
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Image.asset("assets/images/arrowback.png"),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            Expanded(child: ProductList()),
-          ],
-        ),
-      ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10, top: 10),
+                child: GestureDetector(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: context.colorScheme.primary,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(
+                          Icons.filter_alt_outlined,
+                          color: context.colorScheme.onPrimary,
+                          size: 20,
+                        ),
+                      )),
+                  onTap: () {
+                    PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        screen: MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: context.read<FilterCubit>(),
+                            ),
+                            BlocProvider.value(
+                              value: context.read<ProductCubit>(),
+                            ),
+                          ],
+                          child: FilterScreen(),
+                        ),
+                        settings: RouteSettings(name: "/filter"));
+                  },
+                ),
+              )
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 10),
+                  child: Text(
+                    widget.categoryId?.name ?? 'Clothes',
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(child: ProductList()),
+              ],
+            ),
+          ),
+        );
+      }),
     );
   }
 }
@@ -80,7 +126,10 @@ class ProductList extends StatelessWidget {
         enablePullUp: true,
         enablePullDown: true,
         onRefresh: () => context.read<ProductCubit>().getProductDetail(),
-        onLoading: () => context.read<ProductCubit>().loadMore(),
+        onLoading: () {
+          final filter = context.read<FilterCubit>().state;
+          context.read<ProductCubit>().loadMore(filter);
+        },
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -91,16 +140,21 @@ class ProductList extends StatelessWidget {
           itemCount: data?.products?.data.length,
           itemBuilder: (context, index) {
             final product = data?.products?.data[index];
+
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ProductDetailScreen(products: product),
+                PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                  context,
+                  screen: BlocProvider.value(
+                    value: getIt<ProductCubit>(),
+                    child: ProductDetailScreen(
+                      products: product,
+                    ),
                   ),
+                  settings: RouteSettings(name: "/productDetail"),
                 );
               },
-              child: ClothItem(product: product!),
+              child: ClothItem(product: product),
             );
           },
         ),
@@ -110,13 +164,13 @@ class ProductList extends StatelessWidget {
 }
 
 class ClothItem extends StatelessWidget {
-  final Product product;
+  final Product? product;
 
   const ClothItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    final productId = product.id ?? '';
+    final productId = product?.id ?? '';
     return Stack(
       children: [
         Card(
@@ -131,7 +185,7 @@ class ClothItem extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
-                      product.mainImage?.url ?? '',
+                      product?.mainImage?.url ?? '',
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.asset(
@@ -144,7 +198,7 @@ class ClothItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  product.name ?? 'No Name',
+                  product?.name ?? 'No Name',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleMedium,
@@ -152,7 +206,7 @@ class ClothItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
-                    product.description ?? '',
+                    product?.description ?? '',
                     maxLines: 1,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
@@ -162,7 +216,7 @@ class ClothItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "\$${product.price?.toStringAsFixed(2) ?? '0.00'}",
+                  "\$${product?.price?.toStringAsFixed(2) ?? '0.00'}",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],

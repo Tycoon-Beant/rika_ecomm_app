@@ -45,7 +45,7 @@ class _SuccesfulscreenState extends State<Succesfulscreen> {
                     backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () => Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => BottomBar())),
+                      MaterialPageRoute(builder: (context) => PresistentBottomBar())),
                   child: Text(
                     "Start Shopping",
                     style: context.theme.titleMedium!

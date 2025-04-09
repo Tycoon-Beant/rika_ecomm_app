@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/order_screens/cubit/placed_order_cubit/get_placed_order_id_cubit.dart';
 import 'package:rika_ecomm_app/screens/order_screens/model/order_detail_model.dart';
@@ -19,28 +20,38 @@ class _TrakingaddressState extends State<Trakingaddress> {
   @override
   void initState() {
     super.initState();
-    context.read<GetPlacedOrderIdCubit>().getOrderId(orderId: widget.orders.id!);
+    if (widget.orders.id != null) {
+      getIt<GetPlacedOrderIdCubit>().getOrderId(orderId: widget.orders.id!);
+    } else {
+      // Handle the case where orderId is null, show an error or fallback UI
+      print('Order ID is null');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        surfaceTintColor: Colors.white,
-        leading: InkWell(
-          onTap: (){
-            Navigator.of(context).pop();
-          },
-          child: Image.asset("assets/images/3x/arrowback.png")),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: AsyncWidget<GetPlacedOrderIdCubit, OderDetail>(
-            data: (order) {
-              return OrderTrackingDetail(orders: order!);
-            },
-          ),
+    return BlocProvider(
+      create: (context) => getIt<GetPlacedOrderIdCubit>(),
+      child: Scaffold(
+        appBar: AppBar(
+          surfaceTintColor: Colors.white,
+          leading: InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Image.asset("assets/images/3x/arrowback.png")),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: AsyncWidget<GetPlacedOrderIdCubit, OderDetail>(
+                data: (order) {
+                  if (order == null) {
+                    return Center(child: Text("Order details not available."));
+                  }
+                  return OrderTrackingDetail(orders: order);
+                },
+              )),
         ),
       ),
     );
@@ -74,9 +85,9 @@ class OrderTrackingDetail extends StatelessWidget {
           height: 80,
           width: MediaQuery.sizeOf(context).width,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: context.colorScheme.onTertiary,
-              ),
+            borderRadius: BorderRadius.circular(20),
+            color: context.colorScheme.onTertiary,
+          ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -86,7 +97,8 @@ class OrderTrackingDetail extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      orders.order?.items?.first.product?.mainImage?.url ?? '',fit: BoxFit.cover,
+                      orders.order?.items?.first.product?.mainImage?.url ?? '',
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -105,21 +117,21 @@ class OrderTrackingDetail extends StatelessWidget {
                         height: 2,
                       ),
                       Text(
-                        "Quantity: ${orders.order?.items?.first.quantity ?? 1 }",
-                        style: context.theme.titleSmall!.copyWith(color: Colors.grey),
+                        "Quantity: ${orders.order?.items?.first.quantity ?? 1}",
+                        style: context.theme.titleSmall!
+                            .copyWith(color: Colors.grey),
                       ),
                       SizedBox(
                         height: 5,
                       ),
-                      
                     ],
                   ),
                 ),
                 Text(
-                        '\$ ${(orders.order?.items?.first.product?.price ?? 0) * (orders.order?.items?.first.quantity ?? 0)}',
-                        style: context.theme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
+                  '\$ ${(orders.order?.items?.first.product?.price ?? 0) * (orders.order?.items?.first.quantity ?? 0)}',
+                  style: context.theme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w700),
+                ),
               ],
             ),
           ),
@@ -164,11 +176,11 @@ class OrderTrackingDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('You can change pick-up time for',
-                      style:
-                          context.theme.titleSmall!.copyWith(color: Colors.grey)),
+                      style: context.theme.titleSmall!
+                          .copyWith(color: Colors.grey)),
                   Text('your order by 10:00, 24 June',
-                      style:
-                          context.theme.titleSmall!.copyWith(color: Colors.grey)),
+                      style: context.theme.titleSmall!
+                          .copyWith(color: Colors.grey)),
                 ],
               ),
             ),
@@ -208,10 +220,8 @@ class TimlineHistory extends StatelessWidget {
           alignment: TimelineAlign.manual,
           lineXY: 0.2,
           isFirst: true,
-          indicatorStyle: IndicatorStyle(
-            width: 10,
-            color: context.colorScheme.outline
-          ),
+          indicatorStyle:
+              IndicatorStyle(width: 10, color: context.colorScheme.outline),
           beforeLineStyle: LineStyle(
             color: context.colorScheme.outline,
             thickness: 2,
@@ -299,7 +309,7 @@ class TimlineHistory extends StatelessWidget {
           lineXY: 0.2,
           indicatorStyle: IndicatorStyle(
             width: 10,
-            color:context.colorScheme.outline,
+            color: context.colorScheme.outline,
           ),
           beforeLineStyle: LineStyle(
             color: context.colorScheme.outline,

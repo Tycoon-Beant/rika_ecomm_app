@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
@@ -32,16 +34,8 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final cartState = context.watch<CartListCubit>();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => CouponListCubit(context.read<CouponsServices>()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              ApplyCouponCubit(context.read<CouponsServices>()),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => getIt<ApplyCouponCubit>(),
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -135,36 +129,32 @@ class _CartScreenState extends State<CartScreen> {
                               },
                               child:
                                   BlocBuilder<CartListCubit, Result<UserCart>>(
-                                      builder: (context, state) {
-                                // if (cartState.state.isLoading) {
-                                //   return Center(
-                                //     child: CircularProgressIndicator(),
-                                //   );
-                                // } else
-                                if (state.error != null) {
-                                  return Center(
-                                    child: Text(
-                                        "Error: ${state.error.toString()}"),
-                                  );
-                                } else {
-                                  var cart = cartState.state.data?.items ?? [];
+                                builder: (context, state) {
+                                  if (state.error != null) {
+                                    return Center(
+                                      child: Text(
+                                          "Error: ${state.error.toString()}"),
+                                    );
+                                  } else {
+                                    var cart =
+                                        cartState.state.data?.items ?? [];
 
-                                  if (cart.isEmpty) {
-                                    return const Center(
-                                        child: Text("No item in cart."));
+                                    if (cart.isEmpty) {
+                                      return const Center(
+                                          child: Text("No item in cart."));
+                                    }
+
+                                    return ListView.builder(
+                                      itemCount: cart.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final cartItem = cart[index];
+                                        return CartItem(cartItem: cartItem);
+                                      },
+                                    );
                                   }
-
-                                  //  final product = cart.firstOrNull;
-                                  return ListView.builder(
-                                    itemCount: cart.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final cartItem = cart[index];
-                                      return CartItem(cartItem: cartItem);
-                                    },
-                                  );
-                                }
-                              }),
+                                },
+                              ),
                             ),
                           ),
                           SizedBox(height: 20),
@@ -207,11 +197,13 @@ class _CartScreenState extends State<CartScreen> {
                                     const SizedBox(height: 10),
                                     InkWell(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Orderdetails()));
+                                        PersistentNavBarNavigator
+                                            .pushNewScreenWithRouteSettings(
+                                          context,
+                                          screen: Orderdetails(),
+                                          settings:
+                                              RouteSettings(name: "/checkout"),
+                                        );
                                       },
                                       child: Container(
                                         padding: EdgeInsets.all(10),

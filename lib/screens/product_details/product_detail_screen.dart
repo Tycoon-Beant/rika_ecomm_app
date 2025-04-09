@@ -8,15 +8,14 @@ import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/favorite_cubit.dart';
-
 import '../../../model/result.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  final Product products;
+  final Product? products;
 
   const ProductDetailScreen({
     super.key,
-    required this.products,
+    this.products,
   });
 
   @override
@@ -28,7 +27,7 @@ String? productName;
 num? price;
 Object? productId;
 
-late Product product;
+late Product? product;
 int quantity = 1;
 
 List sizes = ["S", "M", "L", "XL", "XXL"];
@@ -72,9 +71,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     final addedtocartState = context.watch<ProductCubit>();
     final product = widget.products;
-    String? mainImage = widget.products.mainImage?.url;
+    String? mainImage = widget.products?.mainImage?.url;
     List<String?> images =
-        widget.products.subImages?.map((e) => e.url).toList() ?? [];
+        widget.products?.subImages?.map((e) => e.url).toList() ?? [];
     return Scaffold(
       body: LoadingOverlay(
         isLoading: addedtocartState.state.isLoading,
@@ -97,7 +96,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   enableInfiniteScroll: false,
                 ),
                 itemCount: images.length,
-                itemBuilder: (BuildContext context, int index, int realIndex) {
+                itemBuilder:
+                    (BuildContext context, int index, int realIndex) {
                   return Image.network(
                     mainImage!,
                     height: 380,
@@ -146,24 +146,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: InkWell(
                   onTap: () {
                     final cubit = context.read<FavoritesCubit>();
-                    final isLiked = cubit.state.isLiked(product.id!);
-
+                    final isLiked = cubit.state.isLiked(product?.id ?? "N/A");
+    
                     if (isLiked) {
-                      cubit.removeFavorite(product.id!);
+                      cubit.removeFavorite(product?.id ?? "N/A");
                     } else {
-                      cubit.addFavorite(product.id!);
+                      cubit.addFavorite(product?.id ?? "N/A");
                     }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Icon(
-                      context.watch<FavoritesCubit>().state.isLiked(product.id!)
+                      context
+                              .watch<FavoritesCubit>()
+                              .state
+                              .isLiked(product?.id ?? "N/A")
                           ? Icons.favorite
                           : Icons.favorite_border,
                       color: context
                               .watch<FavoritesCubit>()
                               .state
-                              .isLiked(product.id!)
+                              .isLiked(product?.id ?? "N/A")
                           ? Colors.red
                           : Colors.black,
                       size: 30,
@@ -198,8 +201,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   color: context.colorScheme.onPrimary,
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24, vertical: 16),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,8 +214,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               children: [
                                 Align(
                                   alignment: Alignment.topLeft,
-                                  child: Text(product.name!,
-                                      style: context.theme.titleLarge!.copyWith(
+                                  child: Text(product?.name ?? "N/A",
+                                      style:
+                                          context.theme.titleLarge!.copyWith(
                                         fontFamily: FontFamily.w700,
                                       )),
                                 ),
@@ -222,10 +226,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               children: [
                                 Text("Available in stock",
                                     style: context.theme.titleMedium!
-                                        .copyWith(fontFamily: FontFamily.w700)),
+                                        .copyWith(
+                                            fontFamily: FontFamily.w700)),
                                 const SizedBox(width: 10),
                                 Text(
-                                  product.stock.toString(),
+                                  product?.stock.toString() ?? "",
                                   style: context.theme.titleMedium!.copyWith(
                                       fontFamily: FontFamily.w700,
                                       color: Colors.grey),
@@ -284,7 +289,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         border: Border.all(
                                             color: isSelected
                                                 ? Colors.black
-                                                : Colors.grey.withOpacity(0.3)),
+                                                : Colors.grey
+                                                    .withOpacity(0.3)),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Center(
@@ -292,8 +298,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         size,
                                         style: TextStyle(
                                             color: isSelected
-                                                ? context.colorScheme.onPrimary
-                                                : context.colorScheme.primary),
+                                                ? context
+                                                    .colorScheme.onPrimary
+                                                : context
+                                                    .colorScheme.primary),
                                       )),
                                     ),
                                   ),
@@ -309,7 +317,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             style: context.theme.titleLarge!
                                 .copyWith(fontFamily: FontFamily.w700)),
                         const SizedBox(height: 5),
-                        Text(product.description!,
+                        Text(product?.description ?? "",
                             style: context.theme.bodySmall!.copyWith(
                                 fontFamily: FontFamily.w400,
                                 color: Colors.grey)),
@@ -325,7 +333,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   },
                                 )
                               : AddToCart(
-                                  amounts: product,
+                                  amounts: product ,
                                   onTap: () {
                                     setState(() {
                                       isInCart = true;
@@ -347,7 +355,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 }
 
 class AddToCart extends StatefulWidget {
-  final Product amounts;
+  final Product? amounts;
   final VoidCallback onTap;
   const AddToCart({
     super.key,
@@ -360,7 +368,7 @@ class AddToCart extends StatefulWidget {
 }
 
 class _AddToCartState extends State<AddToCart> {
-  late Product amount;
+  late Product? amount;
   @override
   void initState() {
     super.initState();
@@ -371,9 +379,9 @@ class _AddToCartState extends State<AddToCart> {
   Widget build(BuildContext context) {
     final cartState = context.watch<CartCubit>();
     final itemList = cartState.state.data?.cart.items ?? [];
-    if (itemList.any((e) => e.product?.id == amount.id)) {
+    if (itemList.any((e) => e.product?.id == amount?.id)) {
       return AddedInToCart(
-        id: amount.id,
+        id: amount?.id,
         onTap: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => CartScreen()));
@@ -390,7 +398,7 @@ class _AddToCartState extends State<AddToCart> {
               style: context.theme.titleSmall!
                   .copyWith(fontFamily: FontFamily.w400, color: Colors.grey),
             ),
-            Text("\$ ${amount.price}",
+            Text("\$ ${amount?.price}",
                 style: context.theme.titleSmall!
                     .copyWith(fontFamily: FontFamily.w700)),
           ],
@@ -402,9 +410,8 @@ class _AddToCartState extends State<AddToCart> {
               style: ElevatedButton.styleFrom(
                   backgroundColor: context.colorScheme.secondary),
               onPressed: () {
-                context
-                    .read<CartCubit>()
-                    .postCartItem(productId: product.id!, quantity: quantity);
+                context.read<CartCubit>().postCartItem(
+                    productId: product?.id ?? "N/A", quantity: quantity);
               },
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -525,9 +532,8 @@ class _AddedInToCartState extends State<AddedInToCart> {
           ),
           InkWell(
             onTap: () {
-              context
-                  .read<CartCubit>()
-                  .postCartItem(productId: product.id!, quantity: quantity);
+              context.read<CartCubit>().postCartItem(
+                  productId: product?.id ?? "N/A", quantity: quantity);
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => CartScreen()));
             },

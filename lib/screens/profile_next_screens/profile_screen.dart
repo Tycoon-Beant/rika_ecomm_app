@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/screens/address_screen/address_screen.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/service/login_services.dart';
@@ -84,145 +85,148 @@ class _ProfilescreenState extends State<Profilescreen> {
       appBar: AppBar(
         elevation: 10,
         scrolledUnderElevation: 0.1,
-  
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: InkWell(
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => SettingScreen())),
-              child: Icon(Icons.settings)
-            ),
+                onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SettingScreen())),
+                child: Icon(Icons.settings)),
           )
         ],
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  // color: context.colorScheme.onSecondary,
-                  border: Border.all(color: context.colorScheme.onSecondary),
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                
-               
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      Image.asset("assets/images/3x/profileimg.png"),
-                      const SizedBox(width: 10),
-                      BlocBuilder<MyProfileListCubit, Result<MyProfile>>(
-                        builder: (context, state) {
-                          return state.when(
-                            onData: (profile) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${profile!.firstName!}  ${profile.lastName!}",
-                                      style: context.theme.titleMedium),
-                                  Text(
-                                    'rikafashionshop@gmail.com',
-                                    style: context.theme.titleSmall!
-                                        .copyWith(color: Colors.grey),
+      body: BlocProvider(
+        create: (context) => getIt<MyProfileListCubit>(),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                const SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(
+                      // color: context.colorScheme.onSecondary,
+                      border:
+                          Border.all(color: context.colorScheme.onSecondary),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        Image.asset("assets/images/3x/profileimg.png"),
+                        const SizedBox(width: 10),
+                        BlocBuilder<MyProfileListCubit, Result<MyProfile>>(
+                          builder: (context, state) {
+                            return state.when(
+                              onData: (profile) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        "${profile!.firstName!}  ${profile.lastName!}",
+                                        style: context.theme.titleMedium),
+                                    Text(
+                                      'rikafashionshop@gmail.com',
+                                      style: context.theme.titleSmall!
+                                          .copyWith(color: Colors.grey),
+                                    ),
+                                  ],
+                                );
+                              },
+                              onLoading: () {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
                                   ),
-                                ],
-                              );
-                            },
-                            onLoading: () {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.black,
-                                ),
-                              );
-                            },
-                            onError: (Object? e) {
-                              return Center(
-                                child: Text(e.toString()),
-                              );
-                            },
-                          );
-                        },
-                      )
-                    ],
+                                );
+                              },
+                              onError: (Object? e) {
+                                return Center(
+                                  child: Text(e.toString()),
+                                );
+                              },
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: context.colorScheme.outline,
-                        style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(20)),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Wrap(
-                    runSpacing: 10,
-                    children: [
-                      ...profile.map((e) => ProfileItem(
-                          title: e["title"], icon: e["icon"], page: e["page"])),
-                    ],
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: context.colorScheme.outline,
+                          style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Wrap(
+                      runSpacing: 10,
+                      children: [
+                        ...profile.map((e) => ProfileItem(
+                            title: e["title"],
+                            icon: e["icon"],
+                            page: e["page"])),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: context.colorScheme.onTertiary,
-                        style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(20)),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Wrap(
-                    children: [
-                      ...faq.map((e) => ProfileItem(
-                          title: e["title"], icon: e["icon"], page: e["page"])),
-                    ],
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: context.colorScheme.onTertiary,
+                          style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Wrap(
+                      children: [
+                        ...faq.map((e) => ProfileItem(
+                            title: e["title"],
+                            icon: e["icon"],
+                            page: e["page"])),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                onPressed: () {
-                  context.read<LocalStorageService>().clearSession();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                                create: (context) =>
-                                    LoginCubit(context.read<LoginServices>()),
-                                child: SplashScreenTwo(),
-                              )),
-                      (route) => false);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.logout,
-                    
-                      ),
-                      const SizedBox(width: 8),
-                      Text('Logout',
-                          ),
-                    ],
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  onPressed: () {
+                    getIt<LocalStorageService>().clearSession();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                                  create: (context) =>
+                                      LoginCubit(context.read<LoginServices>()),
+                                  child: SplashScreenTwo(),
+                                )),
+                        (route) => false);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.logout,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Logout',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-            ],
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

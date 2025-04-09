@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:rika_ecomm_app/model/common_response.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/model/category_model.dart';
+import 'package:rika_ecomm_app/screens/filter/model/filter_model.dart';
 import 'package:rika_ecomm_app/services/dio_exceptions.dart';
 import 'package:rika_ecomm_app/services/dio_instance.dart';
 
@@ -17,7 +18,8 @@ class CategoryAndProductServices {
     return categori;
   }
 
-  Future<PaginationResponse<Product>> getProduct({CancelToken? token, int? page}) async {
+  Future<PaginationResponse<Product>> getProduct(
+      {CancelToken? token, int? page}) async {
     final response = await DioSingleton().dio.get(
       "ecommerce/products",
       cancelToken: token,
@@ -26,12 +28,39 @@ class CategoryAndProductServices {
     final body = response.data;
     final List<dynamic> jsonResponse =
         body["data"]["products"]; //response["data"]
-        
+
     return PaginationResponse(
       page: page ?? 1,
       totalPages: body["data"]["totalPages"],
       data: jsonResponse.map((e) => Product.fromJson(e)).toList(),
     );
+  }
+
+  Future<PaginationResponse<Product>> filterProducts(
+      {required FilterModel filter,
+      CancelToken? token,
+      int? page}) async {
+    try {
+      final response = await DioSingleton().dio.get(
+          "ecommerce/products/filterProducts",
+          cancelToken: token,
+          queryParameters: {
+            "minPrice": filter.min,
+            "maxPrice": filter.max,
+            "categoryId": filter.categoryId,
+            "sort" : filter.sort,
+            "page": page ?? 1,
+          });
+      final body = response.data;
+      final List<dynamic> jsonResponse = body['data'];
+      return PaginationResponse(
+        page: page ?? 1,
+        totalPages: body["meta"]["total"],
+          data: jsonResponse.map((e) => Product.fromJson(e)).toList());
+    } on DioException catch (e) {
+      print("Error: $e");
+      throw DioExceptions.fromDioError(e);
+    }
   }
 
   Future<List<Product>> getProductByCategory(

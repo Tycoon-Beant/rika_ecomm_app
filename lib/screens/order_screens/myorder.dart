@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/order_screens/cubit/placed_order_cubit/my_order_cubit.dart';
@@ -19,9 +21,15 @@ class Myorder extends StatefulWidget {
 class _MyorderState extends State<Myorder> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          MyOrderCubit(context.read<PlacedOrderServices>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<MyOrderCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<PostPlacedOrderCubit>(),
+        ),
+      ],
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
@@ -89,10 +97,10 @@ class OrderItem extends StatelessWidget {
               const SizedBox(height: 10),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Trakingaddress(
-                            orders: order,
-                          )));
+                  PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                      context,
+                      screen: Trakingaddress(orders: order),
+                      settings: RouteSettings(name: "/trakingAdddress"));
                 },
                 child: Container(
                   width: 350,

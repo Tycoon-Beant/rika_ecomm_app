@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:rika_ecomm_app/config/common.dart';
+import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/apply_coupon_cubit.dart';
@@ -21,15 +22,10 @@ class CouponScreen extends StatefulWidget {
 class _CouponScreenState extends State<CouponScreen> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => CouponListCubit(context.read<CouponsServices>()),
-        ),
-        BlocProvider(
-          create: (context) => ApplyCouponCubit(context.read<CouponsServices>()),
-        ),
-      ],
+    return 
+     BlocProvider(
+                      create: (context) => getIt.get<CouponListCubit>(),
+                    
       child: Scaffold(
         appBar: AppBar(
           leading: InkWell(
