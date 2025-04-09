@@ -8,7 +8,6 @@ import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/apply_coupon_cubit.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/coupon_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/coupon/model/coupons_model.dart';
-import 'package:rika_ecomm_app/screens/coupon/service/coupons_services.dart';
 
 import '../../../model/result.dart';
 

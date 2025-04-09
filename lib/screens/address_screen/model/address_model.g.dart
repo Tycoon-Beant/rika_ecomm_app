@@ -13,7 +13,7 @@ AddressData _$AddressDataFromJson(Map<String, dynamic> json) => AddressData(
       totalAddresses: (json['totalAddresses'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$AddressDataToJson(AddressData instance) =>
+Map<String, dynamic> $AddressDataToJson(AddressData instance) =>
     <String, dynamic>{
       'addresses': instance.addresses,
       'totalAddresses': instance.totalAddresses,
@@ -33,7 +33,7 @@ Addresses _$AddressesFromJson(Map<String, dynamic> json) => Addresses(
       iV: (json['iV'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$AddressesToJson(Addresses instance) => <String, dynamic>{
+Map<String, dynamic> $AddressesToJson(Addresses instance) => <String, dynamic>{
       '_id': instance.id,
       'addressLine1': instance.addressLine1,
       'addressLine2': instance.addressLine2,

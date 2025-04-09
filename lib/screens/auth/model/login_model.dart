@@ -55,7 +55,7 @@ class User {
       this.updatedAt,
       this.iV});
       factory User.fromJson(Map<String , dynamic> json) => _$UserFromJson(json);
-
+  Map<String, dynamic> toJson() => _$UserToJson(this);
   // User.fromJson(Map<String, dynamic> json) {
   //   id = json['_id'];
   //   avatar =
@@ -96,8 +96,11 @@ class Avatar {
   String? id;
 
   Avatar({this.url, this.localPath, this.id});
+  
 
 factory Avatar.fromJson(Map<String , dynamic> json) => _$AvatarFromJson(json);
+  Map<String, dynamic> toJson() => _$AvatarToJson(this);
+
   // Avatar.fromJson(Map<String, dynamic> json) {
   //   url = json['url'];
   //   localPath = json['localPath'];

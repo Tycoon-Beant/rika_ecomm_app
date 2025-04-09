@@ -10,9 +10,7 @@ import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/coupon/coupon_screen.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/apply_coupon_cubit.dart';
-import 'package:rika_ecomm_app/screens/coupon/cubit/coupon_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/coupon/model/coupons_model.dart';
-import 'package:rika_ecomm_app/screens/coupon/service/coupons_services.dart';
 import 'package:rika_ecomm_app/screens/order_screens/orderdetails.dart';
 
 class CartScreen extends StatefulWidget {

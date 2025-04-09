@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/di/service_locator.dart';
+import 'package:rika_ecomm_app/screens/address_screen/add_address_screen.dart';
 import 'package:rika_ecomm_app/screens/address_screen/address_screen.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_list_cubit.dart';
@@ -9,11 +10,9 @@ import 'package:rika_ecomm_app/screens/botton_nav_bar/notificationScreen.dart';
 import 'package:rika_ecomm_app/screens/cart/cart_screen.dart';
 import 'package:rika_ecomm_app/screens/cart/model/user_cart_model.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/categorie_screen.dart';
-import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/products_screen.dart';
 import 'package:rika_ecomm_app/screens/coupon/coupon_screen.dart';
 import 'package:rika_ecomm_app/screens/coupon/cubit/apply_coupon_cubit.dart';
-import 'package:rika_ecomm_app/screens/coupon/cubit/coupon_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/filter/filter_screen.dart';
 import 'package:rika_ecomm_app/screens/home_screen/home_screen.dart';
 import 'package:rika_ecomm_app/screens/order_screens/cubit/order_address_cubit/get_order_address_cubit.dart';
@@ -27,7 +26,6 @@ import 'package:rika_ecomm_app/screens/order_screens/trakingaddress.dart';
 import 'package:rika_ecomm_app/screens/product_details/product_detail_screen.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/my_profile_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/profile_screen.dart';
-import 'package:rika_ecomm_app/services/local_storage_service.dart';
 
 class PresistentBottomBar extends StatefulWidget {
   const PresistentBottomBar({super.key});
@@ -146,6 +144,10 @@ class _PresistentBottomBarState extends State<PresistentBottomBar> {
             "/": (context) => BlocProvider(
                   create: (context) => getIt<MyProfileListCubit>(),
                   child: Profilescreen(),
+                ),
+            "/addAddress": (context) => BlocProvider(
+                  create: (context) => getIt<AddressCubit>(),
+                  child: AddAddressScreen(),
                 ),
           },
         ),

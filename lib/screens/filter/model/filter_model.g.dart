@@ -13,7 +13,7 @@ FilterModel _$FilterModelFromJson(Map<String, dynamic> json) => FilterModel(
       sort: json['sort'] as String?,
     );
 
-Map<String, dynamic> _$FilterModelToJson(FilterModel instance) =>
+Map<String, dynamic> $FilterModelToJson(FilterModel instance) =>
     <String, dynamic>{
       'min': instance.min,
       'max': instance.max,

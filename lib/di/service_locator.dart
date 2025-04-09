@@ -4,7 +4,9 @@ import 'package:rika_ecomm_app/screens/address_screen/cubit/address_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/services/address_services.dart';
 import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
+import 'package:rika_ecomm_app/screens/auth/cubit/signup_cubit/signup_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/service/login_services.dart';
+import 'package:rika_ecomm_app/screens/auth/service/signup_services.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/cubit/cart_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/cart/service/cart_services.dart';
@@ -46,6 +48,7 @@ Future<void> setupServiceLocator() async {
       HomeScreenProductsService());
   getIt.registerSingleton<CartServices>(CartServices());
   getIt.registerSingleton<LoginServices>(LoginServices(getIt()));
+  getIt.registerSingleton<SignupServices>(SignupServices());
   getIt.registerSingleton<MyProfileServices>(MyProfileServices());
   getIt.registerSingleton<CouponsServices>(CouponsServices());
   getIt.registerSingleton<AddressServices>(AddressServices());
@@ -67,6 +70,7 @@ Future<void> setupServiceLocator() async {
 
   getIt.registerFactory<CartListCubit>(() => CartListCubit(getIt()));
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
+  getIt.registerFactory<SignupCubit>(() =>SignupCubit());
   getIt.registerFactory<ProductCubit>(() => ProductCubit(getIt()));
   getIt.registerFactory<FilterCubit>(() => FilterCubit());
   getIt.registerFactory<MyOrderCubit>(() => MyOrderCubit(getIt()));

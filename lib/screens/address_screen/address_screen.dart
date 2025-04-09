@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:rika_ecomm_app/config/common.dart';
 import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/model/result.dart';
@@ -8,6 +9,7 @@ import 'package:rika_ecomm_app/screens/address_screen/cubit/address_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/cubit/address_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/address_screen/model/address_model.dart';
 import 'package:rika_ecomm_app/screens/order_screens/cubit/order_address_cubit/get_order_address_cubit.dart';
+
 import 'package:rika_ecomm_app/services/local_storage_service.dart';
 
 class AddressScreen extends StatefulWidget {
@@ -31,12 +33,14 @@ class _AddressScreenState extends State<AddressScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        
         BlocProvider(
           create: (context) => getIt<AddressCubit>(),
         ),
-         BlocProvider(
+        BlocProvider(
           create: (context) => getIt<AddressListCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<GetOrderAddressCubit>(),
         ),
       ],
       child: Scaffold(
@@ -57,11 +61,11 @@ class _AddressScreenState extends State<AddressScreen> {
               ),
               const SizedBox(height: 20),
               InkWell(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AddAddressScreen(),
-                  ),
-                ),
+                onTap: () =>
+                    PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                        context,
+                        screen: AddAddressScreen(),
+                        settings: RouteSettings(name: "/addAddress")),
                 child: Container(
                   height: 80,
                   decoration: BoxDecoration(
@@ -88,7 +92,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 listeners: [
                   BlocListener<AddressCubit, Result<AddressState>>(
                     listener: (context, state) {
-                      if (state.data?.addresses != null) {
+                      if (state.data != null) {
                         context.read<AddressListCubit>().getAddressList();
                       }
                       if (state.error != null) {
@@ -110,7 +114,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       }
                       if (state.data?.event == AddressEvent.update) {
                         final defaultAddress =
-                           getIt<LocalStorageService>().getAddressId();
+                            getIt<LocalStorageService>().getAddressId();
                         if (state.data?.addresses.id == defaultAddress) {
                           context
                               .read<GetOrderAddressCubit>()
@@ -166,8 +170,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                   setState(() => selectedAddress = id);
                                 },
                                 isDefault: addressData.id ==
-                                    getIt<LocalStorageService>()
-                                        .getAddressId(),
+                                    getIt<LocalStorageService>().getAddressId(),
                               );
                             },
                           ),
@@ -194,12 +197,10 @@ class _AddressScreenState extends State<AddressScreen> {
             onPressed: selectedAddress == null
                 ? null
                 : () {
-                    getIt<LocalStorageService>()
-                        .setAddressId(selectedAddress!);
-                    context
-                        .read<GetOrderAddressCubit>()
+                    getIt<LocalStorageService>().setAddressId(selectedAddress!);
+                   getIt<GetOrderAddressCubit>()
                         .getAddressId(selectedAddress!);
-                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
             child: Text(
               'Add Address To Default',

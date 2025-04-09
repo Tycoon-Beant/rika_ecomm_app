@@ -8,7 +8,6 @@ import 'package:rika_ecomm_app/screens/Widgets/async_widget.dart';
 import 'package:rika_ecomm_app/screens/order_screens/cubit/placed_order_cubit/my_order_cubit.dart';
 import 'package:rika_ecomm_app/screens/order_screens/cubit/placed_order_cubit/post_placed_order_cubit.dart';
 import 'package:rika_ecomm_app/screens/order_screens/model/orders_model.dart';
-import 'package:rika_ecomm_app/screens/order_screens/service/placed_order_services.dart';
 import 'package:rika_ecomm_app/screens/order_screens/trakingaddress.dart';
 
 class Myorder extends StatefulWidget {
@@ -26,9 +25,9 @@ class _MyorderState extends State<Myorder> {
         BlocProvider(
           create: (context) => getIt<MyOrderCubit>(),
         ),
-        BlocProvider(
-          create: (context) => getIt<PostPlacedOrderCubit>(),
-        ),
+        // BlocProvider(
+        //   create: (context) => getIt<PostPlacedOrderCubit>(),
+        // ),
       ],
       child: Builder(builder: (context) {
         return Scaffold(

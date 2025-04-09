@@ -14,7 +14,7 @@ Loginuser _$LoginuserFromJson(Map<String, dynamic> json) => Loginuser(
       refreshToken: json['refreshToken'] as String?,
     );
 
-Map<String, dynamic> _$LoginuserToJson(Loginuser instance) => <String, dynamic>{
+Map<String, dynamic> $LoginuserToJson(Loginuser instance) => <String, dynamic>{
       'user': instance.user,
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,

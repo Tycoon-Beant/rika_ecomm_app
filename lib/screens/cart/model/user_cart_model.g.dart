@@ -18,7 +18,7 @@ UserCart _$UserCartFromJson(Map<String, dynamic> json) => UserCart(
           : Coupon.fromJson(json['coupon'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$UserCartToJson(UserCart instance) => <String, dynamic>{
+Map<String, dynamic> $UserCartToJson(UserCart instance) => <String, dynamic>{
       '_id': instance.id,
       'items': instance.items,
       'cartTotal': instance.cartTotal,
@@ -35,7 +35,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       quantity: (json['quantity'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
+Map<String, dynamic> $ItemToJson(Item instance) => <String, dynamic>{
       '_id': instance.id,
       'coupon': instance.coupon,
       'product': instance.product,
@@ -61,7 +61,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
           : DateTime.parse(json['createdAt'] as String),
     );
 
-Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
+Map<String, dynamic> $ProductToJson(Product instance) => <String, dynamic>{
       '_id': instance.id,
       'category': instance.category,
       'description': instance.description,
@@ -80,7 +80,7 @@ MainImage _$MainImageFromJson(Map<String, dynamic> json) => MainImage(
       id: json['_id'] as String?,
     );
 
-Map<String, dynamic> _$MainImageToJson(MainImage instance) => <String, dynamic>{
+Map<String, dynamic> $MainImageToJson(MainImage instance) => <String, dynamic>{
       'url': instance.url,
       'localPath': instance.localPath,
       '_id': instance.id,
@@ -90,6 +90,6 @@ SubImage _$SubImageFromJson(Map<String, dynamic> json) => SubImage(
       url: json['url'] as String?,
     );
 
-Map<String, dynamic> _$SubImageToJson(SubImage instance) => <String, dynamic>{
+Map<String, dynamic> $SubImageToJson(SubImage instance) => <String, dynamic>{
       'url': instance.url,
     };

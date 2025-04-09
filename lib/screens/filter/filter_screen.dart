@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rika_ecomm_app/config/common.dart';
-import 'package:rika_ecomm_app/di/service_locator.dart';
 import 'package:rika_ecomm_app/model/result.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/category_list_cubit.dart';
 import 'package:rika_ecomm_app/screens/category_and_product/cubit/product_cubit.dart';
@@ -52,7 +51,6 @@ class _FilterScreenState extends State<FilterScreen> {
             builder: (context, filter) {
               return BlocBuilder<CategoryListCubit, Result<CategoriModel>>(
                 builder: (context, state) {
-                  var categoryId = state.data?.data?.categories?.first.sId;
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -108,13 +106,13 @@ class _FilterScreenState extends State<FilterScreen> {
                           ),
                           const SizedBox(height: 10),
                           Builder(builder: (context) {
-                            final _currentMinValue = filter.min ?? 0;
-                            final _currentMaxValue = filter.max ?? 0;
+                            final currentMinValue = filter.min ?? 0;
+                            final currentMaxValue = filter.max ?? 0;
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$${_currentMinValue.round()} - \$${_currentMaxValue.round()}',
+                                  '\$${currentMinValue.round()} - \$${currentMaxValue.round()}',
                                   style: context.theme.bodyLarge?.copyWith(
                                     fontFamily: FontFamily.w400,
                                     fontSize: 18,
@@ -122,12 +120,12 @@ class _FilterScreenState extends State<FilterScreen> {
                                 ),
                                 RangeSlider(
                                   values: RangeValues(
-                                      _currentMinValue, _currentMaxValue),
+                                      currentMinValue, currentMaxValue),
                                   min: 0,
                                   max: 1000,
                                   labels: RangeLabels(
-                                    '\$${_currentMinValue.round().toString()}',
-                                    '\$${_currentMaxValue.round().toString()}',
+                                    '\$${currentMinValue.round().toString()}',
+                                    '\$${currentMaxValue.round().toString()}',
                                   ),
                                   onChanged: (RangeValues values) {
                                     context.read<FilterCubit>().update((up) =>

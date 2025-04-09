@@ -7,6 +7,8 @@ import 'package:rika_ecomm_app/screens/auth/cubit/login_cubit/login_cubit.dart';
 import 'package:rika_ecomm_app/screens/auth/service/login_services.dart';
 import 'package:rika_ecomm_app/screens/order_screens/myorder.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/my_profile_list_cubit.dart';
+import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/product_by_id_cubit.dart';
+import 'package:rika_ecomm_app/screens/profile_next_screens/cubit/profile_cubit.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/model/my_profile_model.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/payment_method_screen.dart';
 import 'package:rika_ecomm_app/screens/profile_next_screens/profile_details_screen.dart';
@@ -32,7 +34,17 @@ class _ProfilescreenState extends State<Profilescreen> {
     {
       "icon": "assets/images/3x/profiledetail.png",
       "title": "Profile Details",
-      "page": ProfileDetails(),
+      "page": MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<ProfileCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => getIt<MyProfileListCubit>(),
+          ),
+        ],
+        child: ProfileDetails(),
+      ),
     },
     {
       "icon": "assets/images/3x/myorder.png",
@@ -42,7 +54,10 @@ class _ProfilescreenState extends State<Profilescreen> {
     {
       "icon": "assets/images/3x/myfav.png",
       "title": "My Favorite",
-      "page": FavoriteScreen(),
+      "page": BlocProvider(
+        create: (context) => getIt<ProductByIdCubit>(),
+        child: FavoriteScreen(),
+      ),
     },
     {
       "icon": "assets/images/3x/shippingadd.png",
@@ -81,6 +96,7 @@ class _ProfilescreenState extends State<Profilescreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = getIt<LocalStorageService>().getUser();
     return Scaffold(
       appBar: AppBar(
         elevation: 10,
@@ -123,11 +139,11 @@ class _ProfilescreenState extends State<Profilescreen> {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                        "${profile!.firstName!}  ${profile.lastName!}",
+                                    Text("${currentUser?.username}",
                                         style: context.theme.titleMedium),
                                     Text(
-                                      'rikafashionshop@gmail.com',
+                                      // 'rikafashionshop@gmail.com',
+                                      "${currentUser?.email}",
                                       style: context.theme.titleSmall!
                                           .copyWith(color: Colors.grey),
                                     ),

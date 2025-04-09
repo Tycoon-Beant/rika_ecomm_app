@@ -16,7 +16,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       createdAt: json['createdAt'] as String?,
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> $UserToJson(User instance) => <String, dynamic>{
       '_id': instance.id,
       'avatar': instance.avatar,
       'username': instance.username,
@@ -30,7 +30,7 @@ Avatar _$AvatarFromJson(Map<String, dynamic> json) => Avatar(
       id: json['_id'] as String?,
     );
 
-Map<String, dynamic> _$AvatarToJson(Avatar instance) => <String, dynamic>{
+Map<String, dynamic> $AvatarToJson(Avatar instance) => <String, dynamic>{
       'url': instance.url,
       'localPath': instance.localPath,
       '_id': instance.id,

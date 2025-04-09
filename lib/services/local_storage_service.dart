@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rika_ecomm_app/screens/auth/model/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
@@ -13,6 +16,19 @@ class LocalStorageService {
   Future<String?> getToken() async {
     return _storage.read(key: "token");
   }
+
+  Future<void> saveUser(User user) async {
+    await _pref.setString("user", jsonEncode(user.toJson()));
+  }
+ 
+  User? getUser() {
+    final userJson = _pref.getString("user");
+    if (userJson != null) {
+      return User.fromJson(jsonDecode(userJson));
+    }
+    return null;
+  }
+ 
 
   Future<void> clearSession() async {
     return _storage.delete(key: "token");

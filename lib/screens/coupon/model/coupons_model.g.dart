@@ -15,7 +15,7 @@ Coupon _$CouponFromJson(Map<String, dynamic> json) => Coupon(
       minimumCartValue: json['minimumCartValue'] as num?,
     );
 
-Map<String, dynamic> _$CouponToJson(Coupon instance) => <String, dynamic>{
+Map<String, dynamic> $CouponToJson(Coupon instance) => <String, dynamic>{
       '_id': instance.id,
       'name': instance.name,
       'couponCode': instance.couponCode,

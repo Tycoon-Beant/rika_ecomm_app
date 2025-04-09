@@ -48,13 +48,15 @@ class _LoginState extends State<Login> {
                 BlocConsumer<LoginCubit, Result<Loginuser>>(
                   listener: (context, state) {
                     if (state.data != null) {
-                      Navigator.of(context).push(
+                      Navigator.push(context,
                         MaterialPageRoute(
                           builder: (context) => Succesfulscreen(),
                         ),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
+                        
                         SnackBar(
+                          duration: Duration(seconds: 1),
                           content: Text("Login successfull!"),
                         ),
                       );

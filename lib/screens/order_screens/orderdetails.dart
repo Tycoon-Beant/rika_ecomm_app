@@ -162,111 +162,112 @@ class _OrderdetailsState extends State<Orderdetails> {
 }
 
 class AddressContainer extends StatelessWidget {
-  const AddressContainer({
+ const AddressContainer({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GetOrderAddressCubit, Result<Addresses?>>(
+    final String? addressId =
+        getIt<LocalStorageService>().getAddressId();
+    return BlocConsumer<GetOrderAddressCubit, Result<Addresses?>>(
       listener: (context, state) {
-        if (state.data != null) {}
+        if (state.data != null) {
+      // Update the state with the new address
+   
+    }
       },
-      child: BlocBuilder<GetOrderAddressCubit, Result<Addresses?>>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state.error != null) {
-            return Center(
-              child: AddAddressButton(),
-            );
-          } else if (state.data != null) {
-            return Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.onTertiary,
-                    border: Border.all(color: context.colorScheme.onSecondary),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text("AddressLine 1 : ",
-                                style: context.theme.titleMedium),
-                            Text(state.data?.addressLine1 ?? "",
-                                style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("AddressLine 2 : ",
-                                style: context.theme.titleMedium),
-                            Text(state.data?.addressLine2 ?? "",
-                                style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("City : ", style: context.theme.titleMedium),
-                            Text(state.data?.city ?? "",
-                                style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("State : ", style: context.theme.titleMedium),
-                            Text(state.data?.state ?? "",
-                                style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("Pin Code : ",
-                                style: context.theme.titleMedium),
-                            Text(state.data?.pincode ?? '',
-                                style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("Country : ",
-                                style: context.theme.titleMedium),
-                            Text(state.data?.country ?? '',
-                                style: context.theme.titleSmall!.copyWith(
-                                    color: context.colorScheme.secondary)),
-                          ],
-                        ),
-                      ],
-                    ),
+      builder: (context, state) {
+        if (state.isLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state.error != null) {
+          return Center(
+            child: AddAddressButton(),
+          );
+        } else if (state.data != null) {
+          return Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: context.colorScheme.onTertiary,
+                  border: Border.all(color: context.colorScheme.onSecondary),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text("AddressLine 1 : ",
+                              style: context.theme.titleMedium),
+                          Text(state.data?.addressLine1 ?? "",
+                              style: context.theme.titleSmall!.copyWith(
+                                  color: context.colorScheme.secondary)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("AddressLine 2 : ",
+                              style: context.theme.titleMedium),
+                          Text(state.data?.addressLine2 ?? "",
+                              style: context.theme.titleSmall!.copyWith(
+                                  color: context.colorScheme.secondary)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("City : ", style: context.theme.titleMedium),
+                          Text(state.data?.city ?? "",
+                              style: context.theme.titleSmall!.copyWith(
+                                  color: context.colorScheme.secondary)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("State : ", style: context.theme.titleMedium),
+                          Text(state.data?.state ?? "",
+                              style: context.theme.titleSmall!.copyWith(
+                                  color: context.colorScheme.secondary)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("Pin Code : ", style: context.theme.titleMedium),
+                          Text(state.data?.pincode ?? '',
+                              style: context.theme.titleSmall!.copyWith(
+                                  color: context.colorScheme.secondary)),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("Country : ", style: context.theme.titleMedium),
+                          Text(state.data?.country ?? '',
+                              style: context.theme.titleSmall!.copyWith(
+                                  color: context.colorScheme.secondary)),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                ChangeAddressButton(),
-              ],
-            );
-          } else {
-            return Column(
-              children: [
-                SizedBox.shrink(),
-                const SizedBox(height: 20),
-                AddAddressButton()
-              ],
-            );
-          }
-        },
-      ),
+              ),
+              const SizedBox(height: 20),
+              ChangeAddressButton(),
+            ],
+          );
+        } else {
+          return Column(
+            children: [
+              SizedBox.shrink(),
+              const SizedBox(height: 20),
+              AddAddressButton()
+            ],
+          );
+        }
+      },
     );
   }
 }
